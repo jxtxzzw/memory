@@ -1,23 +1,19 @@
 module.exports = {
+  root: true,
   env: {
     browser: true,
-    es6: true,
-  },
-  extends: [
-    'plugin:vue/essential',
-    'airbnb-base',
-  ],
-  globals: {
-    Atomics: 'readonly',
-    SharedArrayBuffer: 'readonly',
+    node: true
   },
   parserOptions: {
-    ecmaVersion: 2018,
-    sourceType: 'module',
+    parser: 'babel-eslint'
   },
-  plugins: [
-    'vue',
+  extends: [
+    '@nuxtjs',
+    'plugin:nuxt/recommended',
+    'plugin:vue/recommended'
   ],
+  // add your custom rules here
   rules: {
-  },
-};
+    'nuxt/no-cjs-in-config': 'off'
+  }
+}
