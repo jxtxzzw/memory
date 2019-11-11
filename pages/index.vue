@@ -6,8 +6,11 @@
         memory
       </h1>
       <h2 class="subtitle">
-        Welcome to the iView + Nuxt.js template
+        Welcome to the View UI + Nuxt.js template
       </h2>
+      <div>
+        <Progress :percent="100" :stroke-color="['#108ee9', '#87d068']" :stroke-width="20" text-inside status="active" />
+      </div>
       <div class="links">
         <Button type="primary" target="_blank" to="https://nuxtjs.org/">
           Documentation
@@ -16,7 +19,7 @@
           GitHub
         </Button>
         <Button target="_blank" to="https://www.iviewui.com/">
-          iView
+          View UI
         </Button>
       </div>
     </div>
@@ -25,7 +28,6 @@
 
 <script>
 import Logo from '~/components/Logo.vue'
-
 export default {
   components: {
     Logo
