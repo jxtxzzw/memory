@@ -2,20 +2,28 @@
 <!-- KNOWN ISSUE: nested comment style 已修复，等待发布新版-->
 
 <template>
-  <a-comment>
-    <span slot="actions">Reply to</span>
-    <a slot="author">Han Solo</a>
-    <a-avatar
-      slot="avatar"
-      src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
-      alt="Han Solo"
-    />
-    <p slot="content">
-      We supply a series of design principles, practical patterns and high quality design resources
-      (Sketch and Axure).
-    </p>
+  <div>
+    <div v-if="replyTarget===0">
+      <a-comment>
+        <a-avatar
+          slot="avatar"
+          src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
+          alt="Han Solo"
+        />
+        <div slot="content">
+          <a-form-item>
+            <a-textarea :rows="4" @change="handleChange" :value="value"></a-textarea>
+          </a-form-item>
+          <a-form-item>
+            <a-button htmlType="submit" :loading="submitting" @click="handleSubmit" type="primary">
+              Add Comment
+            </a-button>
+          </a-form-item>
+        </div>
+      </a-comment>
+    </div>
     <a-comment>
-      <span slot="actions">Reply to</span>
+      <span slot="actions" @click="reply(6)">Reply to</span>
       <a slot="author">Han Solo</a>
       <a-avatar
         slot="avatar"
@@ -23,9 +31,28 @@
         alt="Han Solo"
       />
       <p slot="content">
-        We supply a series of design principles, practical patterns and high quality design
-        resources (Sketch and Axure).
+        We supply a series of design principles, practical patterns and high quality design resources
+        (Sketch and Axure).
       </p>
+      <div v-if="replyTarget===6">
+        <a-comment>
+          <a-avatar
+            slot="avatar"
+            src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
+            alt="Han Solo"
+          />
+          <div slot="content">
+            <a-form-item>
+              <a-textarea :rows="4" @change="handleChange" :value="value"></a-textarea>
+            </a-form-item>
+            <a-form-item>
+              <a-button htmlType="submit" :loading="submitting" @click="handleSubmit" type="primary">
+                Add Comment
+              </a-button>
+            </a-form-item>
+          </div>
+        </a-comment>
+      </div>
       <a-comment>
         <span slot="actions">Reply to</span>
         <a slot="author">Han Solo</a>
@@ -38,22 +65,35 @@
           We supply a series of design principles, practical patterns and high quality design
           resources (Sketch and Axure).
         </p>
-      </a-comment>
-      <a-comment>
-        <span slot="actions">Reply to</span>
-        <a slot="author">Han Solo</a>
-        <a-avatar
-          slot="avatar"
-          src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
-          alt="Han Solo"
-        />
-        <p slot="content">
-          We supply a series of design principles, practical patterns and high quality design
-          resources (Sketch and Axure).
-        </p>
+        <a-comment>
+          <span slot="actions">Reply to</span>
+          <a slot="author">Han Solo</a>
+          <a-avatar
+            slot="avatar"
+            src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
+            alt="Han Solo"
+          />
+          <p slot="content">
+            We supply a series of design principles, practical patterns and high quality design
+            resources (Sketch and Axure).
+          </p>
+        </a-comment>
+        <a-comment>
+          <span slot="actions">Reply to</span>
+          <a slot="author">Han Solo</a>
+          <a-avatar
+            slot="avatar"
+            src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
+            alt="Han Solo"
+          />
+          <p slot="content">
+            We supply a series of design principles, practical patterns and high quality design
+            resources (Sketch and Axure).
+          </p>
+        </a-comment>
       </a-comment>
     </a-comment>
-  </a-comment>
+  </div>
 </template>
 
 <script>
@@ -68,12 +108,14 @@ export default {
       moment,
       comments: [],
       submitting: false,
-      value: ''
+      value: '',
+      replyTarget: 0
     }
   },
   methods: {
-    aaa () {
-      console.log('sss')
+    reply (id) {
+      console.log(id)
+      this.replyTarget = id
     },
     like () {
       this.likes = 1
