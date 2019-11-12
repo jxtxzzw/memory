@@ -22,32 +22,34 @@
 
 <script>
 export default {
-  name: 'Demo',
+  name: 'Tags',
+  props: {
+    tags: {
+      type: Array,
+      default () {
+        return []
+      }
+    }
+  },
   data () {
     return {
-      tags: ['Tag 1', 'Tag 2', 'Tag 3'],
       inputVisible: false,
       inputValue: ''
     }
   },
   methods: {
-
     handleClose (event, removedTag) {
-      const tags = this.tags.filter(tag => tag !== removedTag)
-      this.tags = tags
+      this.tags = this.tags.filter(tag => tag !== removedTag)
     },
-
     showInput () {
       this.inputVisible = true
       this.$nextTick(function () {
         this.$refs.input.focus()
       })
     },
-
     handleInputChange (e) {
       this.inputValue = e.target.value
     },
-
     handleInputConfirm () {
       const inputValue = this.inputValue
       let tags = this.tags
