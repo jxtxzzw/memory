@@ -8,7 +8,7 @@ const sequelize = new Sequelize(
 )
 
 const utils = {
-  sequelize: function () {
+  sequelize () {
     return sequelize
   }
 }
