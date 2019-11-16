@@ -6,14 +6,14 @@ require('./models/Rating')
 require('./models/Type')
 require('./models/User')
 
-const sequelize = require('./index').sequelize()
+const sequelize = require('./index')
 
 sequelize
   .authenticate()
   .then(() => {
-    // console.log('Connection has been established successfully.')
+    console.log('Connection has been established successfully.')
     sequelize.sync({ force: true })
   })
   .catch((err) => {
-    console.error('Unable to connect to the database:', err);
+    console.error('Unable to connect to the database:', err)
   })

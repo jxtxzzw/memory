@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize')
 const Model = Sequelize.Model
 
-const sequelize = require('../index').sequelize()
+const sequelize = require('../index')
 
 const Item = require('./Item')
 const Category = require('./Category')

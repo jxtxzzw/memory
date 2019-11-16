@@ -7,10 +7,4 @@ const sequelize = new Sequelize(
   }
 )
 
-const utils = {
-  sequelize: function () {
-    return sequelize
-  }
-}
-
-module.exports = utils
+module.exports = sequelize
