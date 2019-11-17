@@ -74,6 +74,6 @@ module.exports = {
   },
   serverMiddleware: [
     // Will register file from project api directory to handle /api/* requires
-    { path: '/api/User', handler: '~/server/api/User.js' }
+    // { path: '/api/user', handler: '~/server/api/User.js' }
   ]
 }
