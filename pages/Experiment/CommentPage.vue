@@ -1,9 +1,10 @@
 <template>
   <div>
     <div v-if="replyTarget===0">
-      <ReplyEditor :src="testAvatarSrc" :alt="testAvatarName" :reply="replyTarget" />
+      <ReplyEditor :src="testAvatarSrc" :alt="testAvatarName" :target="replyTarget" />
     </div>
-    <Comment v-for="item in replies" :key="item.id" :reply="item" :target="replyTarget" />
+    <Comment v-for="item in replies" :key="item.id" :reply="item" :target="replyTarget" @handleReplyTargetChange="handleReplyTargetChange" />
+    <!-- emit 的 v-on 不需要带括号，参数会依次自动填入 method 的 params -->
   </div>
 </template>
 
@@ -64,11 +65,12 @@ export default {
     this.replies[1].children[0].children.push(reply4)
   },
   methods: {
-    reply (id) {
-      this.replyTarget = id
-    },
     cancelReply () {
       this.reply(0)
+    },
+    handleReplyTargetChange (newTarget) {
+      this.replyTarget = newTarget
+      console.log('handleReplyTargetChange ' + newTarget)
     }
   }
 }
