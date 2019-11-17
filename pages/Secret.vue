@@ -9,6 +9,7 @@
 </template>
 
 <script>
+// 如果需要在某个页面增加路由鉴权
 export default {
   middleware: 'auth'
 }
