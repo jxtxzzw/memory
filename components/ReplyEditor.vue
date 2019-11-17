@@ -13,7 +13,7 @@
         <a-button html-type="submit" :loading="submitting" type="primary" @click="handleSubmit">
           Add Comment
         </a-button>
-        <a-button v-if="reply !== 0" @click="cancelReply">
+        <a-button v-if="target !== 0" @click="cancelReply">
           cancelReply
         </a-button>
       </a-form-item>
@@ -34,7 +34,7 @@ export default {
       type: String,
       default: null
     },
-    reply: {
+    target: {
       type: Number,
       default () {
         return 0
