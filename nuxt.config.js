@@ -1,3 +1,5 @@
+const bodyParser = require('body-parser')
+const session = require('express-session')
 
 module.exports = {
   mode: 'universal',
@@ -72,7 +74,29 @@ module.exports = {
       }
     }
   },
+  /*
+  ** Add server middleware
+  ** Nuxt.js uses `connect` module as server
+  ** So most of express middleware works with nuxt.js server middleware
+  */
   serverMiddleware: [
+    // body-parser middleware
+    bodyParser.urlencoded({
+      extended: true
+    }),
+    bodyParser.json(),
+
+    // session middleware
+    session({
+      secret: 'super-secret-key',
+      resave: false,
+      saveUninitialized: false,
+      cookie: { maxAge: 60000 }
+    }),
+
+    // Api middleware
+    '~/api'
+
     // Will register file from project api directory to handle /api/* requires
     // { path: '/api/user', handler: '~/server/api/User.js' }
   ]
