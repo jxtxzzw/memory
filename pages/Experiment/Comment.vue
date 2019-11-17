@@ -1,28 +1,7 @@
-<!-- TODO: 点击 reply action 的时候在适当位置插入回复框，并绑定回复 id -->
-<!-- TODO: KNOWN ISSUE: nested comment style 已修复，等待发布新版-->
-
 <template>
   <div>
-    <Avatar src="/favicon.ico" />
-    <Tags :tags="defaultTags" />
     <div v-if="replyTarget===0">
-      <a-comment>
-        <a-avatar
-          slot="avatar"
-          src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
-          alt="Han Solo"
-        />
-        <div slot="content">
-          <a-form-item>
-            <a-textarea :rows="4" :value="value" @change="handleChange" />
-          </a-form-item>
-          <a-form-item>
-            <a-button html-type="submit" :loading="submitting" type="primary" @click="handleSubmit">
-              Add Comment
-            </a-button>
-          </a-form-item>
-        </div>
-      </a-comment>
+      <ReplyEditor :src="testAvatarSrc" :alt="testAvatarName" :reply="replyTarget" />
     </div>
     <a-comment>
       <span slot="actions" @click="reply(6)">Reply to</span>
@@ -37,23 +16,7 @@
         (Sketch and Axure).
       </p>
       <div v-if="replyTarget===6">
-        <a-comment>
-          <a-avatar
-            slot="avatar"
-            src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
-            alt="Han Solo"
-          />
-          <div slot="content">
-            <a-form-item>
-              <a-textarea :rows="4" :value="value" @change="handleChange" />
-            </a-form-item>
-            <a-form-item>
-              <a-button html-type="submit" :loading="submitting" type="primary" @click="handleSubmit">
-                Add Comment
-              </a-button>
-            </a-form-item>
-          </div>
-        </a-comment>
+        <ReplyEditor :src="testAvatarSrc" :alt="testAvatarName" :reply="replyTarget" @cancelReply="cancelReply()"/>
       </div>
       <a-comment>
         <span slot="actions">Reply to</span>
@@ -100,64 +63,29 @@
 
 <script>
 import moment from 'moment'
-import Tags from '~/components/Tags'
-
+import ReplyEditor from '../../components/ReplyEditor'
 export default {
   name: 'Comment',
   components: {
-    Tags
+    ReplyEditor
   },
   data () {
     return {
-      likes: 0,
-      dislikes: 0,
-      action: null,
       moment,
       comments: [],
       submitting: false,
       value: '',
       replyTarget: 0,
-      defaultTags: ['Tag 1 from database', '悬疑', '刀剑神域']
+      testAvatarSrc: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
+      testAvatarName: 'Han Solo'
     }
   },
   methods: {
     reply (id) {
       this.replyTarget = id
     },
-    like () {
-      this.likes = 1
-      this.dislikes = 0
-      this.action = 'liked'
-    },
-    dislike () {
-      this.likes = 0
-      this.dislikes = 1
-      this.action = 'disliked'
-    },
-
-    handleSubmit () {
-      if (!this.value) {
-        return
-      }
-
-      this.submitting = true
-
-      setTimeout(() => {
-        this.submitting = false
-        this.comments = [
-          {
-            author: 'Han Solo',
-            avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
-            content: this.value,
-            datetime: moment().fromNow()
-          },
-          ...this.comments
-        ]
-        this.value = ''
-      }, 1000)
-    },
-    handleChange (e) {
-      this.value = e.target.value
+    cancelReply () {
+      this.reply(0)
     }
   }
 }
