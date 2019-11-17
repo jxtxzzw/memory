@@ -12,10 +12,10 @@
         />
         <div slot="content">
           <a-form-item>
-            <a-textarea :rows="4" @change="handleChange" :value="value"></a-textarea>
+            <a-textarea :rows="4" :value="value" @change="handleChange" />
           </a-form-item>
           <a-form-item>
-            <a-button htmlType="submit" :loading="submitting" @click="handleSubmit" type="primary">
+            <a-button html-type="submit" :loading="submitting" type="primary" @click="handleSubmit">
               Add Comment
             </a-button>
           </a-form-item>
@@ -43,10 +43,10 @@
           />
           <div slot="content">
             <a-form-item>
-              <a-textarea :rows="4" @change="handleChange" :value="value"></a-textarea>
+              <a-textarea :rows="4" :value="value" @change="handleChange" />
             </a-form-item>
             <a-form-item>
-              <a-button htmlType="submit" :loading="submitting" @click="handleSubmit" type="primary">
+              <a-button html-type="submit" :loading="submitting" type="primary" @click="handleSubmit">
                 Add Comment
               </a-button>
             </a-form-item>
