@@ -1,8 +1,10 @@
 <!-- TODO: 点击 reply action 的时候在适当位置插入回复框，并绑定回复 id -->
-<!-- KNOWN ISSUE: nested comment style 已修复，等待发布新版-->
+<!-- TODO: KNOWN ISSUE: nested comment style 已修复，等待发布新版-->
 
 <template>
   <div>
+    <Avatar src="/favicon.ico" />
+    <Tags :tags="defaultTags" />
     <div v-if="replyTarget===0">
       <a-comment>
         <a-avatar
@@ -98,8 +100,13 @@
 
 <script>
 import moment from 'moment'
+import Tags from '~/components/Tags'
+
 export default {
   name: 'Comment',
+  components: {
+    Tags
+  },
   data () {
     return {
       likes: 0,
@@ -109,12 +116,12 @@ export default {
       comments: [],
       submitting: false,
       value: '',
-      replyTarget: 0
+      replyTarget: 0,
+      defaultTags: ['Tag 1 from database', '悬疑', '刀剑神域']
     }
   },
   methods: {
     reply (id) {
-      console.log(id)
       this.replyTarget = id
     },
     like () {

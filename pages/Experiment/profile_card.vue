@@ -2,10 +2,12 @@
   <Card style="width:160px ">
     <div style="text-align:center">
       <Row>
-        <Col span="12">
-          <Avatar shape="square" src="../../assets/default.jpg" />
-        </Col>
-        <Col span="12"><h3> {{ username }}</h3></Col>
+        <i-col span="12">
+        <Avatar shape="square" src="../../assets/default.jpg" />
+        </i-col>
+        <i-col span="12">
+          <h3> {{ username }}</h3>
+        </i-col>
       </Row>
     </div>
   </Card>
