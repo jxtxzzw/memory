@@ -18,3 +18,5 @@ Category.init({
 }, {
   sequelize
 })
+
+module.exports = Category

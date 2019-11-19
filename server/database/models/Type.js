@@ -18,3 +18,5 @@ Type.init({
 }, {
   sequelize
 })
+
+module.exports = Type

@@ -25,3 +25,5 @@ ItemCategory.init({
 }, {
   sequelize
 })
+
+module.exports = ItemCategory

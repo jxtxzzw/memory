@@ -39,3 +39,5 @@ Item.init({
 }, {
   sequelize
 })
+
+module.exports = Item

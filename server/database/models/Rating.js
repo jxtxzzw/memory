@@ -39,3 +39,5 @@ Rating.init({
 }, {
   sequelize
 })
+
+module.exports = Rating
