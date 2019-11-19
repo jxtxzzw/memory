@@ -41,7 +41,6 @@ export default {
     },
     handleReplyTargetChange (newTarget) {
       this.replyTarget = newTarget
-      console.log('handleReplyTargetChange ' + newTarget)
     }
   }
 }

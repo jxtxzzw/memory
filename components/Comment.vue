@@ -13,6 +13,9 @@
       <p slot="content">
         {{ reply.content }}
       </p>
+      <a-tooltip slot="datetime" :title="moment(reply.date).format('YYYY-MM-DD HH:mm:ss')">
+        <span>{{ moment(reply.date).fromNow() }}</span>
+      </a-tooltip>
       <div v-if="target === reply.id">
         <ReplyEditor :src="testAvatarSrc" :alt="testAvatarName" :target="target" @cancelReply="cancelReply" />
       </div>
@@ -23,6 +26,7 @@
 </template>
 
 <script>
+import moment from 'moment'
 import ReplyEditor from '~/components/ReplyEditor'
 export default {
   name: 'Comment',
@@ -42,7 +46,9 @@ export default {
     }
   },
   data () {
+    moment.locale('zh-cn')
     return {
+      moment,
       testAvatarSrc: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
       testAvatarName: 'Han Solo'
     }

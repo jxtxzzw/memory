@@ -15,6 +15,7 @@ async function getNestedComments (itemId, replyid) {
       user: comment.user,
       content: comment.content,
       reply: comment.reply == null ? 0 : comment.reply,
+      date: comment.updatedAt,
       children: await getNestedComments(itemId, comment.id)
     })
   }
