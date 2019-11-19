@@ -11,10 +11,10 @@
       </a-form-item>
       <a-form-item>
         <a-button html-type="submit" :loading="submitting" type="primary" @click="handleSubmit">
-          Add Comment
+          发表评论
         </a-button>
         <a-button v-if="target !== 0" @click="cancelReply">
-          cancelReply
+          取消回复指定评论
         </a-button>
       </a-form-item>
     </div>

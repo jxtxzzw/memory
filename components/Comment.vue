@@ -1,9 +1,7 @@
-// TODO: replyTarget 的传值，根据回复位置自动调整子组件的 prop，从而显示或消失
-
 <template>
   <div>
     <a-comment v-if="reply != null" :key="reply.id">
-      <span slot="actions" @click="handleReplyTargetChange(reply.id)">Reply to</span>
+      <span slot="actions" @click="handleReplyTargetChange(reply.id)">回复</span>
       <a slot="author">{{ reply.username }}</a>
       <a-avatar
         slot="avatar"
