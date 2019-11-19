@@ -56,6 +56,10 @@ export default {
     },
     async handleSubmit ({ $axios }) {
       if (!this.value) {
+        this.$Message.error({
+          background: true,
+          content: '评论内容不能为空'
+        })
         return
       }
       this.submitting = true
