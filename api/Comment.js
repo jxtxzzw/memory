@@ -1,7 +1,8 @@
 const Comment = require('../server/database/models/Comment')
 const router = require('./router')
 
-async function getNestedComment (itemId, replyid) {
+async function getNestedComments (itemId, replyid) {
+  const comments = []
   const result = await Comment.findAll({
     where: {
       item: itemId,
@@ -9,19 +10,25 @@ async function getNestedComment (itemId, replyid) {
     }
   })
   for (const comment of result) {
-    comment.reply = comment.reply == null ? 0 : comment.reply
-    comment.children = await getNestedComment(itemId, comment.id)
+    comments.push({
+      id: comment.id,
+      user: comment.user,
+      content: comment.content,
+      reply: comment.reply == null ? 0 : comment.reply,
+      children: await getNestedComments(itemId, comment.id)
+    })
   }
+  return comments
 }
 
-router.get('/Comment/Query', async (req, res, next) => {
+router.post('/Comment/Query', async (req, res, next) => {
   const data = req.body
   const itemId = data.itemId
   if (itemId == null) {
     res.sendStatus(406)
   } else {
-    const result = await getNestedComment(itemId, 0)
-    res.json(result)
+    const comments = await getNestedComments(itemId, 0)
+    res.json(comments)
   }
 })
 

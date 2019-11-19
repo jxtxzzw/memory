@@ -22,7 +22,6 @@ export default {
     return {
       moment,
       comments: [],
-      submitting: false,
       value: '',
       replyTarget: 0,
       replies: [],
@@ -30,39 +29,44 @@ export default {
       testAvatarName: 'Han Solo'
     }
   },
-  mounted () {
-    const reply1 = {
-      id: 1,
-      username: '1111',
-      avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
-      content: 'We supply a series of design principles, practical patterns and high quality design resources (Sketch and Axure).',
-      children: []
+  async mounted () {
+    const data = {
+      itemId: 1
     }
-    const reply2 = {
-      id: 2,
-      username: '2222',
-      avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
-      content: 'We supply a series of design principles, practical patterns and high quality design resources (Sketch and Axure).',
-      children: []
-    }
-    const reply3 = {
-      id: 3,
-      username: '3333',
-      avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
-      content: 'We supply a series of design principles, practical patterns and high quality design resources (Sketch and Axure).',
-      children: []
-    }
-    const reply4 = {
-      id: 4,
-      username: '4444',
-      avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
-      content: 'We supply a series of design principles, practical patterns and high quality design resources (Sketch and Axure).',
-      children: []
-    }
-    this.replies.push(reply1)
-    this.replies.push(reply2)
-    this.replies[1].children.push(reply3)
-    this.replies[1].children[0].children.push(reply4)
+    this.replies = await this.$axios.$post('/api/Comment/Query', data)
+    console.log(this.replies)
+    // const reply1 = {
+    //   id: 1,
+    //   username: '1111',
+    //   avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
+    //   content: 'We supply a series of design principles, practical patterns and high quality design resources (Sketch and Axure).',
+    //   children: []
+    // }
+    // const reply2 = {
+    //   id: 2,
+    //   username: '2222',
+    //   avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
+    //   content: 'We supply a series of design principles, practical patterns and high quality design resources (Sketch and Axure).',
+    //   children: []
+    // }
+    // const reply3 = {
+    //   id: 3,
+    //   username: '3333',
+    //   avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
+    //   content: 'We supply a series of design principles, practical patterns and high quality design resources (Sketch and Axure).',
+    //   children: []
+    // }
+    // const reply4 = {
+    //   id: 4,
+    //   username: '4444',
+    //   avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
+    //   content: 'We supply a series of design principles, practical patterns and high quality design resources (Sketch and Axure).',
+    //   children: []
+    // }
+    // this.replies.push(reply1)
+    // this.replies.push(reply2)
+    // this.replies[1].children.push(reply3)
+    // this.replies[1].children[0].children.push(reply4)
   },
   methods: {
     cancelReply () {
