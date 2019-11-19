@@ -68,6 +68,7 @@ export default {
         reply: this.target
       }
       await this.$axios.$post('/api/Comment/Add', data)
+      // TODO 考虑是否做成局部刷新
       window.location.reload()
     },
     handleChange (e) {

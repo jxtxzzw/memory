@@ -30,10 +30,7 @@ export default {
     }
   },
   async mounted () {
-    const data = {
-      itemId: 1
-    }
-    this.replies = await this.$axios.$post('/api/Comment/Query', data)
+    await this.loadData()
   },
   methods: {
     cancelReply () {
@@ -41,6 +38,16 @@ export default {
     },
     handleReplyTargetChange (newTarget) {
       this.replyTarget = newTarget
+    },
+    async loadData () {
+      this.$Spin.show()
+      const data = {
+        itemId: 1
+      }
+      this.replies = await this.$axios.$post('/api/Comment/Query', data)
+      setTimeout(() => {
+        this.$Spin.hide()
+      }, 1000)
     }
   }
 }
