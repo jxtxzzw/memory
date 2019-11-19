@@ -23,6 +23,7 @@
 
 <script>
 import moment from 'moment'
+// const axios = require('axios')
 export default {
   name: 'ReplyEditor',
   props: {
@@ -53,25 +54,19 @@ export default {
     cancelReply () {
       this.$emit('cancelReply')
     },
-    handleSubmit () {
+    async handleSubmit ({ $axios }) {
       if (!this.value) {
         return
       }
       this.submitting = true
 
-      setTimeout(() => {
-        this.submitting = false
-        this.comments = [
-          {
-            author: 'Han Solo',
-            avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
-            content: this.value,
-            datetime: moment().fromNow()
-          },
-          ...this.comments
-        ]
-        this.value = ''
-      }, 1000)
+      const data = {
+        userId: 1,
+        itemId: 1,
+        content: this.value,
+        reply: this.target
+      }
+      await this.$axios.$post('/api/Comment/Add', data)
     },
     handleChange (e) {
       this.value = e.target.value
