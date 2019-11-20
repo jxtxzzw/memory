@@ -1,4 +1,3 @@
-const bodyParser = require('body-parser')
 const cookieParser = require('cookie-parser')
 const jwt = require('express-jwt')
 const jsonwebtoken = require('jsonwebtoken')
@@ -6,7 +5,6 @@ const router = require('./router')
 
 // Install middleware
 router.use(cookieParser())
-router.use(bodyParser.json())
 
 // JWT middleware
 router.use(
@@ -21,7 +19,6 @@ router.use(
 
 // [POST] /login
 router.post('/auth/login', (req, res, next) => {
-  console.log(req.body)
   const { username, password } = req.body
   const valid = username.length && password === '123'
 

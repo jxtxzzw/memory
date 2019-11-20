@@ -13,7 +13,7 @@
     <Row align-h="center pt-4">
       <i-col span="4">
         <Card>
-          <busy-overlay />
+          <busyOverlay />
           <Form @keydown.enter="login">
             <FormItem label="Username">
               <Input ref="username" v-model="username" placeholder="anything" />
@@ -53,8 +53,8 @@
 
 <style scoped>
 .login-button {
-  border: 0;
-};
+  border: 0
+}
 </style>
 
 <script>
@@ -86,7 +86,6 @@ export default {
   methods: {
     login () {
       this.error = null
-
       return this.$auth
         .loginWith('local', {
           data: {

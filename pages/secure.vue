@@ -1,34 +1,32 @@
 <template>
   <div>
-    <b-alert show variant="warning">
+    <Alert show variant="warning">
       This is a secure page!
-    </b-alert>
-    <b-row>
-      <b-col md="8">
-        <b-card title="State">
+    </Alert>
+    <Row>
+      <i-col span="8">
+        <Card title="State">
           <pre>{{ state }}</pre>
-        </b-card>
-      </b-col>
-      <b-col md="4">
-        <b-card title="Scopes" class="mb-2">
-          User: <b-badge>{{ $auth.hasScope('user') }}</b-badge>
-          Test: <b-badge>{{ $auth.hasScope('test') }}</b-badge>
-          Admin: <b-badge>{{ $auth.hasScope('admin') }}</b-badge>
-        </b-card>
-        <b-card title="token">
+        </Card>
+      </i-col>
+      <i-col span="4">
+        <Card title="Scopes" class="mb-2">
+          User: <Button>{{ $auth.hasScope('user') }}</Button>
+          Test: <Button>{{ $auth.hasScope('test') }}</Button>
+          Admin: <Button>{{ $auth.hasScope('admin') }}</Button>
+        </Card>
+        <Card title="token">
           {{ $auth.token || '-' }}
-        </b-card>
-      </b-col>
-    </b-row>
+        </Card>
+      </i-col>
+    </Row>
     <hr>
-    <b-btn-group>
-      <b-button @click="$auth.fetchUser()">
-        Fetch User
-      </b-button>
-      <b-button @click="$auth.logout()">
-        Logout
-      </b-button>
-    </b-btn-group>
+    <Button @click="$auth.fetchUser()">
+      Fetch User
+    </Button>
+    <Button @click="$auth.logout()">
+      Logout
+    </Button>
   </div>
 </template>
 

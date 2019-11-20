@@ -1,8 +1,8 @@
 <template>
   <div>
-    <b-alert show variant="success">
+    <Alert show variant="success">
       You should see this page without need to authentication!
-    </b-alert>
+    </Alert>
     <div>
       User status:
       <Button>{{ $auth.$state.loggedIn ? 'Logged In' : 'Guest' }}</Button>
