@@ -17,6 +17,7 @@ router.post('/logout', (req, res) => {
 
 require('./User')
 require('./Comment')
+require('./Type')
 
 // Export the server middleware
 export default {
