@@ -14,7 +14,8 @@
   },
   "precommit": "npm run lint",
   "dependencies": {
-    "@nuxtjs/axios": "^5.3.6",
+    "@nuxtjs/auth": "^4.8.4",
+    "@nuxtjs/axios": "^5.8.0",
     "ant-design-vue": "^1.4.5",
     "body-parser": "^1.17.2",
     "cross-env": "^5.2.0",
