@@ -1,72 +1,103 @@
 <template>
-  <div class="container">
-    <h1>Please login to see the secret content</h1>
-    <form v-if="!$store.state.authUser" @submit.prevent="login">
-      <p v-if="formError" class="error">
-        {{ formError }}
-      </p>
-      <p><i>To login, use <b>demo</b> as username and <b>demo</b> as password.</i></p>
-      <p>Username: <input v-model="formUsername" type="text" name="username"></p>
-      <p>Password: <input v-model="formPassword" type="password" name="password"></p>
-      <button type="submit">
-        Login
-      </button>
-    </form>
-    <div v-else>
-      Hello {{ $store.state.authUser.username }}!
-      <pre>I am the secret content, I am shown only when the user is connected.</pre>
-      <p><i>You can also refresh this page, you'll still be connected!</i></p>
-      <button @click="logout">
-        Logout
-      </button>
-    </div>
-    <p>
-      <NuxtLink to="/secret">
-        Super secret page
-      </NuxtLink>
-    </p>
+  <div>
+    <h2 class="text-center">
+      Login
+    </h2>
+    <hr>
+    <Alert v-if="error" show variant="danger">
+      {{ error + '' }}
+    </Alert>
+    <Alert v-if="$auth.$state.redirect" show>
+      You have to login before accessing to <strong>{{ $auth.$state.redirect }}</strong>
+    </Alert>
+    <Row align-h="center pt-4">
+      <i-col span="4">
+        <Card>
+          <busy-overlay />
+          <Form @keydown.enter="login">
+            <FormItem label="Username">
+              <Input ref="username" v-model="username" placeholder="anything" />
+            </FormItem>
+
+            <FormItem label="Password">
+              <Input v-model="password" type="password" placeholder="123" />
+            </FormItem>
+
+            <div class="text-center">
+              <Button variant="primary" block @click="login">
+                Login
+              </Button>
+            </div>
+          </Form>
+        </Card>
+      </i-col>
+      <i-col span="1" align-self="center">
+        <div class="text-center">
+          <Button pill>
+            OR
+          </Button>
+        </div>
+      </i-col>
+      <i-col span="4" class="text-center">
+        <Card title="Social Login" bg-variant="light">
+          <div v-for="s in strategies" :key="s.key" class="mb-2">
+            <Button block :style="{background: s.color}" class="login-button" @click="$auth.loginWith(s.key)">
+              Login with {{ s.name }}
+            </Button>
+          </div>
+        </Card>
+      </i-col>
+    </Row>
   </div>
 </template>
 
+<style scoped>
+.login-button {
+  border: 0;
+};
+</style>
+
 <script>
+import busyOverlay from '~/components/busy-overlay'
+
 export default {
+  middleware: ['auth'],
+  components: { busyOverlay },
   data () {
     return {
-      formError: null,
-      formUsername: '',
-      formPassword: ''
+      username: '',
+      password: '123',
+      error: null
+    }
+  },
+  computed: {
+    strategies: () => ([
+    ]),
+    redirect () {
+      return (
+        this.$route.query.redirect &&
+        decodeURIComponent(this.$route.query.redirect)
+      )
+    },
+    isCallback () {
+      return Boolean(this.$route.query.callback)
     }
   },
   methods: {
-    async login () {
-      try {
-        await this.$store.dispatch('login', {
-          username: this.formUsername,
-          password: this.formPassword
+    login () {
+      this.error = null
+
+      return this.$auth
+        .loginWith('local', {
+          data: {
+            username: this.username,
+            password: this.password
+          }
         })
-        this.formUsername = ''
-        this.formPassword = ''
-        this.formError = null
-      } catch (e) {
-        this.formError = e.message
-      }
-    },
-    async logout () {
-      try {
-        await this.$store.dispatch('logout')
-      } catch (e) {
-        this.formError = e.message
-      }
+        .catch((e) => {
+          this.error = e + ''
+        })
     }
   }
 }
 </script>
-
-<style>
-  .container {
-    padding: 100px;
-  }
-  .error {
-    color: red;
-  }
-</style>

@@ -48,6 +48,7 @@ module.exports = {
   modules: [
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
+    // Doc: https://auth.nuxtjs.org/
     '@nuxtjs/auth'
   ],
   /*
@@ -55,6 +56,30 @@ module.exports = {
   ** See https://axios.nuxtjs.org/options
   */
   axios: {
+  },
+  /*
+  ** Auth module configuration
+  ** See https://auth.nuxtjs.org/
+  */
+  auth: {
+    redirect: {
+      callback: '/callback'
+    },
+    strategies: {
+      local: {
+        endpoints: {
+          login: { propertyName: 'token.accessToken' }
+        }
+      }
+      // TODO 增加 GitHub 登录
+      // github: {
+      //   client_id: process.env.GITHUB_CLIENT_ID,
+      //   client_secret: process.env.GITHUB_CLIENT_SECRET
+      // }
+    }
+  },
+  router: {
+    middleware: ['auth']
   },
   /*
   ** Build configuration
