@@ -55,6 +55,5 @@ router.post('/auth/logout', (req, res, next) => {
 
 // Error handler
 router.use((err, req, res, next) => {
-  console.error(err) // eslint-disable-line no-console
   res.status(401).send(err + '')
 })
