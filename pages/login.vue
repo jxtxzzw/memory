@@ -16,7 +16,7 @@
           <Form ref="login">
             <FormItem prop="username" label="用户名">
               <Input ref="username" v-model="username" placeholder="请输入用户名">
-                <Icon slot="prefix" type="ios-person-outline" />
+              <Icon slot="prefix" type="ios-person-outline" />
                 <!-- 用 slot="prepend" 是前面加一块出来，后果是对不齐，以及会令 4.0 的 maxlength 和 password 失效 -->
                 <!-- 这里应该是用 slot="prefix" -->
               </Input>
