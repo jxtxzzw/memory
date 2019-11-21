@@ -3,7 +3,7 @@
     <div style="text-align:center">
       <Row>
         <i-col span="12">
-        <Avatar shape="square" src="../../assets/default.jpg" />
+          <Avatar shape="square" src="../../assets/default.jpg" />
         </i-col>
         <i-col span="12">
           <h3> {{ username }}</h3>
@@ -15,6 +15,7 @@
 
 <script>
 import axios from 'axios'
+
 export default {
   name: 'ProfileCard',
   props: {
