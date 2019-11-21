@@ -24,10 +24,6 @@ Item.init({
       key: 'id'
     }
   },
-  tag: {
-    type: Sequelize.STRING,
-    allowNull: true
-  },
   attribute: {
     type: Sequelize.STRING,
     allowNull: true
