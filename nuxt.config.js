@@ -78,9 +78,6 @@ module.exports = {
       // }
     }
   },
-  router: {
-    middleware: ['auth']
-  },
   /*
   ** Build configuration
   */
@@ -122,8 +119,5 @@ module.exports = {
 
     // Api middleware
     '~/api'
-
-    // Will register file from project api directory to handle /api/* requires
-    // { path: '/api/user', handler: '~/server/api/User.js' }
   ]
 }

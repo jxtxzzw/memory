@@ -1,48 +1,47 @@
 <template>
   <div>
     <h2 class="text-center">
-      Login
+      登录 {{ $auth.$state.redirect }}
     </h2>
-    <hr>
-    <Alert v-if="error" show variant="danger">
+    <Alert v-if="error">
       {{ error + '' }}
     </Alert>
-    <Alert v-if="$auth.$state.redirect" show>
+    <Alert v-if="$auth.$state.redirect">
       You have to login before accessing to <strong>{{ $auth.$state.redirect }}</strong>
     </Alert>
-    <Row align-h="center pt-4">
+    <Row>
       <i-col span="4">
         <Card>
           <busyOverlay />
-          <Form @keydown.enter="login">
-            <FormItem label="Username">
-              <Input ref="username" v-model="username" placeholder="anything" />
+          <Form ref="login">
+            <FormItem prop="username" label="用户名">
+              <Input ref="username" v-model="username" placeholder="请输入用户名">
+                <Icon slot="prefix" type="ios-person-outline" />
+                <!-- 用 slot="prepend" 是前面加一块出来，后果是对不齐，以及会令 4.0 的 maxlength 和 password 失效 -->
+                <!-- 这里应该是用 slot="prefix" -->
+              </Input>
             </FormItem>
-
-            <FormItem label="Password">
-              <Input v-model="password" type="password" placeholder="123" />
+            <FormItem prop="password" label="密码">
+              <Input v-model="password" type="password" password placeholder="123">
+              <Icon slot="prefix" type="ios-lock-outline" />
+              </Input>
             </FormItem>
-
-            <div class="text-center">
-              <Button variant="primary" block @click="login">
-                Login
-              </Button>
-            </div>
+            <Button type="primary" @click="login">
+              登录
+            </Button>
           </Form>
         </Card>
       </i-col>
-      <i-col span="1" align-self="center">
-        <div class="text-center">
-          <Button pill>
-            OR
-          </Button>
-        </div>
+      <i-col span="1">
+        <p>
+          或者
+        </p>
       </i-col>
-      <i-col span="4" class="text-center">
-        <Card title="Social Login" bg-variant="light">
-          <div v-for="s in strategies" :key="s.key" class="mb-2">
+      <i-col span="4">
+        <Card title="使用第三方登录">
+          <div v-for="s in strategies" :key="s.key">
             <Button block :style="{background: s.color}" class="login-button" @click="$auth.loginWith(s.key)">
-              Login with {{ s.name }}
+              使用 {{ s.name }} 登录
             </Button>
           </div>
         </Card>
@@ -78,9 +77,6 @@ export default {
         this.$route.query.redirect &&
         decodeURIComponent(this.$route.query.redirect)
       )
-    },
-    isCallback () {
-      return Boolean(this.$route.query.callback)
     }
   },
   methods: {
