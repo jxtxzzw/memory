@@ -1,12 +1,8 @@
 <template>
   <div>
     <Row>
-      <i-col span="12">
-        <Avatar shape="square" :src="$auth.$state.user.picture" />
-      </i-col>
-      <i-col span="12">
-        <h3> {{ $auth.$state.user.username }}</h3>
-      </i-col>
+      <Avatar  shape="square" :src="$auth.$state.user.picture" />
+      <Button type="text" ghost> {{ $auth.$state.user.username }} </Button>
     </Row>
   </div>
 </template>
@@ -25,5 +21,4 @@ export default {
 </script>
 
 <style scoped>
-
 </style>
