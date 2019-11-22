@@ -5,11 +5,14 @@ require('./models/ItemCategory')
 require('./models/Rating')
 require('./models/Type')
 require('./models/User')
+require('./models/Tag')
+require('./models/ItemTag')
 
 const sequelize = require('./index')
 
 sequelize
   .authenticate()
   .then(() => {
-    sequelize.sync({ force: true })
+    // eslint-disable-next-line standard/object-curly-even-spacing
+    sequelize.sync({ force: false })
   })
