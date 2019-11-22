@@ -9,7 +9,7 @@ const Tag = require('./Tag')
 class ItemTag extends Model {}
 ItemTag.init({
   id: {
-    typr: Sequelize.INTEGER,
+    type: Sequelize.INTEGER,
     primaryKey: true,
     autoIncrement: true
   },
@@ -27,6 +27,6 @@ ItemTag.init({
       key: 'id'
     }
   }
-}, sequelize)
+}, { sequelize })
 
 module.exports = ItemTag

@@ -21,15 +21,44 @@
         <p v-if="formError" class="Error">
           {{ formError }}
         </p>
-        <FormItem label="标题" required="true">
+        <FormItem label="标题" :required="true">
           <Input v-model="title" type="text" />
         </FormItem>
-        <FormItem label="种类" required="true">
+        <FormItem label="种类" :required="true">
           <Select v-model="typeId" placeholder="请选择类型">
             <Option v-for="type in typeList" :key="type.label" :value="type.value">
               {{ type.label }}
             </Option>
           </Select>
+        </FormItem>
+        <FormItem label="标签">
+          <Tags></Tags>
+        </FormItem>
+        <FormItem>
+          <Card>
+            <Tag
+              v-for="tag in checkedCategory"
+              :key="tag"
+              color="primary"
+              :name="tag"
+              :checkable="true"
+              @on-change="uncheckCategory"
+            >
+              {{ tag }}
+            </Tag>
+          </Card>
+          <Card>
+            <Tag
+              v-for="tag in uncheckedCategory"
+              :key="tag"
+              color="primary"
+              :name="tag"
+              :checkable="true"
+              @on-change="checkCategory"
+            >
+              {{ tag }}
+            </Tag>
+          </Card>
         </FormItem>
       </Form>
     </Modal>
@@ -37,7 +66,11 @@
 </template>
 
 <script>
+import Tags from '~/components/Tags'
 export default {
+  components: {
+    Tags
+  },
   data () {
     return {
       modal: false,
@@ -45,7 +78,9 @@ export default {
       title: '',
       typeId: null,
       typeList: [],
-      rating: 0
+      rating: 0,
+      checkedCategory: ['zzw', 'wzz', 'zwz'],
+      uncheckedCategory: ['jxtx', 'jxxt', 'jtxx']
     }
   },
   async mounted () {
@@ -54,6 +89,15 @@ export default {
   methods: {
     async load_data () {
       this.typeList = await this.$axios.$post('/api/Type/getTypeList')
+    //  加载所有 Category
+    },
+    checkCategory (checked, name) {
+      this.checkedCategory.push(name)
+      this.uncheckedCategory = this.uncheckedCategory.filter(tag => tag !== name)
+    },
+    uncheckCategory (checked, name) {
+      this.checkedCategory = this.checkedCategory.filter(tag => tag !== name)
+      this.uncheckedCategory.push(name)
     }
   }
 }
