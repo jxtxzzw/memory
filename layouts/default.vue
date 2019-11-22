@@ -1,55 +1,96 @@
+<style scoped>
+  .layout{
+    border: 1px solid #d7dde4;
+    background: #f5f7f9;
+    position: relative;
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .layout-logo{
+    width: 100px;
+    height: 30px;
+    background: #5b6270;
+    border-radius: 3px;
+    float: left;
+    position: relative;
+    top: 15px;
+    left: 20px;
+  }
+  .layout-nav{
+    /* 每个 MenuItem 的长度为 105*/
+    width: 315px;
+    margin: 0 auto;
+    margin-right: 20px;
+  }
+  .layout-footer-center{
+    text-align: center;
+  }
+</style>
 <template>
-  <div>
-    <nuxt />
+  <div class="layout">
+    <Layout>
+      <Header>
+        <Menu mode="horizontal" theme="dark" active-name="home">
+          <div class="layout-logo">
+            <Button @click="$auth.logout()">
+              这里放用户头像
+            </Button>
+          </div>
+          <div class="layout-nav">
+            <MenuItem name="home">
+              <Icon type="ios-home"></Icon>
+              主页
+            </MenuItem>
+            <MenuItem name="test" to="/Experiment/CommentPage">
+              <Icon type="ios-home"></Icon>
+              测试页面
+            </MenuItem>
+            <div v-if="$auth.$state.loggedIn">
+              <Dropdown @on-click="handleDropdownClick">
+                <ProfileCard />
+                <DropdownMenu slot="list">
+                  <DropdownItem name="profile">个人主页</DropdownItem>
+                  <DropdownItem name="logout">登出</DropdownItem>
+                </DropdownMenu>
+              </Dropdown>
+            </div>
+            <MenuItem v-else name="login" to="/login">
+              登录
+            </MenuItem>
+          </div>
+        </Menu>
+      </Header>
+      <Content :style="{padding: '0 50px'}">
+        <Card>
+          <div style="min-height: 200px;">
+            <nuxt />
+          </div>
+        </Card>
+      </Content>
+      <Footer class="layout-footer-center">
+        2019/MM/DD - {{ moment().format('YYYY/MM/DD') }} &copy; jxtxzzw
+      </Footer>
+    </Layout>
   </div>
 </template>
+<script>
+import moment from 'moment'
+import ProfileCard from '../components/ProfileCard'
 
-<style>
-html {
-  font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI',
-    Roboto, 'Helvetica Neue', Arial, sans-serif;
-  font-size: 16px;
-  word-spacing: 1px;
-  -ms-text-size-adjust: 100%;
-  -webkit-text-size-adjust: 100%;
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-font-smoothing: antialiased;
-  box-sizing: border-box;
+export default {
+  components: { ProfileCard },
+  data () {
+    return {
+      moment
+    }
+  },
+  methods: {
+    handleDropdownClick (name) {
+      console.log(name)
+      if (name === 'logout') {
+        this.$auth.logout()
+      }
+    }
+  }
 }
-
-*,
-*:before,
-*:after {
-  box-sizing: border-box;
-  margin: 0;
-}
-
-.button--green {
-  display: inline-block;
-  border-radius: 4px;
-  border: 1px solid #3b8070;
-  color: #3b8070;
-  text-decoration: none;
-  padding: 10px 30px;
-}
-
-.button--green:hover {
-  color: #fff;
-  background-color: #3b8070;
-}
-
-.button--grey {
-  display: inline-block;
-  border-radius: 4px;
-  border: 1px solid #35495e;
-  color: #35495e;
-  text-decoration: none;
-  padding: 10px 30px;
-  margin-left: 15px;
-}
-
-.button--grey:hover {
-  color: #fff;
-  background-color: #35495e;
-}
-</style>
+</script>
