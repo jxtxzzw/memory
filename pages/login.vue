@@ -4,14 +4,14 @@
       登录 {{ $auth.$state.redirect }}
     </h2>
     <Alert v-if="error">
-      {{ error + '' }}
+      出现错误：{{ error + '' }}
     </Alert>
     <Alert v-if="$auth.$state.redirect">
-      You have to login before accessing to <strong>{{ $auth.$state.redirect }}</strong>
+      你必须先登录才能访问 <strong>{{ $auth.$state.redirect }}</strong> 页面
     </Alert>
     <Row>
-      <i-col span="4">
-        <Card>
+      <i-col offset="8" span="8">
+        <Card :dis-hover="true" :bordered="false">
           <busyOverlay />
           <Form ref="login">
             <FormItem prop="username" label="用户名">
@@ -26,24 +26,10 @@
               <Icon slot="prefix" type="ios-lock-outline" />
               </Input>
             </FormItem>
-            <Button type="primary" @click="login">
+            <Button long type="primary" @click="login">
               登录
             </Button>
           </Form>
-        </Card>
-      </i-col>
-      <i-col span="1">
-        <p>
-          或者
-        </p>
-      </i-col>
-      <i-col span="4">
-        <Card title="使用第三方登录">
-          <div v-for="s in strategies" :key="s.key">
-            <Button block :style="{background: s.color}" class="login-button" @click="$auth.loginWith(s.key)">
-              使用 {{ s.name }} 登录
-            </Button>
-          </div>
         </Card>
       </i-col>
     </Row>
@@ -51,8 +37,8 @@
 </template>
 
 <style scoped>
-.login-button {
-  border: 0
+.text-center {
+  text-align: center !important;
 }
 </style>
 
@@ -70,13 +56,14 @@ export default {
     }
   },
   computed: {
-    strategies: () => ([
-    ]),
     redirect () {
       return (
         this.$route.query.redirect &&
         decodeURIComponent(this.$route.query.redirect)
       )
+    },
+    isCallback () {
+      return Boolean(this.$route.query.callback)
     }
   },
   methods: {
