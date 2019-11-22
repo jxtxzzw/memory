@@ -31,10 +31,7 @@
             </Option>
           </Select>
         </FormItem>
-        <FormItem label="标签">
-          <Tags></Tags>
-        </FormItem>
-        <FormItem>
+        <FormItem label="分类" :required="true">
           <Card>
             <Tag
               v-for="tag in checkedCategory"
@@ -60,6 +57,9 @@
             </Tag>
           </Card>
         </FormItem>
+        <FormItem label="标签">
+          <Tags></Tags>
+        </FormItem>
       </Form>
     </Modal>
   </div>
@@ -79,8 +79,8 @@ export default {
       typeId: null,
       typeList: [],
       rating: 0,
-      checkedCategory: ['zzw', 'wzz', 'zwz'],
-      uncheckedCategory: ['jxtx', 'jxxt', 'jtxx']
+      checkedCategory: [],
+      uncheckedCategory: []
     }
   },
   async mounted () {
@@ -89,7 +89,7 @@ export default {
   methods: {
     async load_data () {
       this.typeList = await this.$axios.$post('/api/Type/getTypeList')
-    //  加载所有 Category
+      this.uncheckedCategory = await this.$axios.$post('api/Tag/tagList')
     },
     checkCategory (checked, name) {
       this.checkedCategory.push(name)

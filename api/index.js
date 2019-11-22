@@ -4,6 +4,7 @@ require('./User')
 require('./Comment')
 require('./auth')
 require('./Type')
+require('./Tag')
 
 // Export the server middleware
 export default {
