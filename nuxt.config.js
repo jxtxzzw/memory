@@ -105,9 +105,13 @@ module.exports = {
   serverMiddleware: [
     // body-parser middleware
     bodyParser.urlencoded({
+      limit: '5mb',
       extended: true
     }),
-    bodyParser.json(),
+    bodyParser.json({
+      limit: '5mb',
+      extended: true
+    }),
 
     // session middleware
     session({
