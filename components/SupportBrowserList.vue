@@ -1,19 +1,23 @@
 <template>
-  <List>
-    <ListItem
-      v-for="browser in browserList"
-      :key="browser.title">
-      <ListItemMeta
-        :avatar="browser.avatar"
-        :title="browser.title"
-        :description="getDescription(browser.version, browser.title)" />
-      <template slot="action">
-        <li v-if="browser.download">
-          <a :href="browser.download">下载</a>
-        </li>
-      </template>
-    </ListItem>
-  </List>
+  <div>
+    <List>
+      <ListItem
+        v-for="browser in browserList"
+        :key="browser.title"
+      >
+        <ListItemMeta
+          :avatar="browser.avatar"
+          :title="browser.title"
+          :description="getDescription(browser.version, browser.title)"
+        />
+        <template slot="action">
+          <li v-if="browser.download">
+            <a :href="browser.download">下载</a>
+          </li>
+        </template>
+      </ListItem>
+    </List>
+  </div>
 </template>
 <script>
 import config from '~/assets/BrowserCompatibility/config'
@@ -24,6 +28,9 @@ export default {
       config,
       browserList: []
     }
+  },
+  mounted () {
+    this.loadBrowserList()
   },
   methods: {
     getDescription (version, title) {
@@ -91,9 +98,6 @@ export default {
       this.browserList.push(safari)
       this.browserList.push(opera)
     }
-  },
-  mounted () {
-    this.loadBrowserList()
   }
 }
 </script>
