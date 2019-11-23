@@ -29,7 +29,7 @@ router.post('/auth/login', (req, res, next) => {
   const accessToken = jsonwebtoken.sign(
     {
       username,
-      picture: 'https://github.com/nuxt.png',
+      picture: 'https://www.jxtxzzw.com/wp-content/uploads/2018/01/logo-max.png',
       name: 'User ' + username,
       scope: ['test', 'user']
     },

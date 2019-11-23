@@ -1,10 +1,15 @@
 <template>
   <div>
-    <div v-if="replyTarget===0">
-      <ReplyEditor :src="testAvatarSrc" :alt="testAvatarName" :target="replyTarget" />
+    <div v-if="loading">
+      <a-skeleton :active="true" :avatar="true" :paragraph="{rows: 4}" />
     </div>
-    <Comment v-for="item in replies" :key="item.id" :reply="item" :target="replyTarget" @handleReplyTargetChange="handleReplyTargetChange" />
-    <!-- emit 的 v-on 不需要带括号，参数会依次自动填入 method 的 params -->
+    <div v-else>
+      <div v-if="replyTarget===0">
+        <ReplyEditor :src="testAvatarSrc" :alt="testAvatarName" :target="replyTarget" />
+      </div>
+      <Comment v-for="item in replies" :key="item.id" :reply="item" :target="replyTarget" @handleReplyTargetChange="handleReplyTargetChange" />
+      <!-- emit 的 v-on 不需要带括号，参数会依次自动填入 method 的 params -->
+    </div>
   </div>
 </template>
 
@@ -21,6 +26,7 @@ export default {
   data () {
     return {
       moment,
+      loading: true,
       comments: [],
       value: '',
       replyTarget: 0,
@@ -40,13 +46,13 @@ export default {
       this.replyTarget = newTarget
     },
     async loadData () {
-      this.$Spin.show()
+      this.loading = true
       const data = {
         itemId: 1
       }
       this.replies = await this.$axios.$post('/api/Comment/Query', data)
       setTimeout(() => {
-        this.$Spin.hide()
+        this.loading = false
       }, 1000)
     }
   }

@@ -18,7 +18,7 @@
   }
   .layout-nav{
     /* 每个 MenuItem 的长度为 105*/
-    width: 315px;
+    width: 420px;
     margin: 0 auto;
     margin-right: 20px;
   }
@@ -31,16 +31,13 @@
     <Layout>
       <Header>
         <Menu mode="horizontal" theme="dark" active-name="home">
-          <div class="layout-logo">
-            <Button @click="$auth.logout()">
-              这里放用户头像
-            </Button>
-          </div>
-          <div class="layout-nav">
-            <MenuItem name="home">
-              <Icon type="ios-home"></Icon>
-              主页
-            </MenuItem>
+          <div align="right">
+            <div>
+              <MenuItem name="home">
+                <Icon type="ios-home"></Icon>
+                主页
+              </MenuItem>
+            </div>
             <MenuItem name="test" to="/Experiment/CommentPage">
               <Icon type="ios-home"></Icon>
               测试页面
@@ -49,20 +46,20 @@
               <Dropdown @on-click="handleDropdownClick">
                 <ProfileCard />
                 <DropdownMenu slot="list">
-                  <DropdownItem name="profile">个人主页</DropdownItem>
-                  <DropdownItem name="logout">登出</DropdownItem>
+                  <DropdownItem name="profile" align="center">个人主页</DropdownItem>
+                  <DropdownItem name="logout" align="center">登出</DropdownItem>
                 </DropdownMenu>
               </Dropdown>
             </div>
-            <MenuItem v-else name="login" to="/login">
+            <Button v-else type="text" ghost name="login" to="/login">
               登录
-            </MenuItem>
+            </Button>
           </div>
         </Menu>
       </Header>
       <Content :style="{padding: '0 50px'}">
         <Card>
-          <div style="min-height: 200px;">
+          <div style="min-height: 400px;">
             <nuxt />
           </div>
         </Card>
