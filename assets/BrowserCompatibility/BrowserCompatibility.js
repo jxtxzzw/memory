@@ -75,5 +75,5 @@ export function checkCompatibility () {
   } else {
     judgement = config.NotTested
   }
-  return judgement
+  return [judgement, sBrowser, sBrowserVersion]
 }

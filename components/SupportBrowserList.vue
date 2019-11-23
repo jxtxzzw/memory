@@ -1,5 +1,12 @@
 <template>
   <div>
+    <Alert show-icon>
+      你正在使用的浏览器是 {{ name }}
+      <Icon slot="icon" type="ios-bulb-outline"></Icon>
+      <template slot="desc">
+        你正在使用的 {{ name }} 的版本是 {{ version }}
+      </template>
+    </Alert>
     <List>
       <ListItem
         v-for="browser in browserList"
@@ -23,6 +30,16 @@
 import config from '~/assets/BrowserCompatibility/config'
 export default {
   name: 'SupportBrowserList',
+  props: {
+    name: {
+      type: String,
+      default: null
+    },
+    version: {
+      type: String,
+      default: null
+    }
+  },
   data () {
     return {
       config,

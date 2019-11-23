@@ -73,7 +73,10 @@
                   <Icon type="help-circled" size="14"></Icon>
                 </span>
               </Alert>
-              <SupportBrowserList />
+              <SupportBrowserList
+                :name="sBrowser"
+                :version="sBrowserVersion"
+              />
             </div>
           </div>
         </Card>
@@ -82,6 +85,24 @@
         2019/MM/DD - {{ moment().format('YYYY/MM/DD') }} &copy; jxtxzzw
       </Footer>
     </Layout>
+    <Modal
+      v-model="showBrowserWarning"
+      width="800"
+      title="该浏览器的兼容性未经过测试"
+    >
+      <Alert type="warning" show-icon>
+        您可以继续访问
+        <template slot="desc">
+          但我们仍然强烈建议您使用以下浏览器以获得最佳浏览体验
+        </template>
+      </Alert>
+      <SupportBrowserList :name="sBrowser" :version="sBrowserVersion" />
+      <div slot="footer">
+        <Button type="success" size="large" long @click="showBrowserWarning = false">
+          继续访问
+        </Button>
+      </div>
+    </Modal>
   </div>
 </template>
 <script>
@@ -95,7 +116,10 @@ export default {
   data () {
     return {
       moment,
-      compatible: true
+      compatible: true,
+      showBrowserWarning: false,
+      sBrowser: '',
+      sBrowserVersion: ''
     }
   },
   mounted () {
@@ -108,27 +132,16 @@ export default {
       }
     },
     checkBrowser () {
-      const judgement = BrowserCompatibility.checkCompatibility()
+      const compatibility = BrowserCompatibility.checkCompatibility()
+      const judgement = compatibility[0]
+      this.sBrowser = compatibility[1]
+      this.sBrowserVersion = compatibility[2]
       if (judgement === config.Accepted) {
         this.compatible = true
+        this.showBrowserWarning = false
       } else if (judgement === config.NotTested) {
         this.compatible = true
-        this.$Notice.warning({
-          title: '该浏览器的兼容性未经过测试',
-          render: (h) => {
-            // 自定义组件不需要加引号
-            return h('span', [
-              h('Alert', {
-                props: {
-                  type: 'warning',
-                  showIcon: true
-                }
-              }, '您可以正常访问，但我们依然推荐您使用以下浏览器以获得最佳浏览体验'),
-              h(SupportBrowserList)
-            ])
-          },
-          duration: 0
-        })
+        this.showBrowserWarning = true
       } else {
         this.compatible = false
       }
