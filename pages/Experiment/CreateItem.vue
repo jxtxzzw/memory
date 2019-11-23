@@ -17,21 +17,22 @@
       :closable="false"
       :masked-closable="false"
     >
-      <Form>
+      <Form ref="formValidate" :model="formValidate" :rules="ruleValidate">
         <p v-if="formError" class="Error">
           {{ formError }}
         </p>
-        <FormItem label="标题" :required="true">
-          <Input v-model="title" type="text" />
+        <FormItem label="标题" prop="title">
+          <Input v-model="formValidate.title" type="text" />
         </FormItem>
-        <FormItem label="种类" :required="true">
-          <Select v-model="typeId" placeholder="请选择类型">
+        <FormItem label="种类" prop="type">
+          <Select v-model="formValidate.typeId" placeholder="请选择类型">
             <Option v-for="type in typeList" :key="type.label" :value="type.value">
               {{ type.label }}
             </Option>
           </Select>
         </FormItem>
-        <FormItem label="分类" :required="true">
+        <FormItem label="分类" prop="category">
+          <br>
           <Card>
             <Tag
               v-for="tag in checkedCategory"
@@ -57,8 +58,9 @@
             </Tag>
           </Card>
         </FormItem>
-        <FormItem label="标签">
-          <Tags></Tags>
+        <FormItem label="标签" prop="tag">
+          <br>
+          <Tags :tags="tags"></Tags>
         </FormItem>
       </Form>
     </Modal>
@@ -73,14 +75,24 @@ export default {
   },
   data () {
     return {
+      formValidate: {
+        title: '',
+        typeId: null
+      },
+      ruleValidate: {
+        title: [
+          { required: true, message: '标题不得为空', trigger: 'blur' }
+        ],
+        type: [
+          { required: true, message: '类型不得为空', trigger: 'change' }
+        ]
+      },
       modal: false,
       formError: null,
-      title: '',
-      typeId: null,
       typeList: [],
-      rating: 0,
       checkedCategory: [],
-      uncheckedCategory: []
+      uncheckedCategory: [],
+      tags: []
     }
   },
   async mounted () {
