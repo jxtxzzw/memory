@@ -33,7 +33,7 @@ export default {
   methods: {
     handleClose (event, removedTag) {
       this.tags = this.tags.filter(tag => tag !== removedTag)
-      this.$emit('cancel', removedTag)
+      this.$emit('remove', removedTag)
     },
     // 点击添加标签时，出现一个相等大小的输入框覆盖在 Tag 上，以便可以输入内容
     showInput () {
