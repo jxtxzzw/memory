@@ -1,8 +1,11 @@
 <style>
-  .vertical-center-modal {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  .ant-upload.ant-upload-select-picture-card {
+    width: 208px;
+    height: 312px;
+  }
+  .ant-upload-list-picture-card .ant-upload-list-item {
+    width: 208px;
+    height: 312px;
   }
 </style>
 <template>
@@ -86,6 +89,9 @@
         </Row>
       </Form>
     </Modal>
+    <Modal v-model="previewVisible" footer-hide @cancel="handleCancel">
+      <img alt="预览" style="width: 100%" :src="previewImage" />
+    </Modal>
   </div>
 </template>
 
@@ -152,8 +158,7 @@ export default {
       this.formValidate.tags = this.formValidate.tags.filter(tag => tag !== tagName)
     },
     handleBeforeUpload (file) {
-      this.formValidate.fileList = [...this.fileList, file]
-      return false
+      this.formValidate.fileList = [...this.formValidate.fileList, file]
     },
     handleCancel () {
       this.previewVisible = false
