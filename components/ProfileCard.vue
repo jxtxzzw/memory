@@ -1,8 +1,10 @@
 <template>
   <div>
     <Row>
-      <Avatar  shape="square" :src="$auth.$state.user.picture" />
-      <Button type="text" ghost> {{ $auth.$state.user.username }} </Button>
+      <Avatar shape="square" :src="$auth.$state.user.picture" />
+      <Button type="text" ghost>
+        {{ $auth.$state.user.username }}
+      </Button>
     </Row>
   </div>
 </template>

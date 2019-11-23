@@ -23,13 +23,10 @@
     <a-modal :visible="previewVisible" :footer="null" @cancel="handleCancel">
       <img alt="预览" style="width: 100%" :src="previewImage" />
     </a-modal>
-    <SupportBrowserList></SupportBrowserList>
   </div>
 </template>
 <script>
-import SupportBrowserList from '../../components/SupportBrowserList'
 export default {
-  components: { SupportBrowserList },
   data () {
     return {
       title: '',
@@ -64,8 +61,7 @@ export default {
         category: this.category,
         tag: ['三体', '刘慈欣']
       }
-      const result = await this.$axios.$post('/api/upload', data)
-      console.log(result)
+      await this.$axios.$post('/api/upload', data)
     }
   }
 }
