@@ -16,6 +16,7 @@
       class-name="vertical-center-modal"
       :closable="false"
       :masked-closable="false"
+      :loading="loading"
       @on-ok="handleUpload('formValidate')"
       @on-cancel="handleCancel"
     >
@@ -124,7 +125,8 @@ export default {
       uncheckedCategory: [],
       file: '',
       previewVisible: false,
-      previewImage: ''
+      previewImage: '',
+      loading: true
     }
   },
   async mounted () {
@@ -147,7 +149,7 @@ export default {
       this.formValidate.tags.push(tagName)
     },
     removeTag (tagName) {
-      this.formValidate.tags = this.tags.filter(tag => tag !== tagName)
+      this.formValidate.tags = this.formValidate.tags.filter(tag => tag !== tagName)
     },
     handleBeforeUpload (file) {
       this.formValidate.fileList = [...this.fileList, file]
@@ -165,18 +167,22 @@ export default {
     },
     async handleUpload (name) {
       await this.$refs[name].validate(async (valid) => {
+        this.loading = false
+        this.$nextTick(() => {
+          this.loading = true
+        })
         if (valid) {
           await this.$axios.$post('/api/upload', this.formValidate)
+          this.modal = false
         } else {
-          Promise.reject(new Error('验证失败'))
+          this.$Message.error({
+            background: true,
+            content: '表单验证失败，请检查您输入的内容'
+          })
+          this.modal = true
         }
-      }).catch(
-        (err) => {
-          console.log(err)
-        }
-      )
+      })
     }
-    // TODO 模态框关闭
   }
 }
 </script>
