@@ -14,5 +14,5 @@ sequelize
   .authenticate()
   .then(() => {
     // eslint-disable-next-line standard/object-curly-even-spacing
-    sequelize.sync({ force: false })
+    sequelize.sync()
   })
