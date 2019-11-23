@@ -2,6 +2,10 @@ const bodyParser = require('body-parser')
 const session = require('express-session')
 
 module.exports = {
+  server: {
+    host: 'localhost',
+    port: process.env.MEMORY_SERVER_PORT || 3000
+  },
   mode: 'universal',
   /*
   ** Headers of the page
@@ -56,6 +60,9 @@ module.exports = {
   ** See https://axios.nuxtjs.org/options
   */
   axios: {
+    host: process.env.MEMORY_AXIOS_HOST || 'localhost',
+    port: process.env.MEMORY_AXIOS_PORT || 3000,
+    https: process.env.MEMORY_AXIOS_HTTPS || false
   },
   /*
   ** Auth module configuration
