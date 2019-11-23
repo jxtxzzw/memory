@@ -6,5 +6,10 @@
   "Opera": 50,
   "EdgeChromium": 78,
   "Chrome": 70,
-  "Safari": 600
+  "Safari": 600,
+  "FirefoxDownload": "https://www.mozilla.org/zh-CN/firefox/new/",
+  "OperaDownload": "https://www.opera.com/zh-cn",
+  "EdgeChromiumDownload": "https://www.microsoft.com/zh-cn/windows/microsoft-edge",
+  "ChromeDownload": "https://www.google.com/intl/zh-CN/chrome/",
+  "SafariDownload": "https://www.apple.com/safari/"
 }

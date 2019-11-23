@@ -23,10 +23,13 @@
     <a-modal :visible="previewVisible" :footer="null" @cancel="handleCancel">
       <img alt="预览" style="width: 100%" :src="previewImage" />
     </a-modal>
+    <SupportBrowserList></SupportBrowserList>
   </div>
 </template>
 <script>
+import SupportBrowserList from '../../components/SupportBrowserList'
 export default {
+  components: { SupportBrowserList },
   data () {
     return {
       title: '',
