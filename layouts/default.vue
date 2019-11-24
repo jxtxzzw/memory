@@ -28,7 +28,7 @@
 </style>
 <template>
   <div class="layout">
-    <Layout>
+    <Layout :style="{minHeight: '-webkit-fill-available'}">
       <Header>
         <Menu mode="horizontal" theme="dark" active-name="home">
           <div align="right">
@@ -62,7 +62,7 @@
         </Menu>
       </Header>
       <Content :style="{padding: '0 50px'}">
-        <Card>
+        <Card dis-hover>
           <div style="min-height: 400px;">
             <nuxt v-if="compatible" />
             <div v-else>

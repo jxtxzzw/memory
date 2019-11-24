@@ -18,6 +18,7 @@ import moment from 'moment'
 import Comment from '~/components/Comment'
 import ReplyEditor from '~/components/ReplyEditor'
 export default {
+  middleware: ['auth'],
   name: 'CommentPage',
   components: {
     Comment,

@@ -5,6 +5,7 @@
   "Chrome": 60,
   "Firefox": 50,
   "Opera": 50,
+  "Edge":18,
   "EdgeChromium": 78,
   "Safari": 10,
   "FirefoxDownload": "https://www.mozilla.org/zh-CN/firefox/new/",

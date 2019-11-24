@@ -65,7 +65,7 @@ export function checkCompatibility () {
   } else if (sBrowser === 'Microsoft Internet Explorer') {
     judgement = config.NotSupported
   } else if (sBrowser === 'Microsoft Edge') {
-    judgement = config.NotTested
+    judgement = compareVersion(sBrowserVersion, config.Edge) ? config.Accepted : config.NotTested
   } else if (sBrowser === 'Microsoft Edge Chromium Based') {
     judgement = compareVersion(sBrowserVersion, config.EdgeChromium) ? config.Accepted : config.NotTested
   } else if (sBrowser === 'Google Chrome or Chromium') {

@@ -1,14 +1,24 @@
 <template>
   <div>
     <h2 class="text-center">
-      登录 {{ $auth.$state.redirect }}
+      登录
     </h2>
-    <Alert v-if="error">
-      出现错误：{{ error + '' }}
-    </Alert>
-    <Alert v-if="$auth.$state.redirect">
-      你必须先登录才能访问 <strong>{{ $auth.$state.redirect }}</strong> 页面
-    </Alert>
+    <Row>
+      <i-col offset="8" span="8">
+        <Alert v-if="error" type="error" show-icon>
+          出现错误
+          <span slot="desc">{{ error }}</span>
+        </Alert>
+      </i-col>
+    </Row>
+    <Row>
+      <i-col offset="8" span="8">
+        <Alert v-if="$auth.$state.redirect" show-icon>
+          请先登录
+          <span slot="desc"> 你必须先登录才能访问 <strong>{{ $auth.$state.redirect }}</strong> 页面 </span>
+        </Alert>
+      </i-col>
+    </Row>
     <Row>
       <i-col offset="8" span="8">
         <Card :dis-hover="true" :bordered="false">
@@ -78,6 +88,9 @@ export default {
         })
         .catch((e) => {
           this.error = e + ''
+          if (this.error === 'Error: Request failed with status code 401') {
+            this.error = '您输入的用户名或密码错误，用户登录授权失败。'
+          }
         })
     }
   }

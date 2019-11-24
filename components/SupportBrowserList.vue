@@ -98,7 +98,7 @@ export default {
       const edge = {
         avatar: '/BrowserCompatibility/edge.jpg',
         title: 'Edge',
-        version: null,
+        version: this.config.Edge,
         download: null
       }
       const ie = {
