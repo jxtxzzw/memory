@@ -14,7 +14,7 @@
       <Row type="flex" justify="center" :gutter="itemSpan" style="margin-left: 0; margin-right: 0;">
         <!-- 除最后一行以外的 item 在 crowdList 中 -->
         <i-col v-for="(item, index) in crowdList" :key="index">
-          <Card :style="{margin: '32px 0', width: itemWidth + 'px', height: itemHeight + 'px'}">
+          <Card :style="{margin: itemMargin + 'px 0', width: itemWidth + 'px', height: itemHeight + 'px'}">
             <div style="text-align:center">
               <img src="https://file.iviewui.com/dist/2ecd3b0452aa197097d5131afacab7b8.png">
               <h3>这是第 {{ index + 1 }} 本书</h3>
@@ -28,7 +28,7 @@
         <!-- 最后一行左边留出与上面相等的留白，是一个 div 占位 -->
         <div :style="{width: itemSpanInLastLine + 'px'}"></div>
         <i-col v-for="(item, index) in lastLineList" :key="index">
-          <Card :style="{margin: '32px 0', width: itemWidth + 'px', height: itemHeight + 'px'}">
+          <Card :style="{margin: itemMargin + 'px 0', width: itemWidth + 'px', height: itemHeight + 'px'}">
             <div style="text-align:center">
               <img src="https://file.iviewui.com/dist/2ecd3b0452aa197097d5131afacab7b8.png">
               <h3>这是第 {{ index + itemIndexInLastLine + 1 }} 本书</h3>
@@ -43,11 +43,15 @@
 export default {
   data () {
     return {
-      itemSpan: 20, // item 之间的间距
+      // 自定义 item 样式
+      itemMargin: 32, // 每一层之间的间距，应用在 Card 组件的 margin
+      itemSpan: 20, // item 之间的间距，应用在 Row 组件的 gutter
       itemWidth: 220, // item 的宽度
       itemHeight: 420, // item 的高度
+      // 内容数组
       list1: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-      screenHeight: 1000,
+      // 动态获取内容展示的宽度和高度
+      screenHeight: 0,
       scrollContentWidth: 0 // 真正存放内容的滚动区域的宽度，动态获取
     }
   },
@@ -57,13 +61,13 @@ export default {
       // 浏览器窗口高度减去 2 个高度为 1 的 boarder 得到 layout
       // 再减去 64 的 layout header 和 69 的 layout footer 高度，得到 layout content 高度
       // 再减去高度 2 个高度为 1 的 bordered card，和 2 个高为 16 的 card body padding
-      // 总计 169
+      // 总计 169，魔术数
       const aroundArea = 169
       // 计算最大滚动区域大小，确保整个滚动区域在浏览器窗口高度内，即不会出现垂直滚动条
       const maxScrollHeight = this.screenHeight - aroundArea
       // item 个数除以每一行的 item 个数，向上取整，得到总行数
-      // 每一个 item 的实际高度，等于 itemHeight 加上上下 2 个 margin 的 32，相乘得到 item 占用高度
-      const itemHeight = Math.ceil(this.list1.length / this.itemNumberPerLine) * (this.itemHeight + 2 * 32)
+      // 每一个 item 的实际高度，等于 itemHeight 加上上下 2 个 margin 的 itemMargin，相乘得到 item 占用高度
+      const itemHeight = Math.ceil(this.list1.length / this.itemNumberPerLine) * (this.itemHeight + 2 * this.itemMargin)
       // 如果 item 所占高度不足以撑满整个滚动区域，则触发滚动高度应为 item 所占高度，否则，触发滚动的高度应为整个滚动区域的高度
       return itemHeight < maxScrollHeight ? itemHeight : maxScrollHeight
     },
