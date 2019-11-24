@@ -1,10 +1,12 @@
 <template>
   <div>
     <Scroll
+      ref="scroll"
       :on-reach-bottom="handleReachBottom"
       loading-text="加载中……"
       :height="scrollHeight"
     >
+      {{ scrollContentWidth }} <br>
       {{ itemNumberPerLine }} <br>
       {{ itemSpanInLastLine }}
       <Row type="flex" justify="center" :gutter="itemSpan">
@@ -35,12 +37,14 @@
 export default {
   data () {
     return {
-      itemSpan: 70,
-      itemWidth: 320,
+      itemSpan: 45,
+      itemWidth: 225,
       itemHeight: 320,
       list1: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
       screenHeight: 1000,
-      screenWidth: 1000
+      screenWidth: 1000,
+      inputStyWidth: 0,
+      scrollContentWidth: 0
     }
   },
   computed: {
@@ -49,11 +53,8 @@ export default {
       const itemHeight = this.list1.length / 4 * 300
       return itemHeight < layoutHeight ? itemHeight : layoutHeight
     },
-    layoutWidth () {
-      return this.screenWidth - 100 - 1.5
-    },
     itemNumberPerLine () {
-      return Math.floor(this.layoutWidth / (this.itemWidth + this.itemSpan))
+      return Math.floor((this.scrollContentWidth + this.itemSpan) / (this.itemWidth + this.itemSpan))
     },
     itemIndexInLastLine () {
       return this.list1.length - this.list1.length % this.itemNumberPerLine
@@ -65,7 +66,7 @@ export default {
       return this.list1.slice(this.itemIndexInLastLine)
     },
     itemSpanInLastLine () {
-      return (this.layoutWidth - this.itemNumberPerLine * this.itemWidth - (this.itemNumberPerLine - 1) * this.itemSpan) / 2 - this.itemSpan / 2
+      return (this.scrollContentWidth - this.itemNumberPerLine * this.itemWidth - (this.itemNumberPerLine - 1) * this.itemSpan) / 2
     }
   },
   watch: {
@@ -93,23 +94,28 @@ export default {
     }
   },
   mounted () {
+    this.getScrollContentWidth()
     this.screenHeight = document.body.clientHeight
     this.screenWidth = document.body.clientWidth
     const that = this
     window.onresize = () => {
       return (() => {
+        this.getScrollContentWidth()
+        window.screenWidth = document.body.clientWidth
+        that.screenWidth = window.screenWidth
         window.screenHeight = document.body.clientHeight
         that.screenHeight = window.screenHeight
       })()
     }
-    window.onresize = () => {
-      return (() => {
-        window.screenWidth = document.body.clientWidth
-        that.screenWidth = window.screenWidth
-      })()
-    }
   },
   methods: {
+    getScrollContentWidth () {
+      const me = this
+      this.$nextTick(function () {
+        this.scrollContentWidth = me.$refs.scroll.$el.getElementsByClassName('ivu-scroll-content')[0].clientWidth
+      })
+      console.log('in method: ' + this.scrollContentWidth)
+    },
     handleReachBottom () {
       return new Promise((resolve) => {
         setTimeout(() => {
