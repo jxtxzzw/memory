@@ -6,12 +6,9 @@
       loading-text="加载中……"
       :height="scrollHeight"
     >
-      {{ scrollContentWidth }} <br>
-      {{ itemNumberPerLine }} <br>
-      {{ itemSpanInLastLine }}
       <Row type="flex" justify="center" :gutter="itemSpan">
         <i-col v-for="(item, index) in crowdList" :key="index">
-          <Card style="margin: 32px 0; width: 320px">
+          <Card :style="{margin: '32px 0', width: itemWidth + 'px', height: itemHeight + 'px'}">
             <div style="text-align:center">
               <img src="https://file.iviewui.com/dist/2ecd3b0452aa197097d5131afacab7b8.png">
               <h3>这是第 {{ index + 1 }} 本书</h3>
@@ -22,7 +19,7 @@
       <Row type="flex" justify="start" :gutter="itemSpan">
         <div :style="{width: itemSpanInLastLine + 'px'}"></div>
         <i-col v-for="(item, index) in lastLineList" :key="index">
-          <Card style="margin: 32px 0; width: 320px">
+          <Card :style="{margin: '32px 0', width: itemWidth + 'px', height: itemHeight + 'px'}">
             <div style="text-align:center">
               <img src="https://file.iviewui.com/dist/2ecd3b0452aa197097d5131afacab7b8.png">
               <h3>这是第 {{ index + itemIndexInLastLine + 1 }} 本书</h3>
@@ -37,10 +34,10 @@
 export default {
   data () {
     return {
-      itemSpan: 45,
-      itemWidth: 225,
-      itemHeight: 320,
-      list1: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
+      itemSpan: 80,
+      itemWidth: 220,
+      itemHeight: 420,
+      list1: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
       screenHeight: 1000,
       screenWidth: 1000,
       inputStyWidth: 0,
