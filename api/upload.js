@@ -35,7 +35,6 @@ async function CreateItem (data) {
       ItemTag.create({ item: item.id, tag: tagInstance.id })
     }
   } catch (e) {
-    console.log(e.message)
     throw new Error('创建失败')
   }
 }
@@ -43,7 +42,6 @@ async function CreateItem (data) {
 router.post('/upload', async (req, res, next) => {
   try {
     await CreateItem(req.body)
-    console.log('++++++++++++++++++++++++++++++++++++++++++++++')
     res.status(200).json('创建成功')
   } catch (e) {
     res.status(400).json(e.message)
