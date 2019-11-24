@@ -1,6 +1,7 @@
 <template>
   <div>
     <!-- 无限滚动，ref 是为了下面获取 Content 宽度 -->
+    <!-- 使用计算属性计算出触发滚动处理的高度 -->
     <Scroll
       ref="scroll"
       :on-reach-bottom="handleReachBottom"
@@ -51,10 +52,20 @@ export default {
     }
   },
   computed: {
+    // 计算触发滚动的高度
     scrollHeight () {
-      const layoutHeight = this.screenHeight > 170 ? this.screenHeight - 170 : this.screenHeight
-      const itemHeight = this.list1.length / 4 * 300
-      return itemHeight < layoutHeight ? itemHeight : layoutHeight
+      // 浏览器窗口高度减去 2 个高度为 1 的 boarder 得到 layout
+      // 再减去 64 的 layout header 和 69 的 layout footer 高度，得到 layout content 高度
+      // 再减去高度 2 个高度为 1 的 bordered card，和 2 个高为 16 的 card body padding
+      // 总计 169
+      const aroundArea = 169
+      // 计算最大滚动区域大小，确保整个滚动区域在浏览器窗口高度内，即不会出现垂直滚动条
+      const maxScrollHeight = this.screenHeight - aroundArea
+      // item 个数除以每一行的 item 个数，向上取整，得到总行数
+      // 每一个 item 的实际高度，等于 itemHeight 加上上下 2 个 margin 的 32，相乘得到 item 占用高度
+      const itemHeight = Math.ceil(this.list1.length / this.itemNumberPerLine) * (this.itemHeight + 2 * 32)
+      // 如果 item 所占高度不足以撑满整个滚动区域，则触发滚动高度应为 item 所占高度，否则，触发滚动的高度应为整个滚动区域的高度
+      return itemHeight < maxScrollHeight ? itemHeight : maxScrollHeight
     },
     // 计算每一行能够放多少个 item，由于 item 宽度和间距固定，可使用下面公式，向下取整
     itemNumberPerLine () {
@@ -115,6 +126,7 @@ export default {
     getScrollContentWidth () {
       const me = this
       // 依然要借助 $nextTick 来做，自定义一个函数
+      // 使用 nextTick 为了保证 DOM 元素都已经渲染完毕
       this.$nextTick(function () {
         // me 是 this，通过上面定义的 Scroll 的 ref 来取出这个组件
         // $el 获取这个组件，通过 div class 的名字 ivu-scroll-content 来获取它内部的一个 div 的元素
