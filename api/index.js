@@ -4,7 +4,7 @@ require('./User')
 require('./Comment')
 require('./auth')
 require('./Type')
-require('./Tag')
+require('./Category')
 require('./upload')
 
 // Export the server middleware
