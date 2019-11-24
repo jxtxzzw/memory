@@ -6,17 +6,17 @@
       loading-text="加载中……"
       :height="scrollHeight"
     >
-      <Row type="flex" justify="center" :gutter="itemSpan">
-        <i-col v-for="(item, index) in crowdList" :key="index">
-          <Card :style="{margin: '32px 0', width: itemWidth + 'px', height: itemHeight + 'px'}">
-            <div style="text-align:center">
-              <img src="https://file.iviewui.com/dist/2ecd3b0452aa197097d5131afacab7b8.png">
-              <h3>这是第 {{ index + 1 }} 本书</h3>
-            </div>
-          </Card>
-        </i-col>
-      </Row>
-      <Row type="flex" justify="start" :gutter="itemSpan">
+      <Row type="flex" justify="center" :gutter="itemSpan" style="margin-left: 0; margin-right: 0;">
+      <i-col v-for="(item, index) in crowdList" :key="index">
+        <Card :style="{margin: '32px 0', width: itemWidth + 'px', height: itemHeight + 'px'}">
+          <div style="text-align:center">
+            <img src="https://file.iviewui.com/dist/2ecd3b0452aa197097d5131afacab7b8.png">
+            <h3>这是第 {{ index + 1 }} 本书</h3>
+          </div>
+        </Card>
+      </i-col>
+    </Row>
+      <Row type="flex" justify="start" :gutter="itemSpan" style="margin-left: 0; margin-right: 0;">
         <div :style="{width: itemSpanInLastLine + 'px'}"></div>
         <i-col v-for="(item, index) in lastLineList" :key="index">
           <Card :style="{margin: '32px 0', width: itemWidth + 'px', height: itemHeight + 'px'}">
@@ -34,7 +34,7 @@
 export default {
   data () {
     return {
-      itemSpan: 80,
+      itemSpan: 20,
       itemWidth: 220,
       itemHeight: 420,
       list1: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
@@ -111,7 +111,6 @@ export default {
       this.$nextTick(function () {
         this.scrollContentWidth = me.$refs.scroll.$el.getElementsByClassName('ivu-scroll-content')[0].clientWidth
       })
-      console.log('in method: ' + this.scrollContentWidth)
     },
     handleReachBottom () {
       return new Promise((resolve) => {
