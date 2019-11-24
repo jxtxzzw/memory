@@ -2,7 +2,7 @@ const Sequelize = require('sequelize')
 
 let sequelize
 
-if (process.env.MEMORY_PROD) {
+if (process.env.MEMORY_PROD === 'true') {
   sequelize = new Sequelize(
     process.env.MEMORY_DB,
     process.env.MEMORY_USERNAME,

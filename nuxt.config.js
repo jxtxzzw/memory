@@ -62,7 +62,7 @@ module.exports = {
   axios: {
     host: process.env.MEMORY_AXIOS_HOST || 'localhost',
     port: process.env.MEMORY_AXIOS_PORT || 3000,
-    https: process.env.MEMORY_AXIOS_HTTPS || false
+    https: process.env.MEMORY_AXIOS_PORT === '443'
   },
   /*
   ** Auth module configuration

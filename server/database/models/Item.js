@@ -5,6 +5,7 @@ const sequelize = require('../index')
 
 const Type = require('./Type')
 const User = require('./User')
+
 class Item extends Model {}
 Item.init({
   id: {
@@ -24,7 +25,7 @@ Item.init({
       key: 'id'
     }
   },
-  attribute: {
+  note: {
     type: Sequelize.STRING,
     allowNull: true
   },
