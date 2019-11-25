@@ -20,12 +20,14 @@
       <Row type="flex" justify="center" :gutter="itemSpan" style="margin-left: 0; margin-right: 0;">
         <!-- 除最后一行以外的 item 在 crowdList 中 -->
         <i-col v-for="(item, index) in crowdList" :key="index">
-          <Card :style="{margin: itemMargin + 'px 0', width: itemWidth + 'px', height: itemHeight + 'px'}">
-            <div style="text-align:center">
-              <img src="https://file.iviewui.com/dist/2ecd3b0452aa197097d5131afacab7b8.png">
-              <h3>这是第 {{ index + 1 }} 本书</h3>
-            </div>
-          </Card>
+          <nuxt-link :to="{name:'item-id', params: {id:index}}">
+            <Card :style="{margin: itemMargin + 'px 0', width: itemWidth + 'px', height: itemHeight + 'px'}">
+              <div style="text-align:center">
+                <img src="https://file.iviewui.com/dist/2ecd3b0452aa197097d5131afacab7b8.png">
+                <h3>这是第 {{ index + 1 }} 本书</h3>
+              </div>
+            </Card>
+          </nuxt-link>
         </i-col>
       </Row>
       <!-- 处理最后一行 item，使用样式 flex start，从左往右排布 -->
