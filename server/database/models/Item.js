@@ -45,6 +45,10 @@ Item.init({
       model: User,
       key: 'id'
     }
+  },
+  rating: {
+    type: Sequelize.INTEGER,
+    defaultValue: 0
   }
 }, {
   sequelize
