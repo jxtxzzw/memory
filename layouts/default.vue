@@ -85,24 +85,6 @@
         2019/MM/DD - {{ moment().format('YYYY/MM/DD') }} &copy; jxtxzzw
       </Footer>
     </Layout>
-    <Modal
-      v-model="showBrowserWarning"
-      width="800"
-      title="该浏览器的兼容性未经过测试"
-    >
-      <Alert type="warning" show-icon>
-        您可以继续访问
-        <template slot="desc">
-          但我们仍然强烈建议您使用以下浏览器以获得最佳浏览体验
-        </template>
-      </Alert>
-      <SupportBrowserList :name="sBrowser" :version="sBrowserVersion" />
-      <div slot="footer">
-        <Button type="success" size="large" long @click="showBrowserWarning = false">
-          继续访问
-        </Button>
-      </div>
-    </Modal>
   </div>
 </template>
 <script>
@@ -117,7 +99,6 @@ export default {
     return {
       moment,
       compatible: true,
-      showBrowserWarning: false,
       sBrowser: '',
       sBrowserVersion: '',
       screenHeight: 0
@@ -158,6 +139,49 @@ export default {
         this.$auth.logout()
       }
     },
+    showBrowserWarning () {
+      this.$Modal.warning({
+        width: 800,
+        title: '该浏览器的兼容性未经过测试',
+        okText: '继续访问',
+        render: (h) => {
+          return h('div', [
+            h('Alert', {
+              props: {
+                type: 'warning',
+                showIcon: true
+              }
+            }, [
+              '您可以继续访问',
+              h('span', {
+                slot: 'desc' // 作用域 slot 是单独的一个选项，不属于 props
+              }, '但我们仍然强烈建议您使用以下浏览器以获得最佳浏览体验')
+            ]),
+            // 自定义组件的 render 不需要加引号
+            h(SupportBrowserList, {
+              props: {
+                name: this.sBrowser,
+                version: this.sBrowserVersion
+              }
+            }),
+            h('div', {
+              slot: 'footer'
+            }, [
+              h('Button', {
+                props: {
+                  type: 'success',
+                  size: 'large',
+                  long: true
+                },
+                on: {
+                  click: () => { this.$Modal.remove() }
+                }
+              }, '继续访问')
+            ])
+          ])
+        }
+      })
+    },
     checkBrowser () {
       const compatibility = BrowserCompatibility.checkCompatibility()
       const judgement = compatibility[0]
@@ -165,10 +189,9 @@ export default {
       this.sBrowserVersion = compatibility[2]
       if (judgement === config.Accepted) {
         this.compatible = true
-        this.showBrowserWarning = false
       } else if (judgement === config.NotTested) {
         this.compatible = true
-        this.showBrowserWarning = true
+        this.showBrowserWarning()
       } else {
         this.compatible = false
       }
@@ -176,3 +199,11 @@ export default {
   }
 }
 </script>
+
+<style>
+  /* 全局不显示 Modal Instance 的 footer，该样式不会影响 Modal 的 footer */
+  /* Modal: ivu-modal-footer, $Modal: ivu-modal-confirm-footer */
+ .ivu-modal-confirm-footer {
+   display: none;
+ }
+</style>
