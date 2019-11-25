@@ -3,27 +3,31 @@ const router = require('./router')
 
 async function getItemList (type) {
   const itemList = []
-  if (type === 'all') {
-    const result = await Item.findAll({
-      attributes: ['title', 'cover']
-    })
-    for (const item of result) {
-      itemList.push({
-        title: item.title,
-        cover: item.cover
-      })
-    }
-  } else {
+  if (type) {
     const result = await Item.findAll({
       where: {
         type
       },
-      attributes: ['title', 'cover']
+      attributes: ['id', 'title', 'cover', 'rating']
     })
     for (const item of result) {
       itemList.push({
+        id: item.id,
         title: item.title,
-        cover: item.cover
+        cover: item.cover,
+        rating: item.rating
+      })
+    }
+  } else {
+    const result = await Item.findAll({
+      attributes: ['id', 'title', 'cover', 'rating']
+    })
+    for (const item of result) {
+      itemList.push({
+        id: item.id,
+        title: item.title,
+        cover: item.cover,
+        rating: item.rating
       })
     }
   }
