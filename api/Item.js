@@ -53,6 +53,7 @@ async function itemIsExist (id) {
 }
 
 router.post('/Item/itemList', async (req, res, next) => {
+  console.log('1111111111111111')
   const itemList = await getItemList(req.body.type)
   res.json(itemList)
 })
