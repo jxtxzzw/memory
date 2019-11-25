@@ -28,7 +28,7 @@
 </style>
 <template>
   <div class="layout">
-    <Layout :style="{height: '-webkit-fill-available'}">
+    <Layout :style="{minHeight: '-webkit-fill-available'}">
       <Header>
         <Menu mode="horizontal" theme="dark" active-name="home">
           <div align="right">
@@ -62,7 +62,7 @@
         </Menu>
       </Header>
       <Content :style="{padding: '0 50px'}">
-        <Card dis-hover>
+        <Card dis-hover :style="{height: cardHeight + 'px'}">
           <div style="min-height: 400px;">
             <nuxt v-if="compatible" />
             <div v-else>
@@ -85,24 +85,6 @@
         2019/MM/DD - {{ moment().format('YYYY/MM/DD') }} &copy; jxtxzzw
       </Footer>
     </Layout>
-    <Modal
-      v-model="showBrowserWarning"
-      width="800"
-      title="该浏览器的兼容性未经过测试"
-    >
-      <Alert type="warning" show-icon>
-        您可以继续访问
-        <template slot="desc">
-          但我们仍然强烈建议您使用以下浏览器以获得最佳浏览体验
-        </template>
-      </Alert>
-      <SupportBrowserList :name="sBrowser" :version="sBrowserVersion" />
-      <div slot="footer">
-        <Button type="success" size="large" long @click="showBrowserWarning = false">
-          继续访问
-        </Button>
-      </div>
-    </Modal>
   </div>
 </template>
 <script>
@@ -117,19 +99,88 @@ export default {
     return {
       moment,
       compatible: true,
-      showBrowserWarning: false,
       sBrowser: '',
-      sBrowserVersion: ''
+      sBrowserVersion: '',
+      screenHeight: 0
+    }
+  },
+  computed: {
+    cardHeight () {
+      // 137 = 64 header + 69 footer + 2 boarder + 2 boarder，见 Scroll
+      return this.screenHeight - 137
+    }
+  },
+  watch: {
+    screenHeight (val) {
+      if (!this.timer) {
+        this.screenHeight = val
+        this.timer = true
+        const that = this
+        setTimeout(function () {
+          that.timer = false
+        }, 400)
+      }
     }
   },
   mounted () {
     this.checkBrowser()
+    this.screenHeight = document.body.clientHeight
+    const that = this
+    window.onresize = () => {
+      return (() => {
+        window.screenHeight = document.body.clientHeight
+        that.screenHeight = window.screenHeight
+      })()
+    }
   },
   methods: {
     handleDropdownClick (name) {
       if (name === 'logout') {
         this.$auth.logout()
       }
+    },
+    showBrowserWarning () {
+      this.$Modal.warning({
+        width: 800,
+        title: '该浏览器的兼容性未经过测试',
+        okText: '继续访问',
+        render: (h) => {
+          return h('div', [
+            h('Alert', {
+              props: {
+                type: 'warning',
+                showIcon: true
+              }
+            }, [
+              '您可以继续访问',
+              h('span', {
+                slot: 'desc' // 作用域 slot 是单独的一个选项，不属于 props
+              }, '但我们仍然强烈建议您使用以下浏览器以获得最佳浏览体验')
+            ]),
+            // 自定义组件的 render 不需要加引号
+            h(SupportBrowserList, {
+              props: {
+                name: this.sBrowser,
+                version: this.sBrowserVersion
+              }
+            }),
+            h('div', {
+              slot: 'footer'
+            }, [
+              h('Button', {
+                props: {
+                  type: 'success',
+                  size: 'large',
+                  long: true
+                },
+                on: {
+                  click: () => { this.$Modal.remove() }
+                }
+              }, '继续访问')
+            ])
+          ])
+        }
+      })
     },
     checkBrowser () {
       const compatibility = BrowserCompatibility.checkCompatibility()
@@ -138,10 +189,9 @@ export default {
       this.sBrowserVersion = compatibility[2]
       if (judgement === config.Accepted) {
         this.compatible = true
-        this.showBrowserWarning = false
       } else if (judgement === config.NotTested) {
         this.compatible = true
-        this.showBrowserWarning = true
+        this.showBrowserWarning()
       } else {
         this.compatible = false
       }
@@ -149,3 +199,11 @@ export default {
   }
 }
 </script>
+
+<style>
+  /* 全局不显示 Modal Instance 的 footer，该样式不会影响 Modal 的 footer */
+  /* Modal: ivu-modal-footer, $Modal: ivu-modal-confirm-footer */
+ .ivu-modal-confirm-footer {
+   display: none;
+ }
+</style>

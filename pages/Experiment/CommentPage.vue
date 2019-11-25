@@ -1,4 +1,5 @@
 <template>
+  <!-- 引用该组件的父组件，需要指定 height 或通过动态计算得到 height 并指定 overflow-y 为 auto，以避免评论内容超出组件 -->
   <div>
     <div v-if="loading">
       <a-skeleton :active="true" :avatar="true" :paragraph="{rows: 4}" />
