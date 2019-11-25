@@ -57,8 +57,8 @@ Rating.init({
       console.log(projects)
     })
   }
-} }, {
-  sequelize
+},
+sequelize
 })
 
 // TODO 未完成的 hooks，需要先写完其他接口进行测试
