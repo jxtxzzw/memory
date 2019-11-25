@@ -36,12 +36,14 @@
         <!-- 最后一行左边留出与上面相等的留白，是一个 div 占位 -->
         <div :style="{width: itemSpanInLastLine + 'px'}"></div>
         <i-col v-for="(item, index) in lastLineList" :key="index">
-          <Card :style="{margin: itemMargin + 'px 0', width: itemWidth + 'px', height: itemHeight + 'px'}">
-            <div style="text-align:center">
-              <img src="https://file.iviewui.com/dist/2ecd3b0452aa197097d5131afacab7b8.png">
-              <h3>这是第 {{ index + itemIndexInLastLine + 1 }} 本书</h3>
-            </div>
-          </Card>
+          <nuxt-link :to="{name:'item-id', params: {id:index}}">
+            <Card :style="{margin: itemMargin + 'px 0', width: itemWidth + 'px', height: itemHeight + 'px'}">
+              <div style="text-align:center">
+                <img src="https://file.iviewui.com/dist/2ecd3b0452aa197097d5131afacab7b8.png">
+                <h3>这是第 {{ index + itemIndexInLastLine + 1 }} 本书</h3>
+              </div>
+            </Card>
+          </nuxt-link>
         </i-col>
       </Row>
     </Scroll>
