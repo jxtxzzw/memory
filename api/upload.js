@@ -19,7 +19,7 @@ async function CreateItem (data) {
     const dataBuffer = Buffer.from(base64Data, 'base64')
     item.cover = item.id + '.' + typeList[data.fileList[0].type]
     await item.save()
-    fs.writeFile('./static/upload/' + item.cover, dataBuffer)
+    fs.writeFile('./static/upload/' + item.cover, dataBuffer, () => {})
     for (const category of data.checkedCategory) {
       await ItemCategory.create({ item: item.id, category: category.id })
     }
@@ -35,7 +35,7 @@ async function CreateItem (data) {
       ItemTag.create({ item: item.id, tag: tagInstance.id })
     }
   } catch (e) {
-    throw new Error('创建失败')
+    throw new Error('创建失败:' + e)
   }
 }
 
