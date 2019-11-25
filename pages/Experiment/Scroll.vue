@@ -1,5 +1,11 @@
 <template>
   <div>
+    <Alert show-icon>
+      无限滚动
+      <span slot="desc">
+        滚动到展示区域最下面，会触发异步加载，加载后面 10 个 Item
+      </span>
+    </Alert>
     <!-- 无限滚动，ref 是为了下面获取 Content 宽度 -->
     <!-- 使用计算属性计算出触发滚动处理的高度 -->
     <Scroll
@@ -49,7 +55,7 @@ export default {
       itemWidth: 220, // item 的宽度
       itemHeight: 420, // item 的高度
       // 内容数组
-      list1: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+      list1: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
       // 动态获取内容展示的宽度和高度
       screenHeight: 0,
       scrollContentWidth: 0 // 真正存放内容的滚动区域的宽度，动态获取

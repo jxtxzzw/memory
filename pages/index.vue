@@ -8,6 +8,9 @@
       <h2 class="subtitle">
         Welcome to the View UI + Nuxt.js template
       </h2>
+      <h2 class="subtitle">
+        我们可以共享所有记忆的最佳存储空间
+      </h2>
       <div>
         <Progress :percent="100" :stroke-color="['#108ee9', '#87d068']" :stroke-width="20" text-inside status="active" />
       </div>

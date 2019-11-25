@@ -28,17 +28,17 @@
 </style>
 <template>
   <div class="layout">
-    <Layout :style="{minHeight: '-webkit-fill-available'}">
+    <Layout :style="{height: '-webkit-fill-available'}">
       <Header>
         <Menu mode="horizontal" theme="dark" active-name="home">
           <div align="right">
             <div>
-              <MenuItem name="home">
+              <MenuItem name="home" to="/">
                 <Icon type="ios-home"></Icon>
                 主页
               </MenuItem>
             </div>
-            <MenuItem name="test" to="/Experiment/CommentPage">
+            <MenuItem name="test" to="/Experiment/Test">
               <Icon type="ios-home"></Icon>
               测试页面
             </MenuItem>
