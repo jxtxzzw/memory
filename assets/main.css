@@ -1,0 +1,8 @@
+/* 全局过渡动效设置，让每一个页面的切换都有淡出 (fade) 效果 */
+
+.page-enter-active, .page-leave-active {
+  transition: opacity .75s;
+}
+.page-enter, .page-leave-active {
+  opacity: 0;
+}

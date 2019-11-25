@@ -30,7 +30,8 @@ module.exports = {
   */
   css: [
     'view-design/dist/styles/iview.css',
-    'ant-design-vue/dist/antd.css'
+    'ant-design-vue/dist/antd.css',
+    'assets/main.css'
   ],
   /*
   ** Plugins to load before mounting the App
