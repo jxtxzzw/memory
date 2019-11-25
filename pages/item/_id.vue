@@ -7,7 +7,7 @@
 <script>
 export default {
   validate ({ params }) {
-    // TODO 完成校验
+    return /^\d+$/.test(params.id)
   }
 }
 </script>
