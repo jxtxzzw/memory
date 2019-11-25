@@ -96,6 +96,7 @@ export default {
   watch: {
     // 更新窗口高度，以处理 Scroll 组件中加载区域的的高度
     // 不需要观察浏览器宽度，因为宽度直接通过 Scroll 的成员获得
+    // 无法通过 $ref $el 获取高度，因为 layout content 在父组件中，需要从 default layout 一层层传下来
     screenHeight (val) {
       if (!this.timer) {
         this.screenHeight = val
