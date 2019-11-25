@@ -88,3 +88,6 @@ sw.*
 
 # Vim swap files
 *.swp
+
+# memory 项目图片上传位置
+static/upload
