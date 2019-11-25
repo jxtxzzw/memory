@@ -28,7 +28,7 @@
 </style>
 <template>
   <div class="layout">
-    <Layout :style="{height: '-webkit-fill-available'}">
+    <Layout :style="{minHeight: '-webkit-fill-available'}">
       <Header>
         <Menu mode="horizontal" theme="dark" active-name="home">
           <div align="right">
@@ -62,7 +62,7 @@
         </Menu>
       </Header>
       <Content :style="{padding: '0 50px'}">
-        <Card dis-hover>
+        <Card dis-hover :style="{height: cardHeight + 'px'}">
           <div style="min-height: 400px;">
             <nuxt v-if="compatible" />
             <div v-else>
@@ -119,11 +119,38 @@ export default {
       compatible: true,
       showBrowserWarning: false,
       sBrowser: '',
-      sBrowserVersion: ''
+      sBrowserVersion: '',
+      screenHeight: 0
+    }
+  },
+  computed: {
+    cardHeight () {
+      // 137 = 64 header + 69 footer + 2 boarder + 2 boarder，见 Scroll
+      return this.screenHeight - 137
+    }
+  },
+  watch: {
+    screenHeight (val) {
+      if (!this.timer) {
+        this.screenHeight = val
+        this.timer = true
+        const that = this
+        setTimeout(function () {
+          that.timer = false
+        }, 400)
+      }
     }
   },
   mounted () {
     this.checkBrowser()
+    this.screenHeight = document.body.clientHeight
+    const that = this
+    window.onresize = () => {
+      return (() => {
+        window.screenHeight = document.body.clientHeight
+        that.screenHeight = window.screenHeight
+      })()
+    }
   },
   methods: {
     handleDropdownClick (name) {
