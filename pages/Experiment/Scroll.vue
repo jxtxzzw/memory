@@ -1,11 +1,5 @@
 <template>
   <div>
-    <Alert show-icon>
-      无限滚动
-      <span slot="desc">
-        滚动到展示区域最下面，会触发异步加载，加载后面 10 个 Item
-      </span>
-    </Alert>
     <!-- 无限滚动，ref 是为了下面获取 Content 宽度 -->
     <!-- 使用计算属性计算出触发滚动处理的高度 -->
     <Scroll
@@ -14,6 +8,12 @@
       loading-text="加载中……"
       :height="scrollHeight"
     >
+      <Alert show-icon>
+        无限滚动
+        <span slot="desc">
+          滚动到展示区域最下面，会触发异步加载，加载后面 10 个 Item
+        </span>
+      </Alert>
       <!-- 对 Row 使用 flex 布局，固定每个 item 的宽度和 item 之间的间距，使用 center 对齐，左右两边留白可变化 -->
       <!-- 增加 margin 为 0 的样式，避免因为 gutter 导致 flex 宽度大于 Content 宽度而出现水平滚动条 -->
       <!-- 另可选样式为使用 flex space-between 样式，为左右留白固定，item 宽度固定，item 间距动态变化 -->
@@ -109,7 +109,6 @@ export default {
         this.timer = true
         const that = this
         setTimeout(function () {
-          that.init()
           that.timer = false
         }, 400)
       }
@@ -118,7 +117,7 @@ export default {
   mounted () {
     // mounted 的时候更新内容区域初始宽度
     this.getScrollContentWidth()
-    // 记录浏览器窗口初始宽度
+    // 记录浏览器窗口初始高度
     this.screenHeight = document.body.clientHeight
     // 注册 on resize
     const that = this
