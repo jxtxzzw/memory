@@ -6,6 +6,7 @@ require('./auth')
 require('./Type')
 require('./Category')
 require('./upload')
+require('./Item')
 
 // Export the server middleware
 export default {

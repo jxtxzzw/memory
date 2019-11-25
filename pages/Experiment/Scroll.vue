@@ -19,13 +19,15 @@
       <!-- 另可选样式为使用 flex space-between 样式，为左右留白固定，item 宽度固定，item 间距动态变化 -->
       <Row type="flex" justify="center" :gutter="itemSpan" style="margin-left: 0; margin-right: 0;">
         <!-- 除最后一行以外的 item 在 crowdList 中 -->
-        <i-col v-for="(item, index) in crowdList" :key="index">
-          <Card :style="{margin: itemMargin + 'px 0', width: itemWidth + 'px', height: itemHeight + 'px'}">
-            <div style="text-align:center">
-              <img src="https://file.iviewui.com/dist/2ecd3b0452aa197097d5131afacab7b8.png">
-              <h3>这是第 {{ index + 1 }} 本书</h3>
-            </div>
-          </Card>
+        <i-col v-for="item in crowdList" :key="item.id">
+          <nuxt-link :to="{name:'item-id', params: {id:item.id}}">
+            <Card :style="{margin: itemMargin + 'px 0', width: itemWidth + 'px', height: itemHeight + 'px'}">
+              <div style="text-align:center">
+                <img :src="'/upload/' + item.cover"/>
+                <h3>{{ item.title }}</h3>
+              </div>
+            </Card>
+          </nuxt-link>
         </i-col>
       </Row>
       <!-- 处理最后一行 item，使用样式 flex start，从左往右排布 -->
@@ -33,13 +35,15 @@
       <Row type="flex" justify="start" :gutter="itemSpan" style="margin-left: 0; margin-right: 0;">
         <!-- 最后一行左边留出与上面相等的留白，是一个 div 占位 -->
         <div :style="{width: itemSpanInLastLine + 'px'}"></div>
-        <i-col v-for="(item, index) in lastLineList" :key="index">
-          <Card :style="{margin: itemMargin + 'px 0', width: itemWidth + 'px', height: itemHeight + 'px'}">
-            <div style="text-align:center">
-              <img src="https://file.iviewui.com/dist/2ecd3b0452aa197097d5131afacab7b8.png">
-              <h3>这是第 {{ index + itemIndexInLastLine + 1 }} 本书</h3>
-            </div>
-          </Card>
+        <i-col v-for="item in lastLineList" :key="item.id">
+          <nuxt-link :to="{name:'item-id', params: {id:item.id}}">
+            <Card :style="{margin: itemMargin + 'px 0', width: itemWidth + 'px', height: itemHeight + 'px'}">
+              <div style="text-align:center">
+                <img :src="'/upload/' + item.cover"/>
+                <h3>{{ item.title }}</h3>
+              </div>
+            </Card>
+          </nuxt-link>
         </i-col>
       </Row>
     </Scroll>
@@ -55,7 +59,7 @@ export default {
       itemWidth: 220, // item 的宽度
       itemHeight: 420, // item 的高度
       // 内容数组
-      list1: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+      list1: [],
       // 动态获取内容展示的宽度和高度
       screenHeight: 0,
       scrollContentWidth: 0 // 真正存放内容的滚动区域的宽度，动态获取
@@ -115,6 +119,7 @@ export default {
     }
   },
   mounted () {
+    this.loadData()
     // mounted 的时候更新内容区域初始宽度
     this.getScrollContentWidth()
     // 记录浏览器窗口初始高度
@@ -146,6 +151,9 @@ export default {
     },
     // 处理无限滚动区域到达底部的动作
     // TODO 未完成：应当时一个异步请求，从后端获取数据
+    async loadData (type) {
+      this.list1 = await this.$axios.$post('/api/Item/itemList', { type })
+    },
     handleReachBottom () {
       return new Promise((resolve) => {
         setTimeout(() => {
