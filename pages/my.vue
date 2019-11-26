@@ -2,7 +2,8 @@
   <div>
     <ProfileCard :ghost="false" />
     <ChangePassword />
-    <Search @search="handleSearch"/>
+    <Search @search="handleSearch" />
+    <AdvancedSearch />
   </div>
 </template>
 
@@ -10,9 +11,10 @@
 import ProfileCard from '../components/ProfileCard'
 import Search from '../components/Search'
 import ChangePassword from '../components/ChangePassword'
+import AdvancedSearch from '../components/AdvancedSearch'
 export default {
   name: 'My',
-  components: { ChangePassword, ProfileCard, Search },
+  components: { AdvancedSearch, ChangePassword, ProfileCard, Search },
   methods: {
     handleSearch (searchInput, searchType) {
       const data = {
