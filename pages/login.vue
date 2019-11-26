@@ -53,8 +53,8 @@
 </style>
 
 <script>
+import md5 from 'js-md5'
 import busyOverlay from '~/components/busy-overlay'
-
 export default {
   middleware: ['auth'],
   components: { busyOverlay },
@@ -83,7 +83,7 @@ export default {
         .loginWith('local', {
           data: {
             username: this.username,
-            password: this.password
+            password: md5(this.password)
           }
         })
         .catch((e) => {

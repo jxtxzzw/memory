@@ -38,7 +38,7 @@ router.post('/auth/login', async (req, res, next) => {
     {
       id: result.id,
       username,
-      picture: result.avatar
+      avatar: result.avatar
     },
     'dummy'
   )
