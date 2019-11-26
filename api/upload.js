@@ -17,7 +17,7 @@ async function CreateItem (data) {
     const imgData = data.fileList[0].thumbUrl
     const base64Data = imgData.replace(/(.*)?;base64,/, '')
     const dataBuffer = Buffer.from(base64Data, 'base64')
-    item.cover = item.id + '.' + typeList[data.fileList[0].type]
+    item.cover = new Date().getTime() + '.' + typeList[data.fileList[0].type]
     await item.save()
     fs.writeFile('./static/upload/' + item.cover, dataBuffer, () => {})
     for (const category of data.checkedCategory) {
