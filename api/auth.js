@@ -38,7 +38,7 @@ router.post('/auth/login', async (req, res, next) => {
     {
       id: result.id,
       username,
-      avatar: result.avatar
+      avatar: result.avatar // TODO: avartar: '/upload/' + result.avartar
     },
     process.env.MEMORY_JWT_SECERT || 'dummy'
   )
