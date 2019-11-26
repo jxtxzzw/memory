@@ -6,9 +6,9 @@
     </div>
     <div v-else>
       <div v-if="replyTarget===0">
-        <ReplyEditor :src="testAvatarSrc" :alt="testAvatarName" :target="replyTarget" />
+        <ReplyEditor :target="replyTarget" :item="item" />
       </div>
-      <Comment v-for="item in replies" :key="item.id" :reply="item" :target="replyTarget" @handleReplyTargetChange="handleReplyTargetChange" />
+      <Comment v-for="reply in replies" :key="reply.id" :reply="reply" :target="replyTarget" :item="item" @handleReplyTargetChange="handleReplyTargetChange" />
       <!-- emit 的 v-on 不需要带括号，参数会依次自动填入 method 的 params -->
     </div>
   </div>
@@ -25,6 +25,12 @@ export default {
     Comment,
     ReplyEditor
   },
+  props: {
+    item: {
+      type: Number,
+      default: 0
+    }
+  },
   data () {
     return {
       moment,
@@ -32,9 +38,7 @@ export default {
       comments: [],
       value: '',
       replyTarget: 0,
-      replies: [],
-      testAvatarSrc: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
-      testAvatarName: 'Han Solo'
+      replies: []
     }
   },
   async mounted () {
@@ -50,7 +54,7 @@ export default {
     async loadData () {
       this.loading = true
       const data = {
-        itemId: 1
+        itemId: this.item
       }
       this.replies = await this.$axios.$post('/api/Comment/Query', data)
       setTimeout(() => {

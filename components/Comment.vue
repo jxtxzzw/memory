@@ -15,9 +15,9 @@
         <span>{{ moment(reply.date).fromNow() }}</span>
       </a-tooltip>
       <div v-if="target === reply.id">
-        <ReplyEditor :src="testAvatarSrc" :alt="testAvatarName" :target="target" @cancelReply="cancelReply" />
+        <ReplyEditor :target="target" :item="item" @cancelReply="cancelReply" />
       </div>
-      <Comment v-for="child in reply.children" :key="child.id" :reply="child" :target="target" @handleReplyTargetChange="handleReplyTargetChange" />
+      <Comment v-for="child in reply.children" :key="child.id" :reply="child" :target="target" :item="item" @handleReplyTargetChange="handleReplyTargetChange" />
       <!-- 这一层的 Comment 子组件也要传递 emit，否则嵌套的评论将无法显示 Editor -->
     </a-comment>
   </div>
@@ -41,6 +41,10 @@ export default {
       default () {
         return 0
       }
+    },
+    item: {
+      type: Number,
+      default: 0
     }
   },
   data () {

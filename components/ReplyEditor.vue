@@ -2,8 +2,8 @@
   <a-comment>
     <a-avatar
       slot="avatar"
-      :src="src"
-      :alt="alt"
+      :src="$auth.$state.user.avatar"
+      :alt="$auth.$state.user.username"
     />
     <div slot="content">
       <a-form-item>
@@ -27,24 +27,17 @@ export default {
   middleware: ['auth'],
   name: 'ReplyEditor',
   props: {
-    src: {
-      type: String,
-      default: null
-    },
-    alt: {
-      type: String,
-      default: null
-    },
     target: {
       type: Number,
       default () {
         return 0
       }
-    }
-  },
-  computed: {
-    state () {
-      return JSON.stringify(this.$auth.$state, undefined, 2)
+    },
+    item: {
+      type: Number,
+      default () {
+        return 0
+      }
     }
   },
   data () {
@@ -52,6 +45,11 @@ export default {
       moment,
       submitting: false,
       value: ''
+    }
+  },
+  computed: {
+    state () {
+      return JSON.stringify(this.$auth.$state, undefined, 2)
     }
   },
   methods: {
@@ -68,8 +66,8 @@ export default {
         return
       }
       const data = {
-        userId: 1,
-        itemId: 1,
+        userId: this.$auth.$state.user.id,
+        itemId: this.item,
         content: this.value,
         reply: this.target
       }
