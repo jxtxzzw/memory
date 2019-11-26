@@ -10,7 +10,7 @@ router.use(cookieParser())
 // JWT middleware
 router.use(
   jwt({
-    secret: 'dummy'
+    secret: process.env.MEMORY_JWT_SECERT || 'dummy'
   }).unless({
     path: '/api/auth/login'
   })
@@ -40,7 +40,7 @@ router.post('/auth/login', async (req, res, next) => {
       username,
       avatar: result.avatar
     },
-    'dummy'
+    process.env.MEMORY_JWT_SECERT || 'dummy'
   )
 
   res.json({
