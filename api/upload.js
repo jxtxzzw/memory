@@ -10,16 +10,21 @@ const router = require('./router')
 
 async function CreateItem (data) {
   try {
+    let cover
+    if (Object.prototype.hasOwnProperty.call(typeList, data.fileList[0].type)) {
+      const imgData = data.fileList[0].thumbUrl
+      const base64Data = imgData.replace(/(.*)?;base64,/, '')
+      const dataBuffer = Buffer.from(base64Data, 'base64')
+      cover = new Date().getTime() + '.' + typeList[data.fileList[0].type]
+      fs.writeFile('./static/upload/' + cover, dataBuffer, () => {})
+    } else {
+      throw new Error('图片类型不符合')
+    }
     const item = Item.build({})
     item.title = data.title
     item.type = data.type
+    item.cover = cover
     await item.save()
-    const imgData = data.fileList[0].thumbUrl
-    const base64Data = imgData.replace(/(.*)?;base64,/, '')
-    const dataBuffer = Buffer.from(base64Data, 'base64')
-    item.cover = item.id + '.' + typeList[data.fileList[0].type]
-    await item.save()
-    fs.writeFile('./static/upload/' + item.cover, dataBuffer, () => {})
     for (const category of data.checkedCategory) {
       await ItemCategory.create({ item: item.id, category: category.id })
     }
