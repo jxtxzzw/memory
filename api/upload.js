@@ -10,14 +10,14 @@ const router = require('./router')
 
 async function CreateItem (data) {
   try {
-    const item = Item.build({})
-    item.title = data.title
-    item.type = data.type
-    await item.save()
     const imgData = data.fileList[0].thumbUrl
     const base64Data = imgData.replace(/(.*)?;base64,/, '')
     const dataBuffer = Buffer.from(base64Data, 'base64')
-    item.cover = new Date().getTime() + '.' + typeList[data.fileList[0].type]
+    const cover = new Date().getTime() + '.' + typeList[data.fileList[0].type]
+    const item = Item.build({})
+    item.title = data.title
+    item.type = data.type
+    item.cover = cover
     await item.save()
     fs.writeFile('./static/upload/' + item.cover, dataBuffer, () => {})
     for (const category of data.checkedCategory) {
