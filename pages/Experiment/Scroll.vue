@@ -39,7 +39,7 @@
           <nuxt-link :to="{name:'item-id', params: {id:item.id}}">
             <Card :style="{margin: itemMargin + 'px 0', width: itemWidth + 'px', height: itemHeight + 'px'}">
               <div style="text-align:center">
-                <img :src="'/upload/' + item.cover"/>
+                <img :src="'/upload/' + item.cover" style="width: 100%"/>
                 <h3>{{ item.title }}</h3>
               </div>
             </Card>
