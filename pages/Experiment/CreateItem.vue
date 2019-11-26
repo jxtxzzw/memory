@@ -102,6 +102,7 @@
 import Tags from '~/components/Tags'
 
 export default {
+  middleware: ['auth'],
   components: {
     Tags
   },

@@ -13,6 +13,7 @@ import Search from '../components/Search'
 import ChangePassword from '../components/ChangePassword'
 import AdvancedSearch from '../components/AdvancedSearch'
 export default {
+  middleware: ['auth'],
   name: 'My',
   components: { AdvancedSearch, ChangePassword, ProfileCard, Search },
   methods: {

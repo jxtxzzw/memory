@@ -51,6 +51,7 @@
 </template>
 <script>
 export default {
+  middleware: ['auth'],
   data () {
     return {
       // 自定义 item 样式

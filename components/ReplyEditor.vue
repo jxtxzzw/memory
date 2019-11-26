@@ -24,6 +24,7 @@
 <script>
 import moment from 'moment'
 export default {
+  middleware: ['auth'],
   name: 'ReplyEditor',
   props: {
     src: {
@@ -39,6 +40,11 @@ export default {
       default () {
         return 0
       }
+    }
+  },
+  computed: {
+    state () {
+      return JSON.stringify(this.$auth.$state, undefined, 2)
     }
   },
   data () {

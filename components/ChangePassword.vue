@@ -28,6 +28,7 @@
 <script>
 import * as passwordEncrypt from '~/assets/passwordEncrypt'
 export default {
+  middleware: ['auth'],
   name: 'ChangePassword',
   data () {
     return {
