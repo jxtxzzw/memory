@@ -1,6 +1,7 @@
 const cookieParser = require('cookie-parser')
 const jwt = require('express-jwt')
 const jsonwebtoken = require('jsonwebtoken')
+const User = require('../server/database/models/User')
 const router = require('./router')
 
 // Install middleware
@@ -18,20 +19,26 @@ router.use(
 // -- Routes --
 
 // [POST] /login
-router.post('/auth/login', (req, res, next) => {
+router.post('/auth/login', async (req, res, next) => {
   const { username, password } = req.body
-  const valid = username.length && password === '123'
+
+  const result = await User.findOne({
+    where: {
+      username,
+      password
+    }
+  })
+  const valid = result != null
 
   if (!valid) {
-    throw new Error('Invalid username or password')
+    res.status(401).end('用户名或密码错误')
   }
 
   const accessToken = jsonwebtoken.sign(
     {
+      id: result.id,
       username,
-      picture: 'https://www.jxtxzzw.com/wp-content/uploads/2018/01/logo-max.png',
-      name: 'User ' + username,
-      scope: ['test', 'user']
+      picture: result.avatar
     },
     'dummy'
   )
