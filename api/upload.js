@@ -25,7 +25,6 @@ async function CreateItem (data) {
     item.type = data.type
     item.cover = cover
     await item.save()
-
     for (const category of data.checkedCategory) {
       await ItemCategory.create({ item: item.id, category: category.id })
     }
