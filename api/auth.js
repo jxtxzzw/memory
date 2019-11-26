@@ -60,6 +60,22 @@ router.post('/auth/logout', (req, res, next) => {
   res.json({ status: 'OK' })
 })
 
+router.post('/auth/change', async (req, res, next) => {
+  try {
+    const user = await User.findOne({
+      where: {
+        id: req.user.id,
+        password: req.body.oldPassword
+      }
+    })
+    user.password = req.body.newPassword
+    user.save()
+    res.sendStatus(200)
+  } catch (e) {
+    res.status(500).end('' + e)
+  }
+})
+
 // Error handler
 router.use((err, req, res, next) => {
   res.status(401).send(err + '')

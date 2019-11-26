@@ -53,7 +53,7 @@
 </style>
 
 <script>
-import md5 from 'js-md5'
+import * as passwordEncrypt from '~/assets/passwordEncrypt'
 import busyOverlay from '~/components/busy-overlay'
 export default {
   middleware: ['auth'],
@@ -83,7 +83,7 @@ export default {
         .loginWith('local', {
           data: {
             username: this.username,
-            password: md5((process.env.MEMORY_MD5_SALT ? process.env.MEMORY_MD5_SALT : '') + this.password)
+            password: passwordEncrypt.password(this.password)
           }
         })
         .catch((e) => {
