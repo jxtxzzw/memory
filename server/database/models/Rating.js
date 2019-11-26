@@ -1,5 +1,6 @@
 const Sequelize = require('sequelize')
 const Model = Sequelize.Model
+const Op = Sequelize.Op
 
 const sequelize = require('../index')
 
@@ -38,23 +39,41 @@ Rating.init({
   }
 }, { hooks: {
   afterCreate (instance, options) {
-    Rating.findAll({
+    Rating.findOne({
       where: {
-        item: instance.item
+        item: instance.item,
+        rating: {
+          [Op.gt]: 0
+        }
       },
-      attributes: [Model.sequelize.fn('AVG', Model.sequelize.col('rating'), 'avgRating')]
+      attributes: { include: [[Sequelize.fn('AVG', Sequelize.col('rating')), 'avgRating']] }
     }).then((projects) => {
-      console.log(projects)
+      Item.update({
+        rating: projects.dataValues.avg
+      }, {
+        where: {
+          id: projects.id
+        }
+      })
     })
   },
   afterUpdate (instance, options) {
-    Rating.findAll({
+    Rating.findOne({
       where: {
-        item: instance.item
+        item: instance.item,
+        rating: {
+          [Op.gt]: 0
+        }
       },
-      attributes: [Model.sequelize.fn('AVG', Model.sequelize.col('rating'), 'avgRating')]
+      attributes: { include: [[Sequelize.fn('AVG', Sequelize.col('rating')), 'avg']] }
     }).then((projects) => {
-      console.log(projects)
+      Item.update({
+        rating: projects.dataValues.avg
+      }, {
+        where: {
+          id: projects.id
+        }
+      })
     })
   }
 },
