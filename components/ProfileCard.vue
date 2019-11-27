@@ -1,7 +1,6 @@
 <template>
   <div>
     <Row>
-      {{ $auth.$state.user.avatar }}
       <Avatar shape="circle" size="large" :src="$auth.$state.user.avatar" />
       <Button type="text" :ghost="ghost">
         {{ $auth.$state.user.username }}
