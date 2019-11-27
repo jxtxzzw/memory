@@ -64,10 +64,10 @@ async function getItemInfo (id) {
     }
   })
   const data = result.toJSON()
-  data.categort = []
+  data.categor = []
   data.tag = []
   for (const category of categorys) {
-    data.categort.push(category.toJSON())
+    data.category.push(category.toJSON())
   }
   for (const tag of tags) {
     data.tag.push(tag.toJSON())
