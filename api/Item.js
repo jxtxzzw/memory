@@ -13,12 +13,9 @@ async function getItemList (data) {
       attributes: ['id', 'title', 'cover', 'rating']
     })
     for (const item of result) {
-      itemList.push({
-        id: item.id,
-        title: item.title,
-        cover: item.cover,
-        rating: item.rating
-      })
+      itemList.push(
+        item.toJSON()
+      )
     }
   } else {
     const result = await Item.findAll({
@@ -27,12 +24,9 @@ async function getItemList (data) {
       attributes: ['id', 'title', 'cover', 'rating']
     })
     for (const item of result) {
-      itemList.push({
-        id: item.id,
-        title: item.title,
-        cover: item.cover,
-        rating: item.rating
-      })
+      itemList.push(
+        item.toJSON()
+      )
     }
   }
   return itemList
