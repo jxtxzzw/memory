@@ -1,13 +1,14 @@
 const Item = require('../server/database/models/Item')
 const router = require('./router')
 
-async function getItemList (type) {
+async function getItemList (data) {
   const itemList = []
-  if (type) {
+  if (data.type) {
     const result = await Item.findAll({
       where: {
-        type
+        type: data.type
       },
+      limit: data.limit,
       attributes: ['id', 'title', 'cover', 'rating']
     })
     for (const item of result) {
@@ -20,6 +21,7 @@ async function getItemList (type) {
     }
   } else {
     const result = await Item.findAll({
+      limit: data.limit,
       attributes: ['id', 'title', 'cover', 'rating']
     })
     for (const item of result) {
@@ -53,7 +55,7 @@ async function itemIsExist (id) {
 }
 
 router.post('/Item/itemList', async (req, res, next) => {
-  const itemList = await getItemList(req.body.type)
+  const itemList = await getItemList(req.body)
   res.json(itemList)
 })
 
