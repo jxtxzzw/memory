@@ -8,6 +8,8 @@
       loading-text="加载中……"
       :height="scrollHeight"
     >
+      <Button @click="createItemModal = true"> {{createItemModal}} </Button>
+      <EditItemModal :modal="createItemModal" @modalVisibleChange="handleModalVisibleChange" />
       <Alert show-icon>
         无限滚动
         <span slot="desc">
@@ -23,7 +25,7 @@
           <nuxt-link :to="{name:'item-id', params: {id:item.id}}">
             <Card :style="{margin: itemMargin + 'px 0', width: itemWidth + 'px', height: itemHeight + 'px'}">
               <div style="text-align:center">
-                <img :src="'/upload/' + item.cover"/>
+                <img :src="'/upload/' + item.cover" />
                 <h3>{{ item.title }}</h3>
               </div>
             </Card>
@@ -39,7 +41,7 @@
           <nuxt-link :to="{name:'item-id', params: {id:item.id}}">
             <Card :style="{margin: itemMargin + 'px 0', width: itemWidth + 'px', height: itemHeight + 'px'}">
               <div style="text-align:center">
-                <img :src="'/upload/' + item.cover" style="width: 100%"/>
+                <img :src="'/upload/' + item.cover" style="width: 100%" />
                 <h3>{{ item.title }}</h3>
               </div>
             </Card>
@@ -50,10 +52,13 @@
   </div>
 </template>
 <script>
+import EditItemModal from '~/components/EditItemModal'
 export default {
+  components: { EditItemModal },
   middleware: ['auth'],
   data () {
     return {
+      createItemModal: false,
       // 自定义 item 样式
       itemMargin: 32, // 每一层之间的间距，应用在 Card 组件的 margin
       itemSpan: 20, // item 之间的间距，应用在 Row 组件的 gutter
@@ -165,6 +170,9 @@ export default {
           resolve()
         }, 2000)
       })
+    },
+    handleModalVisibleChange (status) {
+      this.createItemModal = status
     }
   }
 }
