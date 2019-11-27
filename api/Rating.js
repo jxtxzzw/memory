@@ -38,6 +38,7 @@ async function getItemRating (id) {
     })
     const singleRating = rating.toJSON()
     singleRating.user = user.username
+    singleRating.avater = user.avater
     data.push(singleRating)
   }
   return data
