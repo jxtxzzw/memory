@@ -1,12 +1,20 @@
+const Sequelize = require('sequelize')
 const Item = require('../server/database/models/Item')
 const router = require('./router')
+const Op = Sequelize.Op
 
 async function getItemList (data) {
   const itemList = []
+  if (!data.title) {
+    data.title = ''
+  }
   if (data.type) {
     const result = await Item.findAll({
       where: {
-        type: data.type
+        type: data.type,
+        title: {
+          [Op.like]: '%' + data.title + '%'
+        }
       },
       limit: data.limit,
       offset: data.offset,
@@ -19,6 +27,11 @@ async function getItemList (data) {
     }
   } else {
     const result = await Item.findAll({
+      where: {
+        title: {
+          [Op.like]: '%' + data.title + '%'
+        }
+      },
       limit: data.limit,
       offset: data.offset,
       attributes: ['id', 'title', 'cover', 'rating']
