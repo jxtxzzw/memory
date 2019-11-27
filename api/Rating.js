@@ -3,7 +3,6 @@ const Rating = require('../server/database/models/Rating')
 const router = require('./router')
 
 async function addOrChangeRating (data, user) {
-  console.log(user)
   const [instance, created] = await Rating.findOrCreate({
     where: {
       user: user.id,
@@ -19,7 +18,7 @@ async function addOrChangeRating (data, user) {
   if (!created) {
     instance.rating = data.rating
     instance.review = data.review
-    instance.save()
+    await instance.save()
   }
 }
 
