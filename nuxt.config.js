@@ -70,6 +70,11 @@ module.exports = {
   ** See https://auth.nuxtjs.org/
   */
   auth: {
+    cookie: {
+      options: {
+        expires: 1 // TODO: change to 3 days in production mode
+      }
+    },
     redirect: {
       callback: '/callback'
     },
