@@ -31,7 +31,6 @@ async function getItemRating (id) {
   })
   const data = []
   for (const rating of result) {
-    console.log(rating)
     const user = await User.findOne({
       where: {
         id: rating.user
