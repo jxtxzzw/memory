@@ -51,7 +51,7 @@ async function getItemInfo (id) {
       id
     }
   })
-  return result
+  return result.toJSON()
 }
 
 async function itemIsExist (id) {
