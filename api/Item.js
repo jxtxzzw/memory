@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize')
 const Item = require('../server/database/models/Item')
-const Category = require('../server/database/models/Category')
-const Tag = require('../server/database/models/Tag')
+const ItemCategory = require('../server/database/models/ItemCategory')
+const ItemTag = require('../server/database/models/ItemTag')
 const router = require('./router')
 const Op = Sequelize.Op
 
@@ -53,12 +53,12 @@ async function getItemInfo (id) {
       id
     }
   })
-  const categorys = await Category.findAll({
+  const categorys = await ItemCategory.findAll({
     where: {
       item: result.id
     }
   })
-  const tags = await Tag.findAll({
+  const tags = await ItemTag.findAll({
     where: {
       item: result.id
     }
