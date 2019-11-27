@@ -1,4 +1,3 @@
-const Item = require('../server/database/models/Item')
 const Rating = require('../server/database/models/Rating')
 const router = require('./router')
 
