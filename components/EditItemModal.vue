@@ -10,9 +10,6 @@
 </style>
 <template>
   <div>
-    <Button @click="modal = true">
-      button
-    </Button>
     <Modal
       v-model="modal"
       title="添加"
@@ -22,6 +19,7 @@
       :loading="loading"
       @on-ok="handleUpload('formValidate')"
       @on-cancel="handleCancel"
+      @on-visible-change="handleVisibleChange"
     >
       <Form ref="formValidate" :model="formValidate" :rules="ruleValidate">
         <Row>
@@ -106,6 +104,12 @@ export default {
   components: {
     Tags
   },
+  props: {
+    modal: {
+      type: Boolean,
+      default: false
+    }
+  },
   data () {
     return {
       formValidate: {
@@ -129,7 +133,6 @@ export default {
           }
         ]
       },
-      modal: false,
       formError: null,
       typeList: [],
       uncheckedCategory: [],
@@ -188,9 +191,12 @@ export default {
             background: true,
             content: '表单验证失败，请检查您输入的内容'
           })
-          this.modal = true
+          this.modal = false
         }
       })
+    },
+    handleVisibleChange (status) {
+      this.$emit('modalVisibleChange', status)
     }
   }
 }
