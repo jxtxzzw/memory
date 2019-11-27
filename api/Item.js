@@ -9,6 +9,7 @@ async function getItemList (data) {
         type: data.type
       },
       limit: data.limit,
+      offset: data.offset,
       attributes: ['id', 'title', 'cover', 'rating']
     })
     for (const item of result) {
@@ -22,6 +23,7 @@ async function getItemList (data) {
   } else {
     const result = await Item.findAll({
       limit: data.limit,
+      offset: data.offset,
       attributes: ['id', 'title', 'cover', 'rating']
     })
     for (const item of result) {
