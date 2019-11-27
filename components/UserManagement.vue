@@ -137,7 +137,7 @@ export default {
       } else {
         this.$Message.error({
           background: true,
-          content: '密码修改失败'
+          content: '密码重置失败'
         })
       }
     }
