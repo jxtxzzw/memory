@@ -7,7 +7,9 @@ const sequelize = require('../index')
 const User = require('./User')
 const Item = require('./Item')
 
-class Rating extends Model {}
+class Rating extends Model {
+}
+
 Rating.init({
   user: {
     type: Sequelize.INTEGER,
@@ -37,47 +39,49 @@ Rating.init({
     type: Sequelize.STRING,
     allowNull: true
   }
-}, { hooks: {
-  afterCreate (instance, options) {
-    Rating.findOne({
-      where: {
-        item: instance.item,
-        rating: {
-          [Op.gt]: 0
-        }
-      },
-      attributes: { include: [[Sequelize.fn('AVG', Sequelize.col('rating')), 'avgRating']] }
-    }).then((projects) => {
-      Item.update({
-        rating: projects.dataValues.avg
+}, {
+  hooks: {
+    async afterCreate (instance, options) {
+      const result = await Rating.findAll({
+        where: {
+          item: instance.item,
+          rating: {
+            [Op.gt]: 0
+          }
+        },
+        attributes: [[Sequelize.fn('AVG', Sequelize.col('rating')), 'avg']],
+        transaction: options.transaction
+      })
+      await Item.update({
+        rating: result[0].toJSON().avg
       }, {
         where: {
-          id: projects.id
+          id: instance.item
+        },
+        transaction: options.transaction
+      })
+    },
+    async afterUpdate (instance, options) {
+      const result = await Rating.findAll({
+        where: {
+          item: instance.item,
+          rating: {
+            [Op.gt]: 0
+          }
+        },
+        attributes: [[Sequelize.fn('AVG', Sequelize.col('rating')), 'avg']]
+      })
+
+      await Item.update({
+        rating: result[0].toJSON().avg
+      }, {
+        where: {
+          id: instance.item
         }
       })
-    })
+    }
   },
-  afterUpdate (instance, options) {
-    Rating.findOne({
-      where: {
-        item: instance.item,
-        rating: {
-          [Op.gt]: 0
-        }
-      },
-      attributes: { include: [[Sequelize.fn('AVG', Sequelize.col('rating')), 'avg']] }
-    }).then((projects) => {
-      Item.update({
-        rating: projects.dataValues.avg
-      }, {
-        where: {
-          id: projects.id
-        }
-      })
-    })
-  }
-},
-sequelize
+  sequelize
 })
 
 // TODO 未完成的 hooks，需要先写完其他接口进行测试
