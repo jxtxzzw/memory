@@ -125,8 +125,21 @@ export default {
     async requestData (payload) {
       this.rawData = await this.$axios.$post('/api/User', payload)
     },
-    resetPassword (userId) {
-      console.log(userId)
+    async resetPassword (userId) {
+      const res = await this.$axios.$post('/api/auth/reset', {
+        userId
+      })
+      if (res === 'OK') {
+        this.$Message.success({
+          background: true,
+          content: '密码重置成功'
+        })
+      } else {
+        this.$Message.error({
+          background: true,
+          content: '密码修改失败'
+        })
+      }
     }
   }
 }
