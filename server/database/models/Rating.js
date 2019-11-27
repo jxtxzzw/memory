@@ -69,15 +69,16 @@ Rating.init({
             [Op.gt]: 0
           }
         },
-        attributes: [[Sequelize.fn('AVG', Sequelize.col('rating')), 'avg']]
+        attributes: [[Sequelize.fn('AVG', Sequelize.col('rating')), 'avg']],
+        transaction: options.transaction
       })
-
       await Item.update({
         rating: result[0].toJSON().avg
       }, {
         where: {
           id: instance.item
-        }
+        },
+        transaction: options.transaction
       })
     }
   },
