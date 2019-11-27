@@ -1,5 +1,7 @@
 const Sequelize = require('sequelize')
 const Item = require('../server/database/models/Item')
+const Category = require('../server/database/models/Category')
+const Tag = require('../server/database/models/Tag')
 const router = require('./router')
 const Op = Sequelize.Op
 
@@ -51,7 +53,26 @@ async function getItemInfo (id) {
       id
     }
   })
-  return result.toJSON()
+  const categorys = await Category.findAll({
+    where: {
+      item: result.id
+    }
+  })
+  const tags = await Tag.findAll({
+    where: {
+      item: result.id
+    }
+  })
+  const data = result.toJSON()
+  data.categort = []
+  data.tag = []
+  for (const category of categorys) {
+    data.categort.push(category.toJSON())
+  }
+  for (const tag of tags) {
+    data.tag.push(tag.toJSON())
+  }
+  return data
 }
 
 async function itemIsExist (id) {
