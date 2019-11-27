@@ -22,6 +22,10 @@ async function addOrChangeRating (data, user) {
 }
 
 router.post('/Rating/rating', async (req, res, next) => {
-  await addOrChangeRating(req.body, req.user)
-  res.status(200)
+  try {
+    await addOrChangeRating(req.body, req.user)
+    res.status(200).json('创建成功')
+  } catch (e) {
+    res.status(400).json(e.message)
+  }
 })
