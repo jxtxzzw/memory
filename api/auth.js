@@ -22,23 +22,26 @@ router.use(
 router.post('/auth/login', async (req, res, next) => {
   const { username, password } = req.body
 
-  const result = await User.findOne({
+  const user = await User.findOne({
     where: {
       username,
       password
     }
   })
-  const valid = result != null
+  const valid = user != null
 
   if (!valid) {
     res.status(401).end('用户名或密码错误')
   }
 
+  user.latest = new Date(Date.now())
+  user.save()
+
   const accessToken = jsonwebtoken.sign(
     {
-      id: result.id,
+      id: user.id,
       username,
-      avatar: result.avatar // TODO: avartar: '/upload/' + result.avartar
+      avatar: user.avatar // TODO: avartar: '/upload/' + result.avartar
     },
     process.env.MEMORY_JWT_SECERT || 'dummy'
   )

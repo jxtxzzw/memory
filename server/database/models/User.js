@@ -26,6 +26,10 @@ User.init({
   avatar: {
     type: Sequelize.STRING,
     allowNull: true
+  },
+  latest: {
+    type: Sequelize.DATE,
+    allowNull: true
   }
 }, {
   sequelize
