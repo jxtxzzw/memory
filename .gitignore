@@ -89,5 +89,6 @@ sw.*
 # Vim swap files
 *.swp
 
-# memory 项目图片上传位置
-static/upload
+# memory 图片上传目录、memory 开发数据库
+static/upload/
+dev_db.sqlite

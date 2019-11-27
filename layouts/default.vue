@@ -46,7 +46,7 @@
               <Dropdown @on-click="handleDropdownClick">
                 <ProfileCard />
                 <DropdownMenu slot="list">
-                  <DropdownItem name="profile" align="center">
+                  <DropdownItem name="my" align="center">
                     个人主页
                   </DropdownItem>
                   <DropdownItem name="logout" align="center">
@@ -137,6 +137,8 @@ export default {
     handleDropdownClick (name) {
       if (name === 'logout') {
         this.$auth.logout()
+      } else if (name === 'my') {
+        this.$router.push('/my')
       }
     },
     showBrowserWarning () {

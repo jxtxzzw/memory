@@ -42,9 +42,12 @@
             </a-upload>
           </i-col>
           <i-col span="12">
-            <p v-if="formError" class="Error">
-              {{ formError }}
-            </p>
+            <Alert v-if="formError" type="error" show-icon>
+              表单验证失败
+              <span slot="desc">
+                {{ formError }}
+              </span>
+            </Alert>
             <FormItem label="标题" prop="title">
               <Input v-model="formValidate.title" type="text" />
             </FormItem>
@@ -99,6 +102,7 @@
 import Tags from '~/components/Tags'
 
 export default {
+  middleware: ['auth'],
   components: {
     Tags
   },

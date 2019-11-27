@@ -10,7 +10,7 @@ router.use(cookieParser())
 // JWT middleware
 router.use(
   jwt({
-    secret: 'dummy'
+    secret: process.env.MEMORY_JWT_SECERT || 'dummy'
   }).unless({
     path: '/api/auth/login'
   })
@@ -38,9 +38,9 @@ router.post('/auth/login', async (req, res, next) => {
     {
       id: result.id,
       username,
-      picture: result.avatar
+      avatar: result.avatar // TODO: avartar: '/upload/' + result.avartar
     },
-    'dummy'
+    process.env.MEMORY_JWT_SECERT || 'dummy'
   )
 
   res.json({
@@ -58,6 +58,22 @@ router.get('/auth/user', (req, res, next) => {
 // [POST] /logout
 router.post('/auth/logout', (req, res, next) => {
   res.json({ status: 'OK' })
+})
+
+router.post('/auth/change', async (req, res, next) => {
+  try {
+    const user = await User.findOne({
+      where: {
+        id: req.user.id,
+        password: req.body.oldPassword
+      }
+    })
+    user.password = req.body.newPassword
+    user.save()
+    res.sendStatus(200)
+  } catch (e) {
+    res.status(500).end('' + e)
+  }
 })
 
 // Error handler

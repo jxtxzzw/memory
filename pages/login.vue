@@ -25,14 +25,14 @@
           <busyOverlay />
           <Form ref="login">
             <FormItem prop="username" label="用户名">
-              <Input ref="username" v-model="username" placeholder="请输入用户名（随便输）">
+              <Input ref="username" v-model="username" placeholder="请输入用户名">
               <Icon slot="prefix" type="ios-person-outline" />
                 <!-- 用 slot="prepend" 是前面加一块出来，后果是对不齐，以及会令 4.0 的 maxlength 和 password 失效 -->
                 <!-- 这里应该是用 slot="prefix" -->
               </Input>
             </FormItem>
             <FormItem prop="password" label="密码">
-              <Input v-model="password" type="password" password placeholder="密码是 123">
+              <Input v-model="password" type="password" password placeholder="请输入密码">
               <Icon slot="prefix" type="ios-lock-outline" />
               </Input>
             </FormItem>
@@ -53,15 +53,15 @@
 </style>
 
 <script>
+import * as passwordEncrypt from '~/assets/passwordEncrypt'
 import busyOverlay from '~/components/busy-overlay'
-
 export default {
   middleware: ['auth'],
   components: { busyOverlay },
   data () {
     return {
       username: '',
-      password: '123',
+      password: '',
       error: null
     }
   },
@@ -83,7 +83,7 @@ export default {
         .loginWith('local', {
           data: {
             username: this.username,
-            password: this.password
+            password: passwordEncrypt.password(this.password)
           }
         })
         .catch((e) => {
