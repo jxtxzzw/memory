@@ -56,13 +56,14 @@ export default {
     cancelReply () {
       this.$emit('cancelReply')
     },
-    async handleSubmit ({ $axios }) {
+    async handleSubmit () {
       this.submitting = true
       if (!this.value) {
         this.$Message.error({
           background: true,
           content: '评论内容不能为空'
         })
+        this.submitting = false
         return
       }
       const data = {
@@ -72,8 +73,8 @@ export default {
         reply: this.target
       }
       await this.$axios.$post('/api/Comment/Add', data)
-      // TODO 考虑是否做成局部刷新
-      window.location.reload()
+      this.submitting = false
+      this.$emit('reloadComment')
     },
     handleChange (e) {
       this.value = e.target.value

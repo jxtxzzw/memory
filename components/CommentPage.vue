@@ -6,9 +6,17 @@
     </div>
     <div v-else>
       <div v-if="replyTarget===0">
-        <ReplyEditor :target="replyTarget" :item="item" />
+        <ReplyEditor :target="replyTarget" :item="item" @reloadComment="reloadComment" />
       </div>
-      <Comment v-for="reply in replies" :key="reply.id" :reply="reply" :target="replyTarget" :item="item" @handleReplyTargetChange="handleReplyTargetChange" />
+      <Comment
+        v-for="reply in replies"
+        :key="reply.id"
+        :reply="reply"
+        :target="replyTarget"
+        :item="item"
+        @handleReplyTargetChange="handleReplyTargetChange"
+        @reloadComment="reloadComment"
+      />
       <!-- emit 的 v-on 不需要带括号，参数会依次自动填入 method 的 params -->
     </div>
   </div>
@@ -41,13 +49,21 @@ export default {
       replies: []
     }
   },
+  // 使用 watcher 来监听 props 的变化，以避免父组件给子组件传值以后 mounted 不再触发的问题
+  watch: {
+    item: {
+      // 深度 watcher
+      deep: true,
+      async handler (val) {
+        this.item = val
+        await this.loadData()
+      }
+    }
+  },
   async mounted () {
     await this.loadData()
   },
   methods: {
-    cancelReply () {
-      this.reply(0)
-    },
     handleReplyTargetChange (newTarget) {
       this.replyTarget = newTarget
     },
@@ -60,6 +76,9 @@ export default {
       setTimeout(() => {
         this.loading = false
       }, 1000)
+    },
+    reloadComment () {
+      this.$emit('reloadComment')
     }
   }
 }

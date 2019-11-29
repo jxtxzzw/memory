@@ -101,7 +101,9 @@ export default {
       compatible: true,
       sBrowser: '',
       sBrowserVersion: '',
-      screenHeight: 0
+      screenHeight: 0,
+      // window.onresize 时候依次执行这里面的函数，以便可以在更新自己的 screenHeight 后，更新子组件的一些数据，例如子组件需要根据窗口大小计算得到的，或者将 screenHeight 的变化传递下去
+      onResizeHook: []
     }
   },
   computed: {
@@ -110,7 +112,10 @@ export default {
       return this.screenHeight - 137
     }
   },
+  // 添加 watch，观察浏览器窗口变化
+  // watch 只在这里添加一次，其他页面不需要观察页面高度变化了，即使他们需要根据页面高度算一些什么东西
   watch: {
+    // 更新窗口高度，以保证全局页面的高度
     screenHeight (val) {
       if (!this.timer) {
         this.screenHeight = val
@@ -126,11 +131,18 @@ export default {
     this.checkBrowser()
     this.screenHeight = document.body.clientHeight
     const that = this
+    // mounted 的时候增加全局的 hook 表示更新浏览器高度
+    this.onResizeHook.push(() => {
+      window.screenHeight = document.body.clientHeight
+      that.screenHeight = window.screenHeight
+    })
+    // window.onresize 的内容永远是遍历 hook 数组，并执行其中的函数
     window.onresize = () => {
-      return (() => {
-        window.screenHeight = document.body.clientHeight
-        that.screenHeight = window.screenHeight
-      })()
+      for (const f of this.onResizeHook) {
+        f()
+      }
+      // 于是 return 可以为空，() => {}，并注意需要执行该函数，即 (() => {})()
+      return (() => {})()
     }
   },
   methods: {

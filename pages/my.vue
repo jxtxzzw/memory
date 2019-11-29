@@ -1,34 +1,19 @@
 <template>
   <div>
-    <UserManagement />
-    <ProfileCard :ghost="false" />
-    <ChangePassword />
-    <Search @search="handleSearch" />
-    <AdvancedSearch />
+    <Row>
+      <i-col offset="12" span="12">
+        <MyActivity />
+      </i-col>
+    </Row>
   </div>
 </template>
 
 <script>
-import ProfileCard from '../components/ProfileCard'
-import Search from '../components/Search'
-import ChangePassword from '../components/ChangePassword'
-import AdvancedSearch from '../components/AdvancedSearch'
-import UserManagement from '../components/UserManagement'
+import MyActivity from '../components/MyActivity'
 export default {
   middleware: ['auth'],
   name: 'My',
-  components: { UserManagement, AdvancedSearch, ChangePassword, ProfileCard, Search },
-  methods: {
-    handleSearch (searchInput, searchType) {
-      const data = {
-        searchInput,
-        searchType,
-        offset: 0,
-        limit: 10
-      }
-      console.log(data)
-    }
-  }
+  components: { MyActivity }
 }
 </script>
 

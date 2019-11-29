@@ -108,41 +108,32 @@ export default {
       return (this.scrollContentWidth - this.itemNumberPerLine * this.itemWidth - (this.itemNumberPerLine - 1) * this.itemSpan) / 2
     }
   },
-  // 添加 watch，观察浏览器窗口变化
-  watch: {
-    // 更新窗口高度，以处理 Scroll 组件中加载区域的的高度
-    // 不需要观察浏览器宽度，因为宽度直接通过 Scroll 的成员获得
-    // 无法通过 $ref $el 获取高度，因为 layout content 在父组件中，需要从 default layout 一层层传下来
-    screenHeight (val) {
-      if (!this.timer) {
-        this.screenHeight = val
-        this.timer = true
-        const that = this
-        setTimeout(function () {
-          that.timer = false
-        }, 400)
-      }
-    }
-  },
   mounted () {
     this.loadData()
     // mounted 的时候更新内容区域初始宽度
     this.getScrollContentWidth()
-    // 记录浏览器窗口初始高度
-    this.screenHeight = document.body.clientHeight
-    // 注册 on resize
-    const that = this
-    window.onresize = () => {
-      return (() => {
-        // 浏览器窗口大小变化时，Scroll Content 区域也会发生变化，因此需要更新
-        this.getScrollContentWidth()
-        // 更新浏览器窗口高度
-        window.screenHeight = document.body.clientHeight
-        that.screenHeight = window.screenHeight
-      })()
-    }
+    // window.onresize 如果这里再做一次，就会抵消掉 default layout 设置的 onresize，所以只能通过增加钩子的方法来达到目的
+    this.addWindowOnResizeHook()
   },
   methods: {
+    // 更新窗口高度 screenHeight，以处理 Scroll 组件中加载区域的的高度
+    // 不需要观察浏览器宽度，因为宽度直接通过 Scroll 的成员获得
+    addWindowOnResizeHook () {
+      // 找到根元素下面谁是 default layout
+      let defaultLayoutVue
+      for (let i = 0; i < this.$root.$children.length; i++) {
+        if (this.$root.$children[i].onResizeHook) {
+          defaultLayoutVue = this.$root.$children[i]
+          break
+        }
+      }
+      // 将 default layout 的 screenHeight 留下来，作为初始值
+      this.screenHeight = document.body.clientHeight
+      // 在 default layout 的 onResizeHook 中添加一个函数，表示窗口大小变化时，需要更新该组件的 screenHeight 为 default layout 的 screenHeight
+      defaultLayoutVue.onResizeHook.push(() => {
+        this.screenHeight = document.body.clientHeight
+      })
+    },
     // 获取无限滚动的内容区域的宽度
     getScrollContentWidth () {
       const me = this
