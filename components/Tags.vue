@@ -17,7 +17,6 @@
     <Button v-else icon="ios-add" type="dashed" size="small" @click="showInput">
       添加标签
     </Button>
-    {{ initialTags }}
   </div>
 </template>
 

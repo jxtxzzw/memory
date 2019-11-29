@@ -8,7 +8,9 @@
       loading-text="加载中……"
       :height="scrollHeight"
     >
-      <Button @click="createItemModal = true"> {{createItemModal}} </Button>
+      <Button @click="createItemModal = true">
+        {{ createItemModal }}
+      </Button>
       <EditItemModal :modal="createItemModal" @modalVisibleChange="handleModalVisibleChange" />
       <Alert show-icon>
         无限滚动

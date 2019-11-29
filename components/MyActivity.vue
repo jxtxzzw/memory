@@ -11,7 +11,7 @@
           <Icon type="ios-thumbs-up-outline" /> {{ activity.RatingCount }}
         </li>
         <li>
-          <Icon type="ios-chatbubbles-outline" /> {{ activity.replyCount}}
+          <Icon type="ios-chatbubbles-outline" /> {{ activity.replyCount }}
         </li>
       </template>
       <template slot="extra">
@@ -53,14 +53,14 @@ export default {
       return JSON.stringify(this.$auth.$state, undefined, 2)
     }
   },
+  async mounted () {
+    // await this.loadData()
+  },
   methods: {
     async loadData () {
       // TODO API
       this.data = await this.$axios.$post('/api/User/MyActivity')
     }
-  },
-  async mounted () {
-    // await this.loadData()
   }
 }
 </script>

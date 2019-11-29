@@ -46,7 +46,7 @@
           </Radio>
         </RadioGroup>
       </FormItem>
-      <FormItem label="评分范围" >
+      <FormItem label="评分范围">
         <Slider
           v-model="formItem.rating"
           range

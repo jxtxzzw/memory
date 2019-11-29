@@ -64,7 +64,7 @@ router.post('/auth/logout', (req, res, next) => {
   res.json({ status: 'OK' })
 })
 
-function changePassword(user, password, res) {
+function changePassword (user, password, res) {
   try {
     user.password = password
     user.save()

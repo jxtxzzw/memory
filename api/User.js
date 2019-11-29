@@ -6,7 +6,6 @@ router.post('/User', async (req, res, next) => {
   if (req.user.id !== 1) {
     res.sendStatus(403)
   }
-  console.log(req.user)
   const users = await User.findAll({
     attributes: [
       'id',
