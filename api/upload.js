@@ -52,7 +52,7 @@ async function CreateItem (data) {
       }
     })
     for (const category of data.checkedCategory) {
-      await ItemCategory.create({ item: instance.id, category: category.id })
+      await ItemCategory.create({ item: instance.id, category })
     }
     for (const tag of data.tags) {
       const [tagInstance] = await Tag.findOrCreate({
