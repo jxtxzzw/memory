@@ -32,7 +32,7 @@ Item.init({
     type: Sequelize.STRING,
     allowNull: true
   },
-  creater: {
+  creator: {
     type: Sequelize.INTEGER,
     references: {
       model: User,
