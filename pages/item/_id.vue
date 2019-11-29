@@ -1,7 +1,13 @@
 <template>
   <div>
-    <ItemInfo :data="data" />
-    <CommentPage :item="data.id" />
+    <Row>
+      <i-col span="12">
+        <ItemInfo :data="data" />
+      </i-col>
+      <i-col span="12" >
+        <CommentPage v-if="!reload" :item="data.id" @reloadComment="reloadComment" style="overflow-y: auto"/>
+      </i-col>
+    </Row>
   </div>
 </template>
 
@@ -16,6 +22,7 @@ export default {
   },
   data () {
     return {
+      reload: false,
       data: {
         id: '',
         type: '',
@@ -33,7 +40,14 @@ export default {
       this.data = await this.$axios.$post('/api/Item/itemInfo', {
         id: this.$route.params.id
       })
-      console.log(this.data)
+    },
+    reloadComment () {
+      this.reload = true
+      // 在组件移除后，重新渲染组件
+      // this.$nextTick 可实现在 DOM 状态更新后，执行传入的方法
+      this.$nextTick(() => {
+        this.reload = false
+      })
     }
   }
 }

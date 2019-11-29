@@ -60,16 +60,10 @@ export default {
       }
     }
   },
+  async mounted () {
+    await this.loadData()
+  },
   methods: {
-    async reload () {
-      await this.$nextTick(async () => {
-        await this.loadData()
-        this.replyTarget = 0
-      })
-    },
-    cancelReply () {
-      this.reply(0)
-    },
     handleReplyTargetChange (newTarget) {
       this.replyTarget = newTarget
     },
@@ -84,7 +78,7 @@ export default {
       }, 1000)
     },
     reloadComment () {
-      this.reload()
+      this.$emit('reloadComment')
     }
   }
 }
