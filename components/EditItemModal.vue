@@ -67,7 +67,7 @@
                   :checkable="true"
                   @on-change="uncheckCategory"
                 >
-                  {{ tag.name }}
+                  {{ CategoryList[tag] }}
                 </Tag>
               </Card>
               <Card>
@@ -79,7 +79,7 @@
                   :checkable="true"
                   @on-change="checkCategory"
                 >
-                  {{ tag.name }}
+                  {{ CategoryList[tag] }}
                 </Tag>
               </Card>
             </FormItem>
@@ -139,7 +139,8 @@ export default {
       file: '',
       previewVisible: false,
       previewImage: '',
-      loading: true
+      loading: true,
+      CategoryList: {}
     }
   },
   async mounted () {
@@ -148,7 +149,11 @@ export default {
   methods: {
     async load_data () {
       this.typeList = await this.$axios.$post('/api/Type/getTypeList')
-      this.uncheckedCategory = await this.$axios.$post('api/Category/categoryList')
+      const CategoryList = await this.$axios.$post('api/Category/categoryList')
+      for (const category of CategoryList) {
+        this.uncheckedCategory.push(category.id)
+        this.CategoryList[category.id] = category.name
+      }
     },
     checkCategory (checked, name) {
       this.formValidate.checkedCategory.push(name)
