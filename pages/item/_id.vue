@@ -119,6 +119,8 @@ export default {
 }
 </script>
 
-<style scoped>
-
+<style>
+  .ant-comment-content-detail p {
+    white-space: unset;
+  }
 </style>
