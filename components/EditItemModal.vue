@@ -148,6 +148,16 @@ export default {
       CategoryList: {}
     }
   },
+  // 增加 watcher 来监控 props 中 category 的修改
+  watch: {
+    formValidate: {
+      // 深度 watcher 以监控 formValidate 的子元素 formValidate.checkedCategory
+      deep: true,
+      handler () {
+        this.uncheckedCategory = this.uncheckedCategory.filter(id => !this.formValidate.checkedCategory.includes(id))
+      }
+    }
+  },
   async mounted () {
     await this.load_data()
   },

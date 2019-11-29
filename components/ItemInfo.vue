@@ -54,7 +54,7 @@ export default {
         fileList: []
       }
       for (const x of this.data.category) {
-        this.editData.checkedCategory.push(x)
+        this.editData.checkedCategory.push(x.id)
       }
       for (const x of this.data.tag) {
         this.editData.tags.push(x.id + '')
