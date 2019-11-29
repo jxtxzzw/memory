@@ -6,7 +6,7 @@
     </div>
     <div v-else>
       <div v-if="replyTarget===0">
-        <ReplyEditor :target="replyTarget" :item="item" />
+        <ReplyEditor :target="replyTarget" :item="item" @reloadComment="reloadComment" />
       </div>
       <Comment
         v-for="reply in replies"
@@ -15,6 +15,7 @@
         :target="replyTarget"
         :item="item"
         @handleReplyTargetChange="handleReplyTargetChange"
+        @reloadComment="reloadComment"
       />
       <!-- emit 的 v-on 不需要带括号，参数会依次自动填入 method 的 params -->
     </div>
@@ -60,6 +61,12 @@ export default {
     }
   },
   methods: {
+    async reload () {
+      await this.$nextTick(async () => {
+        await this.loadData()
+        this.replyTarget = 0
+      })
+    },
     cancelReply () {
       this.reply(0)
     },
@@ -75,6 +82,9 @@ export default {
       setTimeout(() => {
         this.loading = false
       }, 1000)
+    },
+    reloadComment () {
+      this.reload()
     }
   }
 }
