@@ -63,6 +63,7 @@ export default {
           background: true,
           content: '评论内容不能为空'
         })
+        this.submitting = false
         return
       }
       const data = {
