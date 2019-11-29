@@ -8,7 +8,7 @@
           <Icon type="ios-star-outline" /> {{ activity.rating }}
         </li>
         <li>
-          <Icon type="ios-thumbs-up-outline" /> {{ activity.RatingCount }}
+          <Icon type="ios-thumbs-up-outline" /> {{ activity.ratingCount }}
         </li>
         <li>
           <Icon type="ios-chatbubbles-outline" /> {{ activity.replyCount }}
@@ -26,26 +26,7 @@ export default {
   name: 'MyActivity',
   data () {
     return {
-      activities: [
-        {
-          title: 'This is title 1',
-          description: 'This is description, this is description, this is description.',
-          avatar: 'https://dev-file.iviewui.com/userinfoPDvn9gKWYihR24SpgC319vXY8qniCqj4/avatar',
-          content: 'This is the content, this is the content, this is the content, this is the content.'
-        },
-        {
-          title: 'This is title 2',
-          description: 'This is description, this is description, this is description.',
-          avatar: 'https://dev-file.iviewui.com/userinfoPDvn9gKWYihR24SpgC319vXY8qniCqj4/avatar',
-          content: 'This is the content, this is the content, this is the content, this is the content.'
-        },
-        {
-          title: 'This is title 3',
-          description: 'This is description, this is description, this is description.',
-          avatar: 'https://dev-file.iviewui.com/userinfoPDvn9gKWYihR24SpgC319vXY8qniCqj4/avatar',
-          content: 'This is the content, this is the content, this is the content, this is the content.'
-        }
-      ]
+      activities: []
     }
   },
   computed: {
@@ -54,12 +35,11 @@ export default {
     }
   },
   async mounted () {
-    // await this.loadData()
+    await this.loadData()
   },
   methods: {
     async loadData () {
-      // TODO API
-      this.data = await this.$axios.$post('/api/User/MyActivity')
+      this.activities = await this.$axios.$post('/api/userinfo')
     }
   }
 }
