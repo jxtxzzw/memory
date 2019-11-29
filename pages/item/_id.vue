@@ -17,10 +17,12 @@
         </Collapse>
       </i-col>
     </Row>
-    <Button @click="showComment = true"> 查看评论 </Button>
+    <Button @click="showComment = true">
+      查看评论
+    </Button>
     <Modal
-      :width="screenWidth / 2"
       v-model="showComment"
+      :width="screenWidth / 2"
       title="讨论区"
       class-name="vertical-center-modal"
       :closable="false"

@@ -17,15 +17,23 @@
     <Button v-else icon="ios-add" type="dashed" size="small" @click="showInput">
       添加标签
     </Button>
+    {{ initialTags }}
   </div>
 </template>
 
 <script>
 export default {
   name: 'Tags',
+  props: {
+    tags: {
+      type: Array,
+      default () {
+        return []
+      }
+    }
+  },
   data () {
     return {
-      tags: [],
       inputVisible: false,
       inputValue: ''
     }

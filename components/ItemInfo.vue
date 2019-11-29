@@ -1,8 +1,7 @@
 <template>
   <div>
     <Card style="width:350px" dis-hover>
-
-      <div slot="title" class="item-title" >
+      <div slot="title" class="item-title">
         {{ data.title }}
         <Tag type="border" color="success">
           {{ data.type }}
@@ -19,12 +18,16 @@
         {{ data.note }}
       </span>
     </Card>
+    <EditItemModal :modal="showEdit" :form-validate="editData" @modalVisibleChange="handleVisibleChange" />
+    <Button @click="aaa"> 12334 </Button>
   </div>
 </template>
 
 <script>
+import EditItemModal from './EditItemModal'
 export default {
   name: 'ItemInfo',
+  components: { EditItemModal },
   middleware: ['auth'],
   props: {
     data: {
@@ -32,10 +35,42 @@ export default {
       default: null
     }
   },
+  data () {
+    return {
+      showEdit: false,
+      editData: null
+    }
+  },
   methods: {
+    aaa () {
+      console.log(this.data)
+    },
     editItem () {
+      this.editData = {
+        title: this.data.title,
+        type: this.data.type,
+        checkedCategory: [],
+        tags: [],
+        fileList: []
+      }
+      for (const x of this.data.category) {
+        this.editData.checkedCategory.push(x)
+      }
+      for (const x of this.data.tag) {
+        this.editData.tags.push(x.id + '')
+      }
+      this.editData.fileList.push({
+        uid: '-1',
+        status: 'done',
+        url: this.data.cover
+      })
+      console.log(this.editData)
+      this.showEdit = true
       // TODO 打开 EditItem 并设置初始值
       console.log('aaa')
+    },
+    handleVisibleChange (status) {
+      this.showEdit = status
     }
   }
 }

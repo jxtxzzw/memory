@@ -9,7 +9,7 @@
   }
 </style>
 <template>
-  <div>
+  <div v-if="formValidate != null">
     <Modal
       v-model="modal"
       title="添加"
@@ -84,7 +84,7 @@
               </Card>
             </FormItem>
             <FormItem label="标签">
-              <Tags @add="addTag" @remove="removeTag"></Tags>
+              <Tags :tags="formValidate.tags" @add="addTag" @remove="removeTag"></Tags>
             </FormItem>
           </i-col>
         </Row>
@@ -108,17 +108,22 @@ export default {
     modal: {
       type: Boolean,
       default: false
+    },
+    formValidate: {
+      type: Object,
+      default () {
+        return {
+          title: '',
+          type: 0,
+          checkedCategory: [],
+          tags: [],
+          fileList: []
+        }
+      }
     }
   },
   data () {
     return {
-      formValidate: {
-        title: '',
-        type: 0,
-        checkedCategory: [],
-        tags: [],
-        fileList: []
-      },
       ruleValidate: {
         title: [
           { required: true, message: '标题不得为空', trigger: 'blur' }
