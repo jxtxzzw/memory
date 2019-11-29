@@ -33,6 +33,7 @@ export default {
       type: Object,
       default () {
         return {
+          id: 0,
           title: '',
           type: 0,
           note: '',
@@ -51,6 +52,7 @@ export default {
   methods: {
     editItem () {
       this.editData = {
+        id: this.data.id,
         title: this.data.title,
         type: this.data.type,
         checkedCategory: [],
@@ -58,10 +60,11 @@ export default {
         fileList: []
       }
       for (const x of this.data.category) {
-        this.editData.checkedCategory.push(x.id)
+        this.editData.checkedCategory.push(x.category)
+        console.log(this.editData.checkedCategory)
       }
       for (const x of this.data.tag) {
-        this.editData.tags.push(x.id + '')
+        this.editData.tags.push(x.tag)
       }
       // fileList @type UploadFile[]，经 Props 查 PropsTypes.arrayOf(PropsTypes.custom(UploadFile))
       // 其中 interface UploadFile { uid: string | number; name: string; }

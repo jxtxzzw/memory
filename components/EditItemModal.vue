@@ -220,6 +220,7 @@ export default {
           this.loading = true
         })
         if (valid) {
+          console.log(this.formValidate)
           await this.$axios.$post('/api/upload', this.formValidate)
           this.modalVisible = false
         } else {
