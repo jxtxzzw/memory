@@ -11,7 +11,7 @@
 <template>
   <div v-if="formValidate != null">
     <Modal
-      v-model="modal"
+      v-model="modalVisible"
       title="添加"
       class-name="vertical-center-modal"
       :closable="false"
@@ -109,7 +109,7 @@ export default {
       type: Boolean,
       default: false
     },
-    formValidate: {
+    original: {
       type: Object,
       default () {
         return {
@@ -124,6 +124,13 @@ export default {
   },
   data () {
     return {
+      formValidate: {
+        title: '',
+        type: 0,
+        checkedCategory: [],
+        tags: [],
+        fileList: []
+      },
       ruleValidate: {
         title: [
           { required: true, message: '标题不得为空', trigger: 'blur' }
@@ -145,16 +152,25 @@ export default {
       previewVisible: false,
       previewImage: '',
       loading: true,
-      CategoryList: {}
+      CategoryList: {},
+      modalVisible: false
     }
   },
   // 增加 watcher 来监控 props 中 category 的修改
   watch: {
-    formValidate: {
+    original: {
       // 深度 watcher 以监控 formValidate 的子元素 formValidate.checkedCategory
       deep: true,
       handler () {
-        this.uncheckedCategory = this.uncheckedCategory.filter(id => !this.formValidate.checkedCategory.includes(id))
+        // 从所有分类中去除已经选择的分类
+        this.uncheckedCategory = this.uncheckedCategory.filter(id => !this.original.checkedCategory.includes(id))
+        this.formValidate = this.original
+      }
+    },
+    // 用 watcher 留下 modal 的值，否则模态框开启关闭的时候修改 props 的值就会引起 warning
+    modal: {
+      handler (val) {
+        this.modalVisible = val
       }
     }
   },
@@ -205,13 +221,12 @@ export default {
         })
         if (valid) {
           await this.$axios.$post('/api/upload', this.formValidate)
-          this.modal = false
+          this.modalVisible = false
         } else {
           this.$Message.error({
             background: true,
             content: '表单验证失败，请检查您输入的内容'
           })
-          this.modal = false
         }
       })
     },

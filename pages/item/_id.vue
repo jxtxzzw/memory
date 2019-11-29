@@ -51,11 +51,11 @@ export default {
       ratingName: '',
       reload: false,
       data: {
-        id: '',
+        id: 0,
         type: '',
         note: '',
         cover: '',
-        rating: ''
+        rating: 0
       },
       ratings: []
     }

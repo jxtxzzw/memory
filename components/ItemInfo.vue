@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="data != null">
     <Card style="width:350px" dis-hover>
       <div slot="title" class="item-title">
         {{ data.title }}
@@ -18,8 +18,7 @@
         {{ data.note }}
       </span>
     </Card>
-    <EditItemModal :modal="showEdit" :form-validate="editData" @modalVisibleChange="handleVisibleChange" />
-    <Button @click="aaa"> 12334 </Button>
+    <EditItemModal :modal="showEdit" :original="editData" @modalVisibleChange="handleVisibleChange" />
   </div>
 </template>
 
@@ -32,7 +31,15 @@ export default {
   props: {
     data: {
       type: Object,
-      default: null
+      default () {
+        return {
+          title: '',
+          type: 0,
+          note: '',
+          cover: '',
+          rating: 0
+        }
+      }
     }
   },
   data () {
@@ -42,9 +49,6 @@ export default {
     }
   },
   methods: {
-    aaa () {
-      console.log(this.data)
-    },
     editItem () {
       this.editData = {
         title: this.data.title,
@@ -59,15 +63,16 @@ export default {
       for (const x of this.data.tag) {
         this.editData.tags.push(x.id + '')
       }
+      // fileList @type UploadFile[]，经 Props 查 PropsTypes.arrayOf(PropsTypes.custom(UploadFile))
+      // 其中 interface UploadFile { uid: string | number; name: string; }
+      // 因此必须给出 name 和 uid，否则会报 warning
       this.editData.fileList.push({
         uid: '-1',
         status: 'done',
-        url: this.data.cover
+        url: this.data.cover,
+        name: this.data.title
       })
-      console.log(this.editData)
       this.showEdit = true
-      // TODO 打开 EditItem 并设置初始值
-      console.log('aaa')
     },
     handleVisibleChange (status) {
       this.showEdit = status
