@@ -27,11 +27,18 @@
         </Collapse>
       </i-col>
     </Row>
-    <Row>
-      <i-col span="24" :style="{height: itemInfoHeight + 'px', overflowY: 'auto'}">
-        <CommentPage v-if="!reload" :item="data.id" @reloadComment="reloadComment" />
-      </i-col>
-    </Row>
+    <Button @click="showComment = true"> 查看评论 </Button>
+    <Modal
+      :width="screenWidth / 2"
+      v-model="showComment"
+      title="讨论区"
+      class-name="vertical-center-modal"
+      :closable="false"
+      :masked-closable="false"
+      footer-hide
+    >
+      <CommentPage v-if="!reload" :item="data.id" @reloadComment="reloadComment" />
+    </Modal>
   </div>
 </template>
 
@@ -46,7 +53,9 @@ export default {
   },
   data () {
     return {
+      showComment: false,
       screenHeight: 0,
+      screenWidth: 0,
       value2: '',
       reload: false,
       data: {
@@ -85,10 +94,12 @@ export default {
         }
       }
       // 将 default layout 的 screenHeight 留下来，作为初始值
-      this.screenHeight = defaultLayoutVue.screenHeight
+      this.screenHeight = document.body.clientHeight
+      this.screenWidth = document.body.clientWidth
       // 在 default layout 的 onResizeHook 中添加一个函数，表示窗口大小变化时，需要更新该组件的 screenHeight 为 default layout 的 screenHeight
       defaultLayoutVue.onResizeHook.push(() => {
-        this.screenHeight = defaultLayoutVue.screenHeight
+        this.screenHeight = document.body.clientHeight
+        this.screenWidth = document.body.clientWidth
       })
     },
     async loadData () {
