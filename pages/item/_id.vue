@@ -1,13 +1,15 @@
 <template>
   <div>
     <ItemInfo :data="data" />
+    <CommentPage :item="data.id" />
   </div>
 </template>
 
 <script>
 import ItemInfo from '../../components/ItemInfo'
+import CommentPage from '../../components/CommentPage'
 export default {
-  components: { ItemInfo },
+  components: { CommentPage, ItemInfo },
   middleware: ['auth'],
   validate ({ params }) {
     return /^\d+$/.test(params.id)
