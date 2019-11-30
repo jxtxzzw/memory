@@ -5,6 +5,8 @@ const sequelize = require('../index')
 
 const Comment = require('./Comment')
 const Rating = require('./Rating')
+const Category = require('./Category')
+const ItemCategory = require('./ItemCategory')
 
 class Item extends Model {}
 Item.init({
@@ -35,5 +37,5 @@ Item.init({
 
 Item.hasMany(Comment, { foreignKey: 'item' })
 Item.hasMany(Rating, { foreignKey: 'item' })
-
+Item.belongsToMany(Category, { through: ItemCategory, foreignKey: 'item' })
 module.exports = Item
