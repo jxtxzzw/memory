@@ -60,6 +60,7 @@ async function getItemInfo (id) {
     }]
   })
   const data = result.toJSON()
+  data.cover = data.cover ? uploadConfig.upload + data.cover : uploadConfig.defaultCover
   data.category = data.Categories.map(el => el.id)
   data.tag = data.Tags.map(el => el.name)
   data.Categories = undefined
