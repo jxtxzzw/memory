@@ -12,12 +12,14 @@ async function addOrChangeRating (data, user) {
       user: user.id,
       item: data.item,
       rating: data.rating,
-      review: data.review
+      review: data.review,
+      recursion: data.recursion
     }
   })
   if (!created) {
     instance.rating = data.rating
     instance.review = data.review
+    instance.recursion = data.recursion
     await instance.save()
   }
 }
