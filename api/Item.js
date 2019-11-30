@@ -25,7 +25,7 @@ async function getItemList (data) {
     })
     for (const item of result) {
       const itemJSON = item.toJSON()
-      itemJSON.cover = uploadConfig.upload + itemJSON.cover
+      itemJSON.cover = itemJSON.cover ? uploadConfig.upload + itemJSON.cover : uploadConfig.defaultCover
       itemList.push(itemJSON)
     }
   } else {
@@ -41,7 +41,7 @@ async function getItemList (data) {
     })
     for (const item of result) {
       const itemJSON = item.toJSON()
-      itemJSON.cover = uploadConfig.upload + itemJSON.cover
+      itemJSON.cover = itemJSON.cover ? uploadConfig.upload + itemJSON.cover : uploadConfig.defaultCover
       itemList.push(itemJSON)
     }
   }
