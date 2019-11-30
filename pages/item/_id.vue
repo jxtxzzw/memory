@@ -2,8 +2,10 @@
   <div>
     <Row>
       <i-col span="11" :style="{height: itemInfoHeight + 'px', overflowY: 'auto'}">
+        <Divider> 基本信息 </Divider>
         <ItemInfo ref="itemInfo" :data="data" @success="handleSuccess" />
-        <Button type="info" ghost long @click="showComment = true">
+        <Divider> 讨论区 </Divider>
+        <Button type="info" size="large" ghost long @click="showComment = true">
           查看该内容的讨论区
         </Button>
         <Modal
@@ -19,8 +21,9 @@
         </Modal>
       </i-col>
       <i-col offset="2" span="11" :style="{height: itemInfoHeight + 'px', overflowY: 'auto'}">
+        <Divider> 我的评价 </Divider>
         <Rating :my="myRating" @success="handleSuccess" />
-        <Divider />
+        <Divider> 所有评价 </Divider>
         <Collapse v-model="ratingName" accordion>
           <Panel v-for="rating in ratings" :key="rating.username" :name="rating.username">
             <Avatar size="small" :src="rating.avatar" />
