@@ -262,7 +262,7 @@ export default {
       }
     },
     handleVisibleChange (status) {
-      this.$emit('modalVisibleChange', status)
+      this.$emit('editItemVisibleChange', status)
     }
   }
 }

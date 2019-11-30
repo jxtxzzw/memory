@@ -2,23 +2,31 @@
   <div>
     <!-- 无限滚动，ref 是为了下面获取 Content 宽度 -->
     <!-- 使用计算属性计算出触发滚动处理的高度 -->
-    <Button @click="createItemModal = true">
-      {{ createItemModal }}
-    </Button>
-    <Search @search="handleSearch"/>
+    <div :style="{height: headerHeight + 'px'}">
+      <Row>
+        <i-col span="3">
+          <Button type="success" @click="createItemModal = true">
+            添加
+          </Button>
+          <EditItemModal :modal="createItemModal" @editItemVisibleChange="handleEditItemVisibleChange" />
+        </i-col>
+        <i-col offset="3" span="12">
+          <Search @search="handleSearch" />
+        </i-col>
+        <i-col offset="3" span="3">
+          <Button type="success" @click="advancedSearchModal = true">
+            高级搜索
+          </Button>
+          <AdvancedSearch :modal="advancedSearchModal" @advancedSearchVisibleChange="handleAdvancedSearchVisibleChange" @advancedSearch="handleAdvancedSearch" />
+        </i-col>
+      </Row>
+    </div>
     <Scroll
       ref="scroll"
       :on-reach-bottom="handleReachBottom"
       loading-text="加载中……"
       :height="scrollHeight"
     >
-      <EditItemModal :modal="createItemModal" @modalVisibleChange="handleModalVisibleChange" />
-      <Alert show-icon>
-        无限滚动
-        <span slot="desc">
-          滚动到展示区域最下面，会触发异步加载，加载后面 10 个 Item
-        </span>
-      </Alert>
       <!-- 对 Row 使用 flex 布局，固定每个 item 的宽度和 item 之间的间距，使用 center 对齐，左右两边留白可变化 -->
       <!-- 增加 margin 为 0 的样式，避免因为 gutter 导致 flex 宽度大于 Content 宽度而出现水平滚动条 -->
       <!-- 另可选样式为使用 flex space-between 样式，为左右留白固定，item 宽度固定，item 间距动态变化 -->
@@ -55,15 +63,18 @@
   </div>
 </template>
 <script>
+import AdvancedSearch from '../../components/AdvancedSearch'
 import EditItemModal from '~/components/EditItemModal'
 import Search from '~/components/Search'
 export default {
-  components: { Search, EditItemModal },
+  components: { AdvancedSearch, Search, EditItemModal },
   middleware: ['auth'],
   data () {
     return {
+      advancedSearchModal: false,
       createItemModal: false,
       // 自定义 item 样式
+      headerHeight: 32, // 头部搜索和添加按钮的高度
       itemMargin: 32, // 每一层之间的间距，应用在 Card 组件的 margin
       itemSpan: 20, // item 之间的间距，应用在 Row 组件的 gutter
       itemWidth: 220, // item 的宽度
@@ -82,7 +93,7 @@ export default {
       // 再减去 64 的 layout header 和 69 的 layout footer 高度，得到 layout content 高度
       // 再减去高度 2 个高度为 1 的 bordered card，和 2 个高为 16 的 card body padding
       // 总计 169，魔术数
-      const aroundArea = 169
+      const aroundArea = 169 + this.headerHeight
       // 计算最大滚动区域大小，确保整个滚动区域在浏览器窗口高度内，即不会出现垂直滚动条
       const maxScrollHeight = this.screenHeight - aroundArea
       // item 个数除以每一行的 item 个数，向上取整，得到总行数
@@ -176,11 +187,18 @@ export default {
         }, 1000)
       })
     },
-    handleModalVisibleChange (status) {
+    handleEditItemVisibleChange (status) {
       this.createItemModal = status
+    },
+    handleAdvancedSearchVisibleChange (status) {
+      this.advancedSearchModal = status
     },
     async handleSearch (input, type) {
       await this.loadData(input, type, 0)
+    },
+    handleAdvancedSearch (formItem) {
+      console.log(formItem)
+      // TODO: call API to search more
     }
   }
 }
