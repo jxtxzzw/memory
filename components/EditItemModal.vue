@@ -220,9 +220,24 @@ export default {
           this.loading = true
         })
         if (valid) {
-          console.log(this.formValidate)
-          await this.$axios.$post('/api/upload', this.formValidate)
-          this.modalVisible = false
+          let success = true
+          try {
+            await this.$axios.$post('/api/upload', this.formValidate)
+          } catch (e) {
+            success = false
+            this.$Message.error({
+              background: true,
+              content: '表单提交出现错误：' + e
+            })
+          }
+          if (success) {
+            this.resetForm()
+            this.modalVisible = false
+            this.$Message.success({
+              background: true,
+              content: '编辑成功'
+            })
+          }
         } else {
           this.$Message.error({
             background: true,
@@ -230,6 +245,15 @@ export default {
           })
         }
       })
+    },
+    resetForm () {
+      this.formValidate = {
+        title: '',
+        type: 0,
+        checkedCategory: [],
+        tags: [],
+        fileList: []
+      }
     },
     handleVisibleChange (status) {
       this.$emit('modalVisibleChange', status)

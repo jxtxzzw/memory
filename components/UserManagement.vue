@@ -170,8 +170,24 @@ export default {
           this.loading = true
         })
         if (valid) {
-          await this.$axios.$post('/api/User/add', this.formValidate)
-          this.showCreateUser = false
+          let success = true
+          try {
+            await this.$axios.$post('/api/User/add', this.formValidate)
+          } catch (e) {
+            success = false
+            this.$Message.error({
+              background: true,
+              content: '表单提交出现错误：' + e
+            })
+          }
+          if (success) {
+            this.showCreateUser = false
+            this.resetForm()
+            this.$Message.success({
+              background: true,
+              content: '用户创建成功'
+            })
+          }
         } else {
           this.$Message.error({
             background: true,
@@ -179,6 +195,12 @@ export default {
           })
         }
       })
+    },
+    resetForm () {
+      this.formValidate = {
+        username: '',
+        realname: ''
+      }
     },
     onSearch (search) {
       this.generateUserData(search)
