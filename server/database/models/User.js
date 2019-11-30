@@ -3,6 +3,8 @@ const Model = Sequelize.Model
 
 const sequelize = require('../index')
 
+const Item = require('./Item')
+
 class User extends Model {}
 User.init({
   id: {
@@ -34,5 +36,8 @@ User.init({
 }, {
   sequelize
 })
+
+User.hasMany(Item, { foreignKey: 'creator' })
+User.hasMany(Item, { foreignKey: 'updater' })
 
 module.exports = User

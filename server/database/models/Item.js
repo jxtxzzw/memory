@@ -4,7 +4,6 @@ const Model = Sequelize.Model
 const sequelize = require('../index')
 
 const Type = require('./Type')
-const User = require('./User')
 
 class Item extends Model {}
 Item.init({
@@ -31,20 +30,6 @@ Item.init({
   cover: {
     type: Sequelize.STRING,
     allowNull: true
-  },
-  creator: {
-    type: Sequelize.INTEGER,
-    references: {
-      model: User,
-      key: 'id'
-    }
-  },
-  updater: {
-    type: Sequelize.INTEGER,
-    references: {
-      model: User,
-      key: 'id'
-    }
   },
   rating: {
     type: Sequelize.INTEGER,
