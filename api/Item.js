@@ -1,7 +1,5 @@
 const Sequelize = require('sequelize')
-const { Item } = require('../server/database/models/Item')
-const ItemCategory = require('../server/database/models/ItemCategory')
-const ItemTag = require('../server/database/models/ItemTag')
+const { Item, Category, Tag } = require('../server/database/models/Item')
 const uploadConfig = require('../assets/uploadConfig')
 const router = require('./router')
 const Op = Sequelize.Op
@@ -52,28 +50,20 @@ async function getItemInfo (id) {
   const result = await Item.findOne({
     where: {
       id
-    }
-  })
-  const categorys = await ItemCategory.findAll({
-    where: {
-      item: result.id
-    }
-  })
-  const tags = await ItemTag.findAll({
-    where: {
-      item: result.id
-    }
+    },
+    include: [{
+      model: Category,
+      attributes: ['id']
+    }, {
+      model: Tag,
+      attributes: ['name']
+    }]
   })
   const data = result.toJSON()
-  data.cover = data.cover ? uploadConfig.upload + data.cover : uploadConfig.defaultCover
-  data.category = []
-  data.tag = []
-  for (const category of categorys) {
-    data.category.push(category.toJSON())
-  }
-  for (const tag of tags) {
-    data.tag.push(tag.toJSON())
-  }
+  data.category = data.Categories.map(el => el.id)
+  data.tag = data.Tags.map(el => el.name)
+  data.Categories = undefined
+  data.Tags = undefined
   return data
 }
 
