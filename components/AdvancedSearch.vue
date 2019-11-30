@@ -5,7 +5,7 @@
       title="高级搜索"
       class-name="vertical-center-modal"
       :closable="false"
-      :masked-closable="false"
+      :mask-closable="false"
       @on-ok="handleSearch('formValidate')"
       @on-visible-change="handleVisibleChange"
     >

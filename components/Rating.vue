@@ -34,7 +34,7 @@
       title="我的评价"
       class-name="vertical-center-modal"
       :closable="false"
-      :masked-closable="false"
+      :mask-closable="false"
       :loading="loading"
       @on-ok="handleEdit('formValidate')"
     >

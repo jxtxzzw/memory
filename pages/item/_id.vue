@@ -14,7 +14,7 @@
           title="讨论区"
           class-name="vertical-center-modal"
           :closable="false"
-          :masked-closable="false"
+          :mask-closable="false"
           footer-hide
         >
           <CommentPage v-if="!reload" :item="data.id" @reloadComment="reloadComment" />
