@@ -29,7 +29,7 @@ async function getItemRating (id) {
     where: {
       item: id
     },
-    attributes: ['user', 'rating', 'review']
+    attributes: ['user', 'rating', 'review', 'recursion']
   })
   const data = []
   for (const rating of result) {

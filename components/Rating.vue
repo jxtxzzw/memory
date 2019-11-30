@@ -109,7 +109,7 @@ export default {
   },
   computed: {
     read () {
-      return this.my && this.my.item !== 0
+      return this.my && this.my.recursion > 0
     }
   },
   watch: {
