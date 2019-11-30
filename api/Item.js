@@ -47,25 +47,29 @@ async function getItemList (data) {
 }
 
 async function getItemInfo (id) {
-  const result = await Item.findOne({
-    where: {
-      id
-    },
-    include: [{
-      model: Category,
-      attributes: ['id']
-    }, {
-      model: Tag,
-      attributes: ['name']
-    }]
-  })
-  const data = result.toJSON()
-  data.cover = data.cover ? uploadConfig.upload + data.cover : uploadConfig.defaultCover
-  data.category = data.Categories.map(el => el.id)
-  data.tag = data.Tags.map(el => el.name)
-  data.Categories = undefined
-  data.Tags = undefined
-  return data
+  try {
+    const result = await Item.findOne({
+      where: {
+        id
+      },
+      include: [{
+        model: Category,
+        attributes: ['id']
+      }, {
+        model: Tag,
+        attributes: ['name']
+      }]
+    })
+    const data = result.toJSON()
+    data.cover = data.cover ? uploadConfig.upload + data.cover : uploadConfig.defaultCover
+    data.category = data.Categories.map(el => el.id)
+    data.tag = data.Tags.map(el => el.name)
+    data.Categories = undefined
+    data.Tags = undefined
+    return data
+  } catch (e) {
+    return null
+  }
 }
 
 async function itemIsExist (id) {
@@ -84,7 +88,11 @@ router.post('/Item/itemList', async (req, res, next) => {
 
 router.post('/Item/itemInfo', async (req, res, next) => {
   const item = await getItemInfo(req.body.id)
-  res.json(item)
+  if (item) {
+    res.json(item)
+  } else {
+    res.sendStatus(404)
+  }
 })
 
 router.post('/Item/exist', async (req, res, next) => {
