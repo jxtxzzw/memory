@@ -1,5 +1,5 @@
 const Sequelize = require('sequelize')
-const Item = require('../server/database/models/Item')
+const { Item } = require('../server/database/models/Item')
 const ItemCategory = require('../server/database/models/ItemCategory')
 const ItemTag = require('../server/database/models/ItemTag')
 const uploadConfig = require('../assets/uploadConfig')

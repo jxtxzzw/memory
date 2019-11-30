@@ -3,7 +3,7 @@ const Model = Sequelize.Model
 
 const sequelize = require('../index')
 
-const Item = require('./Item')
+const { Item } = require('./Item')
 const Category = require('./Category')
 
 class Type extends Model {}

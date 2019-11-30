@@ -20,7 +20,7 @@
       </i-col>
       <i-col span="12" :style="{height: itemInfoHeight + 'px', overflowY: 'auto'}">
         <Rating />
-        <Divider/>
+        <Divider />
         <Collapse v-model="ratingName" accordion>
           <Panel v-for="rating in ratings" :key="rating.username" :name="rating.username">
             <Avatar size="small" :src="rating.avatar" />

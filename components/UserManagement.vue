@@ -15,15 +15,15 @@
       @on-ok="handleCreate('formValidate')"
     >
       <Form ref="formValidate" :model="formValidate" :rules="ruleValidate">
-            <Alert v-if="formError" type="error" show-icon>
-              表单验证失败
-              <span slot="desc">
-                {{ formError }}
-              </span>
-            </Alert>
-            <FormItem label="用户名" prop="username">
-              <Input v-model="formValidate.username" type="text" />
-            </FormItem>
+        <Alert v-if="formError" type="error" show-icon>
+          表单验证失败
+          <span slot="desc">
+            {{ formError }}
+          </span>
+        </Alert>
+        <FormItem label="用户名" prop="username">
+          <Input v-model="formValidate.username" type="text" />
+        </FormItem>
         <FormItem label="真实姓名" prop="realname">
           <Input v-model="formValidate.realname" type="text" />
         </FormItem>

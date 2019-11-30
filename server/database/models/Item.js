@@ -1,9 +1,10 @@
 const Sequelize = require('sequelize')
 const Model = Sequelize.Model
-
+const sequelize = require('../index')
+const ItemTag = require('./ItemTag')
+const ItemCategory = require('./ItemCategory')
 const Comment = require('./Comment')
 const Rating = require('./Rating')
-const sequelize = require('../index')
 
 class Item extends Model {}
 Item.init({
@@ -32,7 +33,44 @@ Item.init({
   sequelize
 })
 
+class Tag extends Model {}
+Tag.init({
+  id: {
+    type: Sequelize.INTEGER,
+    primaryKey: true,
+    autoIncrement: true
+  },
+  name: {
+    type: Sequelize.STRING,
+    allowNull: false
+  }
+}, {
+  sequelize
+})
+
+class Category extends Model {}
+Category.init({
+  id: {
+    type: Sequelize.INTEGER,
+    primaryKey: true,
+    autoIncrement: true
+  },
+  name: {
+    type: Sequelize.STRING,
+    allowNull: false,
+    unique: true
+  }
+}, {
+  sequelize
+})
+
 Item.hasMany(Comment, { foreignKey: 'item' })
 Item.hasMany(Rating, { foreignKey: 'item' })
+Category.belongsToMany(Item, { through: ItemCategory, foreignKey: 'category' })
+Item.belongsToMany(Category, { through: ItemCategory, foreignKey: 'item' })
+Item.belongsToMany(Tag, { through: ItemTag, foreignKey: 'item' })
+Tag.belongsToMany(Item, { through: ItemTag, foreignKey: 'tag' })
 
-module.exports = Item
+module.exports = {
+  Item, Category, Tag
+}

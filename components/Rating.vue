@@ -19,7 +19,7 @@
           </li>
         </template>
       </ListItem>
-      <ListItem v-else >
+      <ListItem v-else>
         <ListItemMeta
           avatar="https://dev-file.iviewui.com/userinfoPDvn9gKWYihR24SpgC319vXY8qniCqj4/avatar"
           title="我没有评价过该内容"

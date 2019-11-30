@@ -1,19 +1,18 @@
 const sequelize = require('./index')
 
 const MODEL_INIT_LIST = [
-  'Relations',
   'ItemCategory',
   'ItemTag',
   'Comment',
-  'Tag',
-  'Category',
-  'Item',
   'Rating',
   'User',
   'Type'
 ]
 
 const MODELS = []
+MODELS.push(require('./models/Item').Item)
+MODELS.push(require('./models/Item').Tag)
+MODELS.push(require('./models/Item').Category)
 
 for (const x of MODEL_INIT_LIST) {
   MODELS.push(require('./models/' + x))

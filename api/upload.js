@@ -1,6 +1,6 @@
 const fs = require('fs')
 const typeList = require('../assets/mimetype')
-const Item = require('../server/database/models/Item')
+const { Item } = require('../server/database/models/Item')
 const ItemCategory = require('../server/database/models/ItemCategory')
 const Tag = require('../server/database/models/Tag')
 const ItemTag = require('../server/database/models/ItemTag')

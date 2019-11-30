@@ -3,7 +3,7 @@ const Model = Sequelize.Model
 
 const sequelize = require('../index')
 
-const Item = require('./Item')
+const { Item } = require('./Item')
 const Comment = require('./Comment')
 const Rating = require('./Rating')
 
