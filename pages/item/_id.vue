@@ -2,35 +2,27 @@
   <div>
     <Row>
       <i-col span="12" :style="{height: itemInfoHeight + 'px', overflowY: 'auto'}">
-        <ItemInfo ref="itemInfo" :data="data" />
+        <ItemInfo ref="itemInfo" :data="data" @success="handleSuccess" />
       </i-col>
       <i-col span="12" :style="{height: itemInfoHeight + 'px', overflowY: 'auto'}">
-        <Collapse v-model="value2" accordion>
-          <Panel name="1">
-            史蒂夫·乔布斯
+        <Collapse v-model="ratingName" accordion>
+          <Panel v-for="rating in ratings" :key="rating.username" :name="rating.username">
+            <Avatar size="small" :src="rating.avatar" />
+            {{ rating.user }}
+            <Rate :value="rating.rating" disabled show-text style="float: right; margin-right: 10px" />
             <p slot="content">
-              史蒂夫·乔布斯（Steve Jobs），1955年2月24日生于美国加利福尼亚州旧金山，美国发明家、企业家、美国苹果公司联合创办人。
-            </p>
-          </Panel>
-          <Panel name="2">
-            斯蒂夫·盖瑞·沃兹尼亚克
-            <p slot="content">
-              斯蒂夫·盖瑞·沃兹尼亚克（Stephen Gary Wozniak），美国电脑工程师，曾与史蒂夫·乔布斯合伙创立苹果电脑（今之苹果公司）。斯蒂夫·盖瑞·沃兹尼亚克曾就读于美国科罗拉多大学，后转学入美国著名高等学府加州大学伯克利分校（UC Berkeley）并获得电机工程及计算机（EECS）本科学位（1987年）。
-            </p>
-          </Panel>
-          <Panel name="3">
-            乔纳森·伊夫
-            <p slot="content">
-              乔纳森·伊夫是一位工业设计师，现任Apple公司设计师兼资深副总裁，英国爵士。他曾参与设计了iPod，iMac，iPhone，iPad等众多苹果产品。除了乔布斯，他是对苹果那些著名的产品最有影响力的人。
+              {{ rating.review }}
             </p>
           </Panel>
         </Collapse>
       </i-col>
     </Row>
-    <Button @click="showComment = true"> 查看评论 </Button>
+    <Button @click="showComment = true">
+      查看评论
+    </Button>
     <Modal
-      :width="screenWidth / 2"
       v-model="showComment"
+      :width="screenWidth / 2"
       title="讨论区"
       class-name="vertical-center-modal"
       :closable="false"
@@ -56,15 +48,16 @@ export default {
       showComment: false,
       screenHeight: 0,
       screenWidth: 0,
-      value2: '',
+      ratingName: '',
       reload: false,
       data: {
-        id: '',
+        id: 0,
         type: '',
         note: '',
         cover: '',
-        rating: ''
-      }
+        rating: 0
+      },
+      ratings: []
     }
   },
   computed: {
@@ -73,7 +66,7 @@ export default {
       return this.screenHeight - 137 - 32
     },
     itemInfoHeight () {
-      return Math.floor(this.cardInnerHeight / 2)
+      return this.cardInnerHeight
     }
   },
   async mounted () {
@@ -106,6 +99,12 @@ export default {
       this.data = await this.$axios.$post('/api/Item/itemInfo', {
         id: this.$route.params.id
       })
+      this.ratings = await this.$axios.$post('/api/Rating/item', {
+        id: this.$route.params.id
+      })
+    },
+    async handleSuccess () {
+      await this.loadData()
     },
     reloadComment () {
       this.reload = true
@@ -122,5 +121,11 @@ export default {
 <style>
   .ant-comment-content-detail p {
     white-space: unset;
+  }
+  /* 如果给 Rate 增加 show-text 属性，则 float: right 从第 2 行开始就会出现错误，依次向左移动，原因不明 */
+  /* 解决方案为修改 line-height 变小，从 38 改为 35 可解决该问题，目前样式正常，原因不明 */
+  /* TODO: 希望找到问题根源，及其完美解决方案 */
+  .ivu-collapse>.ivu-collapse-item>.ivu-collapse-header {
+    line-height: 35px;
   }
 </style>

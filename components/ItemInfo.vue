@@ -1,8 +1,7 @@
 <template>
-  <div>
+  <div v-if="data != null">
     <Card style="width:350px" dis-hover>
-
-      <div slot="title" class="item-title" >
+      <div slot="title" class="item-title">
         {{ data.title }}
         <Tag type="border" color="success">
           {{ data.type }}
@@ -19,23 +18,69 @@
         {{ data.note }}
       </span>
     </Card>
+    <EditItemModal :modal="showEdit" :original="editData" @success="handleSuccess" @modalVisibleChange="handleVisibleChange" />
   </div>
 </template>
 
 <script>
+import EditItemModal from './EditItemModal'
 export default {
   name: 'ItemInfo',
+  components: { EditItemModal },
   middleware: ['auth'],
   props: {
     data: {
       type: Object,
-      default: null
+      default () {
+        return {
+          id: 0,
+          title: '',
+          type: 0,
+          note: '',
+          cover: '',
+          rating: 0
+        }
+      }
+    }
+  },
+  data () {
+    return {
+      showEdit: false,
+      editData: null
     }
   },
   methods: {
     editItem () {
-      // TODO 打开 EditItem 并设置初始值
-      console.log('aaa')
+      this.editData = {
+        id: this.data.id,
+        title: this.data.title,
+        type: this.data.type,
+        checkedCategory: [],
+        tags: [],
+        fileList: []
+      }
+      for (const x of this.data.category) {
+        this.editData.checkedCategory.push(x.category)
+      }
+      for (const x of this.data.tag) {
+        this.editData.tags.push(x.tag)
+      }
+      // fileList @type UploadFile[]，经 Props 查 PropsTypes.arrayOf(PropsTypes.custom(UploadFile))
+      // 其中 interface UploadFile { uid: string | number; name: string; }
+      // 因此必须给出 name 和 uid，否则会报 warning
+      this.editData.fileList.push({
+        uid: '-1',
+        status: 'done',
+        url: this.data.cover,
+        name: this.data.title
+      })
+      this.showEdit = true
+    },
+    handleSuccess () {
+      this.$emit('success')
+    },
+    handleVisibleChange (status) {
+      this.showEdit = status
     }
   }
 }

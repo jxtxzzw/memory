@@ -77,7 +77,7 @@ export default {
             oldPassword: passwordEncrypt.password(this.formValidate.oldPassword),
             newPassword: passwordEncrypt.password(this.formValidate.newPassword)
           }
-          const res = await this.$axios.$post('/api/auth/change', passwords)
+          const res = await this.$axios.$post('/api/User/change', passwords)
           if (res === 'OK') {
             this.$Message.success({
               background: true,

@@ -1,0 +1,6 @@
+{
+  "uploadFS": "./static/upload/",
+  "upload": "/upload/",
+  "defaultAvatar": "/default_avatar.jpg",
+  "defaultCover": "/default_cover.jpg"
+}

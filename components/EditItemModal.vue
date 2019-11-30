@@ -9,9 +9,9 @@
   }
 </style>
 <template>
-  <div>
+  <div v-if="formValidate != null">
     <Modal
-      v-model="modal"
+      v-model="modalVisible"
       title="添加"
       class-name="vertical-center-modal"
       :closable="false"
@@ -84,7 +84,7 @@
               </Card>
             </FormItem>
             <FormItem label="标签">
-              <Tags @add="addTag" @remove="removeTag"></Tags>
+              <Tags :tags="formValidate.tags" @add="addTag" @remove="removeTag"></Tags>
             </FormItem>
           </i-col>
         </Row>
@@ -108,6 +108,18 @@ export default {
     modal: {
       type: Boolean,
       default: false
+    },
+    original: {
+      type: Object,
+      default () {
+        return {
+          title: '',
+          type: 0,
+          checkedCategory: [],
+          tags: [],
+          fileList: []
+        }
+      }
     }
   },
   data () {
@@ -140,7 +152,26 @@ export default {
       previewVisible: false,
       previewImage: '',
       loading: true,
-      CategoryList: {}
+      CategoryList: {},
+      modalVisible: false
+    }
+  },
+  // 增加 watcher 来监控 props 中 category 的修改
+  watch: {
+    original: {
+      // 深度 watcher 以监控 formValidate 的子元素 formValidate.checkedCategory
+      deep: true,
+      handler () {
+        // 从所有分类中去除已经选择的分类
+        this.uncheckedCategory = this.uncheckedCategory.filter(id => !this.original.checkedCategory.includes(id))
+        this.formValidate = this.original
+      }
+    },
+    // 用 watcher 留下 modal 的值，否则模态框开启关闭的时候修改 props 的值就会引起 warning
+    modal: {
+      handler (val) {
+        this.modalVisible = val
+      }
     }
   },
   async mounted () {
@@ -189,16 +220,46 @@ export default {
           this.loading = true
         })
         if (valid) {
-          await this.$axios.$post('/api/upload', this.formValidate)
-          this.modal = false
+          let success = true
+          let res
+          try {
+            res = await this.$axios.$post('/api/upload', this.formValidate)
+          } catch (e) {
+            success = false
+            this.$Message.error({
+              background: true,
+              content: '表单提交出现错误：' + e
+            })
+          }
+          if (success) {
+            this.resetForm()
+            this.modalVisible = false
+            this.$Message.success({
+              background: true,
+              content: '编辑成功'
+            })
+            if (this.original.id === res.id) {
+              this.$emit('success')
+            } else {
+              this.$router.push('/item/' + res.id)
+            }
+          }
         } else {
           this.$Message.error({
             background: true,
             content: '表单验证失败，请检查您输入的内容'
           })
-          this.modal = false
         }
       })
+    },
+    resetForm () {
+      this.formValidate = {
+        title: '',
+        type: 0,
+        checkedCategory: [],
+        tags: [],
+        fileList: []
+      }
     },
     handleVisibleChange (status) {
       this.$emit('modalVisibleChange', status)

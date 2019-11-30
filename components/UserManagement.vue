@@ -5,6 +5,30 @@
       :columns="tableColumns"
       @on-search="onSearch"
     />
+    <Modal
+      v-model="showCreateUser"
+      title="添加"
+      class-name="vertical-center-modal"
+      :closable="false"
+      :masked-closable="false"
+      :loading="loading"
+      @on-ok="handleCreate('formValidate')"
+    >
+      <Form ref="formValidate" :model="formValidate" :rules="ruleValidate">
+            <Alert v-if="formError" type="error" show-icon>
+              表单验证失败
+              <span slot="desc">
+                {{ formError }}
+              </span>
+            </Alert>
+            <FormItem label="用户名" prop="username">
+              <Input v-model="formValidate.username" type="text" />
+            </FormItem>
+        <FormItem label="真实姓名" prop="realname">
+          <Input v-model="formValidate.realname" type="text" />
+        </FormItem>
+      </Form>
+    </Modal>
   </div>
 </template>
 
@@ -16,12 +40,27 @@ export default {
   components: { FilterTable },
   data () {
     return {
+      showCreateUser: false,
       rawData: [],
       userData: [],
       lackingAuth: false,
       confirmDelete: false,
       modal_loading: false,
       deleteTarget: '',
+      loading: false,
+      formValidate: {
+        username: '',
+        realname: ''
+      },
+      ruleValidate: {
+        username: [
+          { required: true, message: '用户名不得为空', trigger: 'blur' }
+        ],
+        realname: [
+          { required: true, message: '真实姓名不得为空', trigger: 'blur' }
+        ]
+      },
+      formError: null,
       tableColumns: [
         {
           title: 'ID',
@@ -65,6 +104,11 @@ export default {
                 props: {
                   type: 'success',
                   long: true
+                },
+                on: {
+                  click: () => {
+                    this.showCreateUser = true
+                  }
                 }
               }, '新建')
             }
@@ -92,8 +136,7 @@ export default {
     }
   },
   async mounted () {
-    await this.requestData()
-    this.generateUserData()
+    await this.loadData()
   },
   methods: {
     generateUserData (search = null) {
@@ -119,14 +162,58 @@ export default {
         }
       }
     },
+    async handleCreate (name) {
+      await this.$refs[name].validate(async (valid) => {
+        this.loading = false
+        this.$nextTick(() => {
+          this.loading = true
+        })
+        if (valid) {
+          let success = true
+          try {
+            await this.$axios.$post('/api/User/add', this.formValidate)
+          } catch (e) {
+            success = false
+            this.$Message.error({
+              background: true,
+              content: '表单提交出现错误：' + e
+            })
+          }
+          if (success) {
+            this.showCreateUser = false
+            this.resetForm()
+            this.$Message.success({
+              background: true,
+              content: '用户创建成功'
+            })
+            await this.loadData()
+          }
+        } else {
+          this.$Message.error({
+            background: true,
+            content: '表单验证失败，请检查您输入的内容'
+          })
+        }
+      })
+    },
+    resetForm () {
+      this.formValidate = {
+        username: '',
+        realname: ''
+      }
+    },
+    async loadData () {
+      await this.requestData()
+      this.generateUserData()
+    },
     onSearch (search) {
       this.generateUserData(search)
     },
     async requestData (payload) {
-      this.rawData = await this.$axios.$post('/api/User', payload)
+      this.rawData = await this.$axios.$post('/api/User/users', payload)
     },
     async resetPassword (userId) {
-      const res = await this.$axios.$post('/api/auth/reset', {
+      const res = await this.$axios.$post('/api/User/reset', {
         userId
       })
       if (res === 'OK') {

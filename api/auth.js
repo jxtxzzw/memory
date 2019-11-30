@@ -1,7 +1,7 @@
 const cookieParser = require('cookie-parser')
 const jwt = require('express-jwt')
 const jsonwebtoken = require('jsonwebtoken')
-const passwordEncrypt = require('../assets/passwordEncrypt')
+const uploadConfig = require('../assets/uploadConfig')
 const User = require('../server/database/models/User')
 const router = require('./router')
 
@@ -42,7 +42,7 @@ router.post('/auth/login', async (req, res, next) => {
     {
       id: user.id,
       username,
-      avatar: user.avatar // TODO: avartar: '/upload/' + result.avartar
+      avatar: user.avatar ? uploadConfig.upload + user.avatar : uploadConfig.defaultAvatar
     },
     process.env.MEMORY_JWT_SECERT || 'dummy'
   )
@@ -62,51 +62,6 @@ router.get('/auth/user', (req, res, next) => {
 // [POST] /logout
 router.post('/auth/logout', (req, res, next) => {
   res.json({ status: 'OK' })
-})
-
-function changePassword(user, password, res) {
-  try {
-    user.password = password
-    user.save()
-    res.sendStatus(200)
-  } catch (e) {
-    res.sendStatus(500)
-  }
-}
-
-router.post('/auth/change', async (req, res, next) => {
-  try {
-    const user = await User.findOne({
-      where: {
-        id: req.user.id,
-        password: req.body.oldPassword
-      }
-    })
-    if (user == null) {
-      res.status(403).end('原密码错误')
-    }
-    await changePassword(user, req.body.newPassword, res)
-  } catch (e) {
-    res.status(500).end('' + e)
-  }
-})
-
-router.post('/auth/reset', async (req, res, next) => {
-  // 只有超级管理员可以管理员工信息
-  if (req.user.id !== 1) {
-    res.sendStatus(403)
-  }
-  try {
-    const user = await User.findOne({
-      where: {
-        id: req.body.userId
-      }
-    })
-    const defaultPassword = passwordEncrypt.password(process.env.MEMORY_DEFAULT_PASSWORD || '123456')
-    await changePassword(user, defaultPassword, res)
-  } catch (e) {
-    res.status(500).end('' + e)
-  }
 })
 
 // Error handler

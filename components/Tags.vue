@@ -23,9 +23,16 @@
 <script>
 export default {
   name: 'Tags',
+  props: {
+    tags: {
+      type: Array,
+      default () {
+        return []
+      }
+    }
+  },
   data () {
     return {
-      tags: [],
       inputVisible: false,
       inputValue: ''
     }
