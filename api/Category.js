@@ -1,4 +1,4 @@
-const Category = require('../server/database/models/Category')
+const Category = require('../server/database/models/Item').Category
 const router = require('./router')
 
 async function getCategoryList () {
