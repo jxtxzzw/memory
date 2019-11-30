@@ -12,23 +12,37 @@
       <Alert type="success" show-icon>
         高级搜索
         <span slot="desc">
-          分类筛选支持多选，满足任意一个条件即为匹配成功。不同筛选选项的筛选条件为同时满足（逻辑与）时的结果，留空表示该选项匹配所有结果。
+          同一筛选项支持多选，多选表示满足任意一个条件即为匹配成功。不同筛选选项的筛选条件为同时满足（逻辑与）时的结果。留空表示该选项匹配所有结果。
         </span>
       </Alert>
       <Form :model="formItem" :label-width="80">
         <FormItem label="标题">
           <Input v-model="formItem.title" placeholder="输入标题中包含的关键字" />
         </FormItem>
+        <FormItem label="类型">
+          <Select
+            v-model="formItem.types"
+            multiple
+            placeholder="请选择"
+            not-found-text="无匹配数据"
+            filterable
+            @on-change="reloadCategory"
+          >
+            <Option v-for="type in types" :key="type.value" :value="type.value">
+              {{ type.label }}
+            </Option>
+          </Select>
+        </FormItem>
         <FormItem label="分类">
           <Select
-            v-model="formItem.type"
+            v-model="formItem.categories"
             multiple
             placeholder="请选择"
             not-found-text="无匹配数据"
             filterable
           >
-            <Option v-for="type in types" :key="type.value" :value="type.value">
-              {{ type.label }}
+            <Option v-for="id in categoryIds" :key="id" :value="id">
+              {{ CategoryList[id] }}
             </Option>
           </Select>
         </FormItem>
@@ -114,12 +128,15 @@ export default {
       modalVisible: false,
       formItem: {
         title: '',
-        type: [],
+        types: [],
         read: 'both',
         date: '',
-        rating: [0, 5]
+        rating: [0, 5],
+        categories: []
       },
-      types: []
+      types: [],
+      categoryIds: [],
+      CategoryList: {}
     }
   },
   watch: {
@@ -141,7 +158,29 @@ export default {
     },
     handleVisibleChange (status) {
       this.$emit('advancedSearchVisibleChange', status)
+    },
+    async reloadCategory () {
+      // 对于每一个 type 请求它的分类
+      for (const type of this.formItem.types) {
+        // CategoryList 是 []，this.CategoryList 是 {}，类型不一样
+        const CategoryList = await this.$axios.$post('api/Category/categoryList', {
+          type
+        })
+        // 需要使用 this.$set 以便 Vue 能知道数据更新了
+        for (const category of CategoryList) {
+          this.$set(this.CategoryList, category.id, category.name)
+        }
+        // 取出所有的当前类型下所有的 id，加入到 categoryIds 数组
+        const ids = CategoryList.map(el => el.id)
+        for (const id of ids) {
+          // 由于不同的类型下，分类可能重叠，所以同一个 id 只放一次
+          if (!this.categoryIds.includes(id)) {
+            this.categoryIds.push(id)
+          }
+        }
+      }
     }
+    // 最终，reload 完成时，得到了 categoryIds 为所有可能分类的 id，以及一个 map 映射表 CategoryList
   }
 }
 </script>

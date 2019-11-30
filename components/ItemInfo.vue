@@ -89,6 +89,7 @@ export default {
     await this.loadCategoryList()
   },
   methods: {
+    // 需要使用 this.$set 以便 Vue 能知道数据更新了
     async loadCategoryList () {
       const CategoryList = await this.$axios.$post('api/Category/categoryList', {
         type: this.data.type

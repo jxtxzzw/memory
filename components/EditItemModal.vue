@@ -274,6 +274,7 @@ export default {
       this.$emit('editItemVisibleChange', status)
     },
     async reloadCategory () {
+      // CategoryList 是 []，this.CategoryList 是 {}，类型不一样
       const CategoryList = await this.$axios.$post('api/Category/categoryList', {
         type: this.formValidate.type
       })
