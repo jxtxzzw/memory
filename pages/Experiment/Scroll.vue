@@ -2,16 +2,16 @@
   <div>
     <!-- 无限滚动，ref 是为了下面获取 Content 宽度 -->
     <!-- 使用计算属性计算出触发滚动处理的高度 -->
+    <Button @click="createItemModal = true">
+      {{ createItemModal }}
+    </Button>
+    <Search @search="handleSearch"/>
     <Scroll
       ref="scroll"
       :on-reach-bottom="handleReachBottom"
       loading-text="加载中……"
       :height="scrollHeight"
     >
-      <Button @click="createItemModal = true">
-        {{ createItemModal }}
-      </Button>
-      <Search @search="handleSearch"/>
       <EditItemModal :modal="createItemModal" @modalVisibleChange="handleModalVisibleChange" />
       <Alert show-icon>
         无限滚动
