@@ -39,7 +39,7 @@ export default {
   },
   methods: {
     async loadData () {
-      this.activities = await this.$axios.$post('/api/userinfo')
+      this.activities = await this.$axios.$post('/api/User/userinfo')
     }
   }
 }
