@@ -4,7 +4,7 @@
       <ListItem v-if="read">
         <ListItemMeta>
           <span slot="title">
-            <Rate :value="my.rating" disabled show-text />
+            <Rate :value="my.rating" disabled allow-half />
             <Tag type="border" color="success"> {{ my.recursion }} 周目</Tag>
           </span>
           <span slot="description">

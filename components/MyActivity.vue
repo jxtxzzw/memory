@@ -5,7 +5,7 @@
         <ListItem>
           <ListItemMeta :avatar="$auth.$state.user.avatar" :title="activity.title">
             <template slot="description">
-              <Rate disabled :value="activity.description" show-text />
+              <Rate allow-half disabled :value="activity.description" show-text />
             </template>
           </ListItemMeta>
           {{ activity.content }}

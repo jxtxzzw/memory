@@ -28,7 +28,7 @@
           <Panel v-for="rating in ratings" :key="rating.username" :name="rating.username">
             <Avatar size="small" :src="rating.avatar" />
             {{ rating.user }}
-            <Rate :value="rating.rating" disabled show-text style="float: right; margin-right: 10px" />
+            <Rate allow-half :value="rating.rating" disabled style="float: right; margin-right: 10px" />
             <p slot="content">
               {{ rating.review }}
             </p>
