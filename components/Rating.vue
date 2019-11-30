@@ -49,7 +49,7 @@
           <Rate v-model="formValidate.rating" allow-half show-text />
         </FormItem>
         <FormItem label="周目" prop="recursion">
-          <InputNumber v-model="formValidate.recursion" :editable="false" :min="0"  />
+          <InputNumber v-model="formValidate.recursion" :editable="false" :min="0" />
         </FormItem>
         <FormItem label="评价">
           <Input v-model="formValidate.review" type="textarea" maxlength="2048" show-word-limit :rows="6" />
@@ -69,7 +69,7 @@ export default {
         return {
           item: 0,
           rating: 0,
-          recursion: 0,
+          recursion: 2,
           review: ''
         }
       }
@@ -118,9 +118,9 @@ export default {
       handler () {
         // 手动赋值，避免 formValidate = my 之后，编辑表单的同时，由于 formValidate 修改了，my 也修改了，后面的显示也就跟着修改了
         this.formValidate.item = this.my.item
-        this.formValidate.rating = this.my.rating
-        this.formValidate.recursion = this.my.recursion
-        this.formValidate.review = this.my.review
+        this.formValidate.rating = this.my.rating || 0
+        this.formValidate.recursion = this.my.recursion || 0
+        this.formValidate.review = this.my.review || ''
       }
     }
   },
@@ -134,6 +134,7 @@ export default {
         if (valid) {
           let success = true
           try {
+            console.log(this.formValidate)
             await this.$axios.$post('/api/Rating/rating', this.formValidate)
           } catch (e) {
             success = false
