@@ -61,7 +61,6 @@ export default {
       }
       for (const x of this.data.category) {
         this.editData.checkedCategory.push(x.category)
-        console.log(this.editData.checkedCategory)
       }
       for (const x of this.data.tag) {
         this.editData.tags.push(x.tag)

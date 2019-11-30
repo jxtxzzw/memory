@@ -2,6 +2,7 @@ const Sequelize = require('sequelize')
 const Item = require('../server/database/models/Item')
 const ItemCategory = require('../server/database/models/ItemCategory')
 const ItemTag = require('../server/database/models/ItemTag')
+const uploadConfig = require('../assets/uploadConfig')
 const router = require('./router')
 const Op = Sequelize.Op
 
@@ -23,9 +24,9 @@ async function getItemList (data) {
       attributes: ['id', 'title', 'cover', 'rating']
     })
     for (const item of result) {
-      itemList.push(
-        item.toJSON()
-      )
+      const itemJSON = item.toJSON()
+      itemJSON.cover = uploadConfig.upload + itemJSON.cover
+      itemList.push(itemJSON)
     }
   } else {
     const result = await Item.findAll({
@@ -39,9 +40,9 @@ async function getItemList (data) {
       attributes: ['id', 'title', 'cover', 'rating']
     })
     for (const item of result) {
-      itemList.push(
-        item.toJSON()
-      )
+      const itemJSON = item.toJSON()
+      itemJSON.cover = uploadConfig.upload + itemJSON.cover
+      itemList.push(itemJSON)
     }
   }
   return itemList
@@ -64,6 +65,7 @@ async function getItemInfo (id) {
     }
   })
   const data = result.toJSON()
+  data.cover = uploadConfig.upload + data.cover
   data.category = []
   data.tag = []
   for (const category of categorys) {

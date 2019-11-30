@@ -1,12 +1,11 @@
-// eslint-disable-next-line no-unused-vars
 const fs = require('fs')
 const typeList = require('../assets/mimetype')
 const Item = require('../server/database/models/Item')
 const ItemCategory = require('../server/database/models/ItemCategory')
 const Tag = require('../server/database/models/Tag')
 const ItemTag = require('../server/database/models/ItemTag')
+const uploadConfig = require('../assets/uploadConfig')
 const router = require('./router')
-// eslint-disable-next-line no-unused-vars
 
 async function CreateItem (data) {
   try {
@@ -17,8 +16,7 @@ async function CreateItem (data) {
         const base64Data = imgData.replace(/(.*)?;base64,/, '')
         const dataBuffer = Buffer.from(base64Data, 'base64')
         cover = new Date().getTime() + '.' + typeList[data.fileList[0].type]
-        fs.writeFile('./static/upload/' + cover, dataBuffer, () => {
-        })
+        fs.writeFile(uploadConfig.uploadFS + cover, dataBuffer, () => {})
       } else {
         throw new Error('图片类型不符合')
       }

@@ -2,6 +2,7 @@ const cookieParser = require('cookie-parser')
 const jwt = require('express-jwt')
 const jsonwebtoken = require('jsonwebtoken')
 const passwordEncrypt = require('../assets/passwordEncrypt')
+const uploadConfig = require('../assets/uploadConfig')
 const User = require('../server/database/models/User')
 const router = require('./router')
 
@@ -42,7 +43,7 @@ router.post('/auth/login', async (req, res, next) => {
     {
       id: user.id,
       username,
-      avatar: user.avatar // TODO: avartar: '/upload/' + result.avartar
+      avatar: uploadConfig.upload + user.avatar
     },
     process.env.MEMORY_JWT_SECERT || 'dummy'
   )

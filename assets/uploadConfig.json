@@ -1,0 +1,4 @@
+{
+  "uploadFS": "./static/upload/",
+  "upload": "/upload/"
+}
