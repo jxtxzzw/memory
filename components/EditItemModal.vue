@@ -27,8 +27,8 @@
         <Alert v-if="formError" type="error" show-icon>
           表单验证失败
           <span slot="desc">
-                {{ formError }}
-              </span>
+            {{ formError }}
+          </span>
         </Alert>
         <Row>
           <i-col span="12">

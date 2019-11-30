@@ -31,6 +31,13 @@ export default {
       }
     }
   },
+  data () {
+    return {
+      tagList: [],
+      inputVisible: false,
+      inputValue: ''
+    }
+  },
   watch: {
     tags: {
       deep: true,
@@ -42,13 +49,6 @@ export default {
           }
         }
       }
-    }
-  },
-  data () {
-    return {
-      tagList: [],
-      inputVisible: false,
-      inputValue: ''
     }
   },
   methods: {

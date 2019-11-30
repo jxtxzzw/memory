@@ -197,7 +197,6 @@ export default {
       await this.loadData(input, type, 0)
     },
     handleAdvancedSearch (formItem) {
-      console.log(formItem)
       // TODO: call API to search more
     }
   }
