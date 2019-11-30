@@ -61,10 +61,10 @@ export default {
         note: this.data.note
       }
       for (const x of this.data.category) {
-        this.editData.checkedCategory.push(x.category)
+        this.editData.checkedCategory.push(x)
       }
       for (const x of this.data.tag) {
-        this.editData.tags.push(x.tag)
+        this.editData.tags.push(x)
       }
       // fileList @type UploadFile[]，经 Props 查 PropsTypes.arrayOf(PropsTypes.custom(UploadFile))
       // 其中 interface UploadFile { uid: string | number; name: string; }
