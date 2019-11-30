@@ -185,11 +185,7 @@ export default {
   methods: {
     async load_data () {
       this.typeList = await this.$axios.$post('/api/Type/getTypeList')
-      const CategoryList = await this.$axios.$post('api/Category/categoryList')
-      for (const category of CategoryList) {
-        this.uncheckedCategory.push(category.id)
-        this.CategoryList[category.id] = category.name
-      }
+      this.reloadCategory()
     },
     checkCategory (checked, name) {
       this.formValidate.checkedCategory.push(name)
@@ -271,11 +267,20 @@ export default {
     handleVisibleChange (status) {
       this.$emit('editItemVisibleChange', status)
     },
-    async getCategory () {
-      this.checkedCategory = []
-      this.uncheckedCategory = await this.$axios.$post('/api/Category/categoryList', {
+    async reloadCategory () {
+      const CategoryList = await this.$axios.$post('api/Category/categoryList', {
         type: this.formValidate.type
       })
+      for (const category of CategoryList) {
+        this.$set(this.CategoryList, category.id, category.name)
+      }
+      // 把数据保存到 this.CategoryList {} 后返回 CategoryList [] 以便下面做 map 取出 id
+      return CategoryList
+    },
+    async getCategory () {
+      const CategoryList = await this.reloadCategory()
+      this.uncheckedCategory = CategoryList.map(el => el.id)
+      this.checkedCategory = []
     }
   }
 }
