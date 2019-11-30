@@ -21,6 +21,8 @@
       @on-cancel="handleCancel"
       @on-visible-change="handleVisibleChange"
     >
+      {{ uncheckedCategory }}
+      {{ formValidate.checkedCategory }}
       <Form ref="formValidate" :model="formValidate" :rules="ruleValidate">
         <Alert v-if="formError" type="error" show-icon>
           表单验证失败
@@ -170,6 +172,8 @@ export default {
         // 从所有分类中去除已经选择的分类
         this.uncheckedCategory = this.uncheckedCategory.filter(id => !this.original.checkedCategory.includes(id))
         this.formValidate = this.original
+        // watch 需要 reload，即做初始化加载 category
+        this.reloadCategory()
       }
     },
     // 用 watcher 留下 modal 的值，否则模态框开启关闭的时候修改 props 的值就会引起 warning
@@ -274,13 +278,14 @@ export default {
       for (const category of CategoryList) {
         this.$set(this.CategoryList, category.id, category.name)
       }
-      // 把数据保存到 this.CategoryList {} 后返回 CategoryList [] 以便下面做 map 取出 id
-      return CategoryList
+      // 做一次 map 留下所有的 id，然后过滤得到所有不在 checked 中的 id 作为 unchecked
+      // 对于修改，要保留住原来已经选中的那些分类
+      this.uncheckedCategory = CategoryList.map(el => el.id).filter(id => !this.formValidate.checkedCategory.includes(id))
     },
     async getCategory () {
-      const CategoryList = await this.reloadCategory()
-      this.uncheckedCategory = CategoryList.map(el => el.id)
-      this.checkedCategory = []
+      // 先清空，然后再做 reload
+      this.formValidate.checkedCategory = []
+      await this.reloadCategory()
     }
   }
 }

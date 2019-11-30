@@ -134,7 +134,6 @@ export default {
         if (valid) {
           let success = true
           try {
-            console.log(this.formValidate)
             await this.$axios.$post('/api/Rating/rating', this.formValidate)
           } catch (e) {
             success = false

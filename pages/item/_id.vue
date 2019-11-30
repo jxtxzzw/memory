@@ -115,13 +115,11 @@ export default {
         id: this.$route.params.id
       })
       for (const rating of this.ratings) {
-        console.log(rating.user + ':' + this.$auth.$state.user.username + '=' + (rating.user === this.$auth.$state.user.username))
         if (rating.user === this.$auth.$state.user.username) {
           this.myRating = rating
         }
       }
       this.myRating.item = this.$route.params.id
-      console.log(this.myRating)
     },
     async handleSuccess () {
       await this.loadData()

@@ -95,7 +95,9 @@ export default {
   },
   methods: {
     async loadCategoryList () {
-      const CategoryList = await this.$axios.$post('api/Category/categoryList')
+      const CategoryList = await this.$axios.$post('api/Category/categoryList', {
+        type: this.data.type
+      })
       for (const category of CategoryList) {
         this.$set(this.CategoryList, category.id, category.name)
       }
