@@ -1,8 +1,11 @@
+const fs = require('fs')
 const User = require('../server/database/models/User')
 const Item = require('../server/database/models/Item')
 const Rating = require('../server/database/models/Rating')
 const Comment = require('../server/database/models/Comment')
 const passwordEncrypt = require('../assets/passwordEncrypt')
+const typeList = require('../assets/mimetype')
+const uploadConfig = require('../assets/uploadConfig')
 const router = require('./router')
 
 router.post('/User/users', async (req, res, next) => {
@@ -130,6 +133,37 @@ router.post('/User/add', async (req, res, next) => {
       realname: req.body.realname
     })
     resetPassword(user, res)
+  } catch (e) {
+    res.status(500).end('' + e)
+  }
+})
+
+router.post('/User/avatar', async (req, res, next) => {
+  try {
+    const user = await User.findOne({
+      where: {
+        id: req.user.id
+      }
+    })
+    const data = req.body
+    let avatar
+    if (data.fileList[0] && data.fileList[0].thumbUrl) {
+      if (Object.prototype.hasOwnProperty.call(typeList, data.fileList[0].type)) {
+        const imgData = data.fileList[0].thumbUrl
+        const base64Data = imgData.replace(/(.*)?;base64,/, '')
+        const dataBuffer = Buffer.from(base64Data, 'base64')
+        avatar = new Date().getTime() + '.' + typeList[data.fileList[0].type]
+        fs.writeFile(uploadConfig.uploadFS + avatar, dataBuffer, () => {
+        })
+      } else {
+        throw new Error('图片类型不符合')
+      }
+      user.avatar = avatar
+    } else {
+      user.avatar = null
+    }
+    user.save()
+    res.sendStatus(200)
   } catch (e) {
     res.status(500).end('' + e)
   }
