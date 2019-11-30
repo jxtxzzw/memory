@@ -27,7 +27,7 @@
           <nuxt-link :to="{name:'item-id', params: {id:item.id}}">
             <Card :style="{margin: itemMargin + 'px 0', width: itemWidth + 'px', height: itemHeight + 'px'}">
               <div style="text-align:center">
-                <img :src="item.cover" />
+                <img :src="item.cover" style="width: 100%" />
                 <h3>{{ item.title }}</h3>
               </div>
             </Card>
@@ -67,7 +67,7 @@ export default {
       itemWidth: 220, // item 的宽度
       itemHeight: 420, // item 的高度
       // 内容数组
-      list1: [],
+      list: [],
       // 动态获取内容展示的宽度和高度
       screenHeight: 0,
       scrollContentWidth: 0 // 真正存放内容的滚动区域的宽度，动态获取
@@ -85,7 +85,7 @@ export default {
       const maxScrollHeight = this.screenHeight - aroundArea
       // item 个数除以每一行的 item 个数，向上取整，得到总行数
       // 每一个 item 的实际高度，等于 itemHeight 加上上下 2 个 margin 的 itemMargin，相乘得到 item 占用高度
-      const itemHeight = Math.ceil(this.list1.length / this.itemNumberPerLine) * (this.itemHeight + 2 * this.itemMargin)
+      const itemHeight = Math.ceil(this.list.length / this.itemNumberPerLine) * (this.itemHeight + 2 * this.itemMargin)
       // 如果 item 所占高度不足以撑满整个滚动区域，则触发滚动高度应为 item 所占高度，否则，触发滚动的高度应为整个滚动区域的高度
       return itemHeight < maxScrollHeight ? itemHeight : maxScrollHeight
     },
@@ -95,15 +95,15 @@ export default {
     },
     // 计算最后一行的 item 从哪一个 index 开始
     itemIndexInLastLine () {
-      return this.list1.length - this.list1.length % this.itemNumberPerLine
+      return this.list.length - this.list.length % this.itemNumberPerLine
     },
     // crowdList 存放除最后一行以外的其他 item，对总 list 做切片
     crowdList () {
-      return this.list1.slice(0, this.itemIndexInLastLine)
+      return this.list.slice(0, this.itemIndexInLastLine)
     },
     // 最后一行的 item，对 list 做切片
     lastLineList () {
-      return this.list1.slice(this.itemIndexInLastLine)
+      return this.list.slice(this.itemIndexInLastLine)
     },
     // 计算左右留白的大小，为内容区域大小，先减去各 item 的宽度和，再减去 (item - 1) 个间距的宽度和，得到结果的二分之一
     itemSpanInLastLine () {
@@ -149,19 +149,26 @@ export default {
       })
     },
     // 处理无限滚动区域到达底部的动作
-    // TODO 未完成：应当时一个异步请求，从后端获取数据
-    async loadData (type) {
-      this.list1 = await this.$axios.$post('/api/Item/itemList', { type })
+    async loadData (title = undefined, type = undefined, offset = this.list.length, limit = 10) {
+      const items = await this.$axios.$post('/api/Item/itemList', { title, type, offset, limit })
+      if (items.length === 0) {
+        this.$Message.info({
+          background: true,
+          content: '已经没有更多内容啦！要不，来分享一些你喜欢的？'
+        })
+      }
+      for (const x of items) {
+        if (!this.list.includes(x)) {
+          this.list.push(x)
+        }
+      }
     },
     handleReachBottom () {
       return new Promise((resolve) => {
-        setTimeout(() => {
-          const last = this.list1[this.list1.length - 1]
-          for (let i = 1; i < 11; i++) {
-            this.list1.push(last + i)
-          }
+        setTimeout(async () => {
+          await this.loadData()
           resolve()
-        }, 2000)
+        }, 1000)
       })
     },
     handleModalVisibleChange (status) {
