@@ -40,6 +40,6 @@ User.init({
 
 User.hasMany(Item, { foreignKey: 'creator' })
 User.hasMany(Item, { foreignKey: 'updater' })
-User.hasMany(Comment, {foreignKey: 'user'})
+User.hasMany(Comment, { foreignKey: 'user' })
 
 module.exports = User
