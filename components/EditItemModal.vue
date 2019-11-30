@@ -235,6 +235,7 @@ export default {
               background: true,
               content: '表单提交出现错误：' + e
             })
+            this.formError = '表单提交出现错误：' + e
           }
           if (success) {
             this.resetForm()
@@ -254,6 +255,7 @@ export default {
             background: true,
             content: '表单验证失败，请检查您输入的内容'
           })
+          this.formError = '表单验证失败，请检查您输入的内容'
         }
       })
     },

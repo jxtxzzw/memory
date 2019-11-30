@@ -89,12 +89,14 @@ export default {
               background: true,
               content: '密码修改失败'
             })
+            this.formError = '密码修改失败'
           }
         } else {
           this.$Message.error({
             background: true,
             content: '表单验证失败，请检查您输入的内容'
           })
+          this.formError = '表单验证失败，请检查您输入的内容'
         }
       })
     }
