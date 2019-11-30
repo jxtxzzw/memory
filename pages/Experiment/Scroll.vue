@@ -11,6 +11,7 @@
       <Button @click="createItemModal = true">
         {{ createItemModal }}
       </Button>
+      <Search @search="handleSearch"/>
       <EditItemModal :modal="createItemModal" @modalVisibleChange="handleModalVisibleChange" />
       <Alert show-icon>
         无限滚动
@@ -55,8 +56,9 @@
 </template>
 <script>
 import EditItemModal from '~/components/EditItemModal'
+import Search from '~/components/Search'
 export default {
-  components: { EditItemModal },
+  components: { Search, EditItemModal },
   middleware: ['auth'],
   data () {
     return {
@@ -157,6 +159,9 @@ export default {
           content: '已经没有更多内容啦！要不，来分享一些你喜欢的？'
         })
       }
+      if (offset === 0) {
+        this.list = []
+      }
       for (const x of items) {
         if (!this.list.includes(x)) {
           this.list.push(x)
@@ -173,6 +178,9 @@ export default {
     },
     handleModalVisibleChange (status) {
       this.createItemModal = status
+    },
+    async handleSearch (input, type) {
+      await this.loadData(input, type, 0)
     }
   }
 }

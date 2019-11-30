@@ -25,7 +25,7 @@ export default {
     return {
       types: [],
       searchInput: '',
-      searchType: []
+      searchType: ''
     }
   },
   async mounted () {
