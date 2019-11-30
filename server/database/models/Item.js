@@ -4,6 +4,7 @@ const Model = Sequelize.Model
 const sequelize = require('../index')
 
 const Type = require('./Type')
+const Comment = require('./Comment')
 
 class Item extends Model {}
 Item.init({
@@ -38,5 +39,7 @@ Item.init({
 }, {
   sequelize
 })
+
+Item.hasMany(Comment, { foreignKey: 'item' })
 
 module.exports = Item

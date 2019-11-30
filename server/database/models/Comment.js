@@ -12,13 +12,6 @@ Comment.init({
     primaryKey: true,
     autoIncrement: true
   },
-  item: {
-    type: Sequelize.INTEGER,
-    references: {
-      model: Item,
-      key: 'id'
-    }
-  },
   content: {
     type: Sequelize.STRING,
     allowNull: false
