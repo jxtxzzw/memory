@@ -88,6 +88,9 @@
             </FormItem>
           </i-col>
         </Row>
+        <FormItem label="备注">
+          <Input v-model="formValidate.note" type="textarea" maxlength="50" show-word-limit />
+        </FormItem>
       </Form>
     </Modal>
     <Modal v-model="previewVisible" footer-hide @cancel="handleCancel">
@@ -117,7 +120,8 @@ export default {
           type: 0,
           checkedCategory: [],
           tags: [],
-          fileList: []
+          fileList: [],
+          note: ''
         }
       }
     }
@@ -129,7 +133,8 @@ export default {
         type: 0,
         checkedCategory: [],
         tags: [],
-        fileList: []
+        fileList: [],
+        note: ''
       },
       ruleValidate: {
         title: [
@@ -262,7 +267,7 @@ export default {
       }
     },
     handleVisibleChange (status) {
-      this.$emit('modalVisibleChange', status)
+      this.$emit('editItemVisibleChange', status)
     }
   }
 }

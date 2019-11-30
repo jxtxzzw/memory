@@ -65,7 +65,7 @@ async function getItemInfo (id) {
     }
   })
   const data = result.toJSON()
-  data.cover = uploadConfig.upload + data.cover
+  data.cover = data.cover ? uploadConfig.upload + data.cover : uploadConfig.defaultCover
   data.category = []
   data.tag = []
   for (const category of categorys) {
