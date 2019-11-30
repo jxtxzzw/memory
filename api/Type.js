@@ -1,8 +1,11 @@
 const Type = require('../server/database/models/Type')
 const router = require('./router')
 
-async function getTypeList () {
+async function getTypeList (type) {
   const result = await Type.findAll({
+    where: {
+      type
+    },
     attributes: ['id', 'name']
   })
   const typeList = []
@@ -16,6 +19,6 @@ async function getTypeList () {
 }
 
 router.post('/Type/getTypeList', async (req, res, next) => {
-  const typeList = await getTypeList()
+  const typeList = await getTypeList(req.body.type)
   res.json(typeList)
 })
