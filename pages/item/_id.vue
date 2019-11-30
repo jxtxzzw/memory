@@ -1,9 +1,11 @@
 <template>
   <div>
     <Row>
-      <i-col span="12" :style="{height: itemInfoHeight + 'px', overflowY: 'auto'}">
+      <i-col span="11" :style="{height: itemInfoHeight + 'px', overflowY: 'auto'}">
+        <Divider> 基本信息 </Divider>
         <ItemInfo ref="itemInfo" :data="data" @success="handleSuccess" />
-        <Button type="info" ghost long @click="showComment = true">
+        <Divider> 讨论区 </Divider>
+        <Button type="info" size="large" ghost long @click="showComment = true">
           查看该内容的讨论区
         </Button>
         <Modal
@@ -18,9 +20,10 @@
           <CommentPage v-if="!reload" :item="data.id" @reloadComment="reloadComment" />
         </Modal>
       </i-col>
-      <i-col span="12" :style="{height: itemInfoHeight + 'px', overflowY: 'auto'}">
-        <Rating />
-        <Divider />
+      <i-col offset="2" span="11" :style="{height: itemInfoHeight + 'px', overflowY: 'auto'}">
+        <Divider> 我的评价 </Divider>
+        <Rating :my="myRating" @success="handleSuccess" />
+        <Divider> 所有评价 </Divider>
         <Collapse v-model="ratingName" accordion>
           <Panel v-for="rating in ratings" :key="rating.username" :name="rating.username">
             <Avatar size="small" :src="rating.avatar" />
@@ -37,9 +40,9 @@
 </template>
 
 <script>
-import ItemInfo from '../../components/ItemInfo'
-import CommentPage from '../../components/CommentPage'
-import Rating from '../../components/Rating'
+import ItemInfo from '~/components/ItemInfo'
+import CommentPage from '~/components/CommentPage'
+import Rating from '~/components/Rating'
 export default {
   components: { Rating, CommentPage, ItemInfo },
   middleware: ['auth'],
@@ -60,10 +63,16 @@ export default {
         cover: '',
         rating: 0
       },
-      ratings: []
+      ratings: [],
+      myRating: {
+        item: 0
+      }
     }
   },
   computed: {
+    state () {
+      return JSON.stringify(this.$auth.$state, undefined, 2)
+    },
     cardInnerHeight () {
       // cardHeight 与 default layout 计算类似，为屏幕高度减去 137，之后需要再减去 2 个 16 的 padding
       return this.screenHeight - 137 - 32
@@ -105,6 +114,12 @@ export default {
       this.ratings = await this.$axios.$post('/api/Rating/item', {
         id: this.$route.params.id
       })
+      for (const rating of this.ratings) {
+        if (rating.username === this.$auth.$state.username) {
+          this.myRating = rating
+        }
+      }
+      this.myRating.item = this.$route.params.id
     },
     async handleSuccess () {
       await this.loadData()

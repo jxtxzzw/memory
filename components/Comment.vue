@@ -23,6 +23,7 @@
         :reply="child"
         :target="target"
         :item="item"
+        @reloadComment="reloadComment"
         @handleReplyTargetChange="handleReplyTargetChange"
       />
       <!-- 这一层的 Comment 子组件也要传递 emit，否则嵌套的评论将无法显示 Editor -->
