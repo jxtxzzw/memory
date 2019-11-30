@@ -10,13 +10,6 @@ class Rating extends Model {
 }
 
 Rating.init({
-  item: {
-    type: Sequelize.INTEGER,
-    references: {
-      model: Item,
-      key: 'id'
-    }
-  },
   recursion: {
     type: Sequelize.INTEGER,
     allowNull: false,
@@ -76,7 +69,5 @@ Rating.init({
   },
   sequelize
 })
-
-// TODO 未完成的 hooks，需要先写完其他接口进行测试
 
 module.exports = Rating

@@ -1,15 +1,16 @@
 const sequelize = require('./index')
 
 const MODEL_INIT_LIST = [
-  'Category',
-  'Type',
-  'Item',
-  'Comment',
   'ItemCategory',
+  'ItemTag',
+  'Comment',
+  'Relations',
+  'Tag',
+  'Category',
+  'Item',
   'Rating',
   'User',
-  'Tag',
-  'ItemTag'
+  'Type'
 ]
 
 const MODELS = []

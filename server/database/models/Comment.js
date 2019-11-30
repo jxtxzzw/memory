@@ -3,8 +3,6 @@ const Model = Sequelize.Model
 
 const sequelize = require('../index')
 
-const Item = require('./Item')
-
 class Comment extends Model {}
 Comment.init({
   id: {
