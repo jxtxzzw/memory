@@ -4,7 +4,7 @@ const sequelize = require('../index')
 const ItemTag = require('./ItemTag')
 const ItemCategory = require('./ItemCategory')
 const Comment = require('./Comment')
-const Rating = require('./Rating')
+const Op = Sequelize.Op
 
 class Item extends Model {}
 Item.init({
@@ -64,6 +64,70 @@ Category.init({
   sequelize
 })
 
+class Rating extends Model {
+}
+
+Rating.init({
+  recursion: {
+    type: Sequelize.INTEGER,
+    allowNull: false,
+    defaultValue: 0
+  },
+  rating: {
+    type: Sequelize.INTEGER,
+    allowNull: false,
+    defaultValue: 0
+  },
+  review: {
+    type: Sequelize.STRING,
+    allowNull: true
+  }
+}, {
+  hooks: {
+    async afterCreate (instance, options) {
+      const result = await Rating.findAll({
+        where: {
+          item: instance.item,
+          rating: {
+            [Op.gt]: 0
+          }
+        },
+        attributes: [[Sequelize.fn('AVG', Sequelize.col('rating')), 'avg']],
+        transaction: options.transaction
+      })
+      await Item.update({
+        rating: result[0].toJSON().avg
+      }, {
+        where: {
+          id: instance.item
+        },
+        transaction: options.transaction
+      })
+    },
+    async afterUpdate (instance, options) {
+      const result = await Rating.findAll({
+        where: {
+          item: instance.item,
+          rating: {
+            [Op.gt]: 0
+          }
+        },
+        attributes: [[Sequelize.fn('AVG', Sequelize.col('rating')), 'avg']],
+        transaction: options.transaction
+      })
+      await Item.update({
+        rating: result[0].toJSON().avg
+      }, {
+        where: {
+          id: 1
+        },
+        transaction: options.transaction
+      })
+    }
+  },
+  sequelize
+})
+
 Item.hasMany(Comment, { foreignKey: 'item' })
 Item.hasMany(Rating, { foreignKey: 'item' })
 Category.belongsToMany(Item, { through: ItemCategory, foreignKey: 'category' })
@@ -72,5 +136,5 @@ Item.belongsToMany(Tag, { through: ItemTag, foreignKey: 'item' })
 Tag.belongsToMany(Item, { through: ItemTag, foreignKey: 'tag' })
 
 module.exports = {
-  Item, Category, Tag
+  Item, Category, Tag, Rating
 }

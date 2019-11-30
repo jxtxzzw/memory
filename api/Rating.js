@@ -1,4 +1,4 @@
-const Rating = require('../server/database/models/Rating')
+const Rating = require('../server/database/models/Item').Rating
 const User = require('../server/database/models/User')
 const router = require('./router')
 

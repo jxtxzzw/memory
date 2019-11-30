@@ -3,9 +3,8 @@ const Model = Sequelize.Model
 
 const sequelize = require('../index')
 
-const { Item } = require('./Item')
+const { Item, Rating } = require('./Item')
 const Comment = require('./Comment')
-const Rating = require('./Rating')
 
 class User extends Model {}
 User.init({

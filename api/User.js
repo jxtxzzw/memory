@@ -1,7 +1,6 @@
 const fs = require('fs')
 const User = require('../server/database/models/User')
-const { Item } = require('../server/database/models/Item')
-const Rating = require('../server/database/models/Rating')
+const { Item, Rating } = require('../server/database/models/Item')
 const Comment = require('../server/database/models/Comment')
 const passwordEncrypt = require('../assets/passwordEncrypt')
 const typeList = require('../assets/mimetype')
