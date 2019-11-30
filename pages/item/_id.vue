@@ -2,7 +2,7 @@
   <div>
     <Row>
       <i-col span="12" :style="{height: itemInfoHeight + 'px', overflowY: 'auto'}">
-        <ItemInfo ref="itemInfo" :data="data" />
+        <ItemInfo ref="itemInfo" :data="data" @success="handleSuccess" />
       </i-col>
       <i-col span="12" :style="{height: itemInfoHeight + 'px', overflowY: 'auto'}">
         <Collapse v-model="ratingName" accordion>
@@ -102,6 +102,9 @@ export default {
       this.ratings = await this.$axios.$post('/api/Rating/item', {
         id: this.$route.params.id
       })
+    },
+    async handleSuccess () {
+      await this.loadData()
     },
     reloadComment () {
       this.reload = true

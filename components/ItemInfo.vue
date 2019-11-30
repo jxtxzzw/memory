@@ -18,7 +18,7 @@
         {{ data.note }}
       </span>
     </Card>
-    <EditItemModal :modal="showEdit" :original="editData" @modalVisibleChange="handleVisibleChange" />
+    <EditItemModal :modal="showEdit" :original="editData" @success="handleSuccess" @modalVisibleChange="handleVisibleChange" />
   </div>
 </template>
 
@@ -75,6 +75,9 @@ export default {
         name: this.data.title
       })
       this.showEdit = true
+    },
+    handleSuccess () {
+      this.$emit('success')
     },
     handleVisibleChange (status) {
       this.showEdit = status

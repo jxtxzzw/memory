@@ -136,8 +136,7 @@ export default {
     }
   },
   async mounted () {
-    await this.requestData()
-    this.generateUserData()
+    await this.loadData()
   },
   methods: {
     generateUserData (search = null) {
@@ -187,6 +186,7 @@ export default {
               background: true,
               content: '用户创建成功'
             })
+            await this.loadData()
           }
         } else {
           this.$Message.error({
@@ -201,6 +201,10 @@ export default {
         username: '',
         realname: ''
       }
+    },
+    async loadData () {
+      await this.requestData()
+      this.generateUserData()
     },
     onSearch (search) {
       this.generateUserData(search)

@@ -221,8 +221,9 @@ export default {
         })
         if (valid) {
           let success = true
+          let res
           try {
-            await this.$axios.$post('/api/upload', this.formValidate)
+            res = await this.$axios.$post('/api/upload', this.formValidate)
           } catch (e) {
             success = false
             this.$Message.error({
@@ -237,6 +238,11 @@ export default {
               background: true,
               content: '编辑成功'
             })
+            if (this.original.id === res.id) {
+              this.$emit('success')
+            } else {
+              this.$router.push('/item/' + res.id)
+            }
           }
         } else {
           this.$Message.error({

@@ -63,6 +63,7 @@ async function CreateItem (data) {
       })
       ItemTag.create({ item: instance.id, tag: tagInstance.id })
     }
+    return instance.id
   } catch (e) {
     throw new Error('失败:' + e)
   }
@@ -70,8 +71,10 @@ async function CreateItem (data) {
 
 router.post('/upload', async (req, res, next) => {
   try {
-    await CreateItem(req.body)
-    res.status(200).json('成功')
+    const id = await CreateItem(req.body)
+    res.status(200).json({
+      id
+    })
   } catch (e) {
     res.status(400).json(e.message)
   }
