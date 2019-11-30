@@ -116,7 +116,11 @@ export default {
     my: {
       deep: true,
       handler () {
-        this.formValidate = this.my
+        // 手动赋值，避免 formValidate = my 之后，编辑表单的同时，由于 formValidate 修改了，my 也修改了，后面的显示也就跟着修改了
+        this.formValidate.item = this.my.item
+        this.formValidate.rating = this.my.rating
+        this.formValidate.recursion = this.my.recursion
+        this.formValidate.review = this.my.review
       }
     }
   },
@@ -145,6 +149,7 @@ export default {
               background: true,
               content: '评价成功'
             })
+            this.$emit('success')
           }
         } else {
           this.$Message.error({

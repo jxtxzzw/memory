@@ -19,7 +19,7 @@
         </Modal>
       </i-col>
       <i-col offset="2" span="11" :style="{height: itemInfoHeight + 'px', overflowY: 'auto'}">
-        <Rating :my="myRating" />
+        <Rating :my="myRating" @success="handleSuccess" />
         <Divider />
         <Collapse v-model="ratingName" accordion>
           <Panel v-for="rating in ratings" :key="rating.username" :name="rating.username">
