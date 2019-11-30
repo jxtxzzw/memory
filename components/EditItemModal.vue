@@ -66,6 +66,7 @@
                   :key="tag"
                   color="primary"
                   :name="tag"
+                  type="dot"
                   :checkable="true"
                   @on-change="uncheckCategory"
                 >
@@ -79,6 +80,7 @@
                   color="primary"
                   :name="tag"
                   :checkable="true"
+                  type="dot"
                   @on-change="checkCategory"
                 >
                   {{ CategoryList[tag] }}

@@ -20,9 +20,9 @@
         <Tag
           v-for="category in data.category"
           :key="category"
-          :color="colors[category % colors.length]"
+          color="primary"
+          type="dot"
         >
-          <!-- category 是一个数字，表示分类在数据库中的 id，对 colors 数组取模，得到随机颜色 -->
           {{ CategoryList[category] }}
         </Tag>
       </Row>
@@ -69,20 +69,6 @@ export default {
   },
   data () {
     return {
-      colors: [
-        'magenta',
-        'red',
-        'volcano',
-        'orange',
-        'gold',
-        'yellow',
-        'lime',
-        'green',
-        'cyan',
-        'blue',
-        'geekblue',
-        'purple'
-      ],
       CategoryList: {},
       TypeList: {},
       showEdit: false,
