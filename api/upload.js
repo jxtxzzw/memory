@@ -28,12 +28,14 @@ async function CreateItem (data) {
       defaults: {
         title: data.title,
         type: data.type,
-        cover
+        cover,
+        note: data.note
       }
     })
     if (!created) {
       instance.title = data.title
       instance.type = data.type
+      instance.note = data.note
       if (cover) {
         instance.cover = cover
       }

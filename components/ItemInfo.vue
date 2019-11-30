@@ -18,7 +18,7 @@
         {{ data.note }}
       </span>
     </Card>
-    <EditItemModal :modal="showEdit" :original="editData" @success="handleSuccess" @modalVisibleChange="handleVisibleChange" />
+    <EditItemModal :modal="showEdit" :original="editData" @success="handleSuccess" @editItemVisibleChange="handleVisibleChange" />
   </div>
 </template>
 
@@ -57,7 +57,8 @@ export default {
         type: this.data.type,
         checkedCategory: [],
         tags: [],
-        fileList: []
+        fileList: [],
+        note: this.data.note
       }
       for (const x of this.data.category) {
         this.editData.checkedCategory.push(x.category)
