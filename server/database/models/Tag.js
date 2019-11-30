@@ -2,8 +2,6 @@ const Sequelize = require('sequelize')
 const Model = Sequelize.Model
 
 const sequelize = require('../index')
-const Item = require('./Item')
-const ItemTag = require('./ItemTag')
 
 class Tag extends Model {}
 Tag.init({
@@ -19,7 +17,5 @@ Tag.init({
 }, {
   sequelize
 })
-
-Tag.belongsToMany(Item, { through: ItemTag, foreignKey: 'tag' })
 
 module.exports = Tag

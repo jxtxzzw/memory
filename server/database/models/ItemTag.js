@@ -9,6 +9,12 @@ ItemTag.init({
     type: Sequelize.INTEGER,
     primaryKey: true,
     autoIncrement: true
+  },
+  item: {
+    type: Sequelize.INTEGER
+  },
+  tag: {
+    type: Sequelize.INTEGER
   }
 }, { sequelize })
 

@@ -9,6 +9,12 @@ ItemCategory.init({
     type: Sequelize.INTEGER,
     primaryKey: true,
     autoIncrement: true
+  },
+  item: {
+    type: Sequelize.INTEGER
+  },
+  category: {
+    type: Sequelize.INTEGER
   }
 }, { sequelize })
 

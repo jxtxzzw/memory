@@ -3,8 +3,24 @@
     <Row>
       <i-col span="12" :style="{height: itemInfoHeight + 'px', overflowY: 'auto'}">
         <ItemInfo ref="itemInfo" :data="data" @success="handleSuccess" />
+        <Button type="info" ghost long @click="showComment = true">
+          查看该内容的讨论区
+        </Button>
+        <Modal
+          v-model="showComment"
+          :width="screenWidth / 2"
+          title="讨论区"
+          class-name="vertical-center-modal"
+          :closable="false"
+          :masked-closable="false"
+          footer-hide
+        >
+          <CommentPage v-if="!reload" :item="data.id" @reloadComment="reloadComment" />
+        </Modal>
       </i-col>
       <i-col span="12" :style="{height: itemInfoHeight + 'px', overflowY: 'auto'}">
+        <Rating />
+        <Divider/>
         <Collapse v-model="ratingName" accordion>
           <Panel v-for="rating in ratings" :key="rating.username" :name="rating.username">
             <Avatar size="small" :src="rating.avatar" />
@@ -17,28 +33,15 @@
         </Collapse>
       </i-col>
     </Row>
-    <Button @click="showComment = true">
-      查看评论
-    </Button>
-    <Modal
-      v-model="showComment"
-      :width="screenWidth / 2"
-      title="讨论区"
-      class-name="vertical-center-modal"
-      :closable="false"
-      :masked-closable="false"
-      footer-hide
-    >
-      <CommentPage v-if="!reload" :item="data.id" @reloadComment="reloadComment" />
-    </Modal>
   </div>
 </template>
 
 <script>
 import ItemInfo from '../../components/ItemInfo'
 import CommentPage from '../../components/CommentPage'
+import Rating from '../../components/Rating'
 export default {
-  components: { CommentPage, ItemInfo },
+  components: { Rating, CommentPage, ItemInfo },
   middleware: ['auth'],
   validate ({ params }) {
     return /^\d+$/.test(params.id)
