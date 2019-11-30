@@ -4,7 +4,7 @@ const Op = Sequelize.Op
 
 const sequelize = require('../index')
 
-const Item = require('./Item')
+const { Item } = require('./Item')
 
 class Rating extends Model {
 }
