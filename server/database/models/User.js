@@ -5,6 +5,7 @@ const sequelize = require('../index')
 
 const Item = require('./Item')
 const Comment = require('./Comment')
+const Rating = require('./Rating')
 
 class User extends Model {}
 User.init({
@@ -41,5 +42,6 @@ User.init({
 User.hasMany(Item, { foreignKey: 'creator' })
 User.hasMany(Item, { foreignKey: 'updater' })
 User.hasMany(Comment, { foreignKey: 'user' })
+User.hasMany(Rating, { foreignKey: 'user' })
 
 module.exports = User

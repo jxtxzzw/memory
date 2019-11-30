@@ -4,20 +4,12 @@ const Op = Sequelize.Op
 
 const sequelize = require('../index')
 
-const User = require('./User')
 const Item = require('./Item')
 
 class Rating extends Model {
 }
 
 Rating.init({
-  user: {
-    type: Sequelize.INTEGER,
-    references: {
-      model: User,
-      key: 'id'
-    }
-  },
   item: {
     type: Sequelize.INTEGER,
     references: {
