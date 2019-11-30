@@ -4,6 +4,7 @@ const Model = Sequelize.Model
 const sequelize = require('../index')
 
 const Item = require('./Item')
+const Category = require('./Category')
 
 class Type extends Model {}
 Type.init({
@@ -22,5 +23,6 @@ Type.init({
 })
 
 Type.hasMany(Item, { foreignKey: 'type' })
+Type.hasMany(Category, { foreignKey: 'type' })
 
 module.exports = Type

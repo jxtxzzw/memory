@@ -3,7 +3,6 @@ const Model = Sequelize.Model
 
 const sequelize = require('../index')
 
-const Type = require('./Type')
 const Comment = require('./Comment')
 
 class Item extends Model {}
@@ -16,13 +15,6 @@ Item.init({
   title: {
     type: Sequelize.STRING,
     allowNull: false
-  },
-  type: {
-    type: Sequelize.INTEGER,
-    references: {
-      model: Type,
-      key: 'id'
-    }
   },
   note: {
     type: Sequelize.STRING,
