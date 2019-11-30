@@ -1,18 +1,31 @@
-require('./models/Category')
-require('./models/Comment')
-require('./models/Item')
-require('./models/ItemCategory')
-require('./models/Rating')
-require('./models/Type')
-require('./models/User')
-require('./models/Tag')
-require('./models/ItemTag')
-
 const sequelize = require('./index')
+
+const MODEL_INIT_LIST = [
+  'Category',
+  'Type',
+  'Item',
+  'Comment',
+  'ItemCategory',
+  'Rating',
+  'User',
+  'Tag',
+  'ItemTag'
+]
+
+const MODELS = []
+
+for (const x of MODEL_INIT_LIST) {
+  MODELS.push(require('./models/' + x))
+}
+
+async function forceSyncModels (MODELS) {
+  for (const model of MODELS.reverse()) {
+    await model.sync({ force: true })
+  }
+}
 
 sequelize
   .authenticate()
-  .then(() => {
-    // eslint-disable-next-line standard/object-curly-even-spacing
-    sequelize.sync()
+  .then(async () => {
+    await forceSyncModels(MODELS)
   })
