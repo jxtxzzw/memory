@@ -35,7 +35,12 @@ export default {
     tags: {
       deep: true,
       handler () {
-        this.tagList = this.tags
+        this.tagList = []
+        for (const tag of this.tags) {
+          if (tag && !this.tagList.includes(tag)) {
+            this.tagList = [...this.tagList, tag]
+          }
+        }
       }
     }
   },
