@@ -50,7 +50,7 @@
               <Input v-model="formValidate.title" type="text" />
             </FormItem>
             <FormItem label="种类" prop="type">
-              <Select v-model="formValidate.type" placeholder="请选择类型">
+              <Select v-model="formValidate.type" placeholder="请选择类型" @on-change="getCategory">
                 <Option v-for="type in typeList" :key="type.label" :value="type.value">
                   {{ type.label }}
                 </Option>
@@ -270,6 +270,12 @@ export default {
     },
     handleVisibleChange (status) {
       this.$emit('editItemVisibleChange', status)
+    },
+    async getCategory () {
+      this.checkedCategory = []
+      this.uncheckedCategory = await this.$axios.$post('/api/Category/categoryList', {
+        type: this.formValidate.type
+      })
     }
   }
 }
