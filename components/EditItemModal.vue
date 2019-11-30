@@ -22,6 +22,12 @@
       @on-visible-change="handleVisibleChange"
     >
       <Form ref="formValidate" :model="formValidate" :rules="ruleValidate">
+        <Alert v-if="formError" type="error" show-icon>
+          表单验证失败
+          <span slot="desc">
+                {{ formError }}
+              </span>
+        </Alert>
         <Row>
           <i-col span="12">
             <a-upload
@@ -40,12 +46,6 @@
             </a-upload>
           </i-col>
           <i-col span="12">
-            <Alert v-if="formError" type="error" show-icon>
-              表单验证失败
-              <span slot="desc">
-                {{ formError }}
-              </span>
-            </Alert>
             <FormItem label="标题" prop="title">
               <Input v-model="formValidate.title" type="text" />
             </FormItem>
