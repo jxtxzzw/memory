@@ -3,6 +3,12 @@
     width: 208px;
     height: 312px;
   }
+
+  .vertical-center-modal .ant-upload-list-picture-card .ant-upload-list-item {
+    width: 208px;
+    height: 312px;
+  }
+
 </style>
 <template>
   <div v-if="formValidate != null">
