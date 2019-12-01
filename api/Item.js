@@ -93,6 +93,25 @@ async function advancedSearch (data, user) {
       [Op.between]: data.ratingRange
     }
   }
+  const include = [
+    {
+      model: Rating,
+      where: {
+        user: user.id
+      },
+      required: false
+    }
+  ]
+  if (data.category.length > 0) {
+    include.push({
+      model: Category,
+      where: {
+        id: {
+          [Op.or]: data.category
+        }
+      }
+    })
+  }
   if (data.updatetime) {
     condition.updatedAt = {
       [Op.between]: data.updatetime.map(el => new Date(el))
@@ -101,39 +120,24 @@ async function advancedSearch (data, user) {
   let result = await Item.findAll({
     attributes: ['id', 'title', 'cover', 'rating'],
     where: condition,
-    include: [{
-      model: Category,
-      where: {
-        id: {
-          [Op.or]: data.category
-        }
-      }
-    },
-    {
-      model: Rating,
-      where: {
-        user: user.id
-      },
-      required: false
-    }
-    ]
+    include
   })
   if (data.read === 'read') {
-    result = result.filter(el => {
+    result = result.filter((el) => {
       if (el.Ratings.length > 0) {
         return true
       }
       return false
     })
   } else if (data.read === 'unread') {
-    result = result.filter(el => {
+    result = result.filter((el) => {
       if (el.Ratings.length === 0) {
         return true
       }
       return false
     })
   }
-  return result.map(el => {
+  return result.map((el) => {
     el = el.toJSON()
     el.Ratings = undefined
     el.Categories = undefined
