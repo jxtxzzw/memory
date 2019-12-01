@@ -17,17 +17,13 @@
           </li>
         </template>
       </ListItem>
-      <ListItem v-else>
-        <ListItemMeta
-          title="我没有评价过该内容"
-          description="是没有看过吗？我得找个时间看一下"
-        />
-        <template slot="action">
-          <li>
-            <a @click="modalVisible = true">添加评价</a>
-          </li>
-        </template>
-      </ListItem>
+      <a-empty
+        v-else
+        image="/empty.png"
+      >
+        <span slot="description">我没有评价过该内容</span>
+        <Button @click="modalVisible = true">添加评价</Button>
+      </a-empty>
     </List>
     <Modal
       v-model="modalVisible"

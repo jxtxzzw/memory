@@ -24,7 +24,13 @@
         <Divider> 我的评价 </Divider>
         <Rating :my="myRating" @success="handleSuccess" />
         <Divider> 所有评价 </Divider>
-        <Collapse v-model="ratingName" accordion>
+        <a-empty
+          v-if="ratings.length === 0"
+          image="/empty.png"
+        >
+          <span slot="description">还没有任何人给出评价哦</span>
+        </a-empty>
+        <Collapse v-else v-model="ratingName" accordion>
           <Panel v-for="rating in ratings" :key="rating.username" :name="rating.username">
             <Avatar size="small" :src="rating.avatar" />
             {{ rating.user }}
