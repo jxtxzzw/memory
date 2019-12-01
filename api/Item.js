@@ -107,7 +107,8 @@ async function advancedSearch (data, user) {
         id: {
           [Op.or]: data.category
         }
-      }
+      },
+      required: false
     },
     {
       model: Rating,
