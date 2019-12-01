@@ -128,7 +128,7 @@ module.exports = {
 
     // session middleware
     session({
-      secret: 'super-secret-key',
+      secret: process.env.MEMORY_COOKIE_SECERT || 'super-secret-key',
       resave: false,
       saveUninitialized: false,
       cookie: { maxAge: 60000 }
