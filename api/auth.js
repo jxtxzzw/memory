@@ -43,7 +43,10 @@ router.post('/auth/login', async (req, res, next) => {
         username,
         avatar: user.avatar ? uploadConfig.upload + user.avatar : uploadConfig.defaultAvatar
       },
-      process.env.MEMORY_JWT_SECERT || 'dummy'
+      process.env.MEMORY_JWT_SECERT || 'dummy',
+      {
+        expiresIn: 10
+      }
     )
 
     res.json({
