@@ -154,6 +154,9 @@ export default {
       this.types = await this.$axios.$post('/api/Type/getTypeList')
     },
     handleSearch () {
+      if (this.formItem.updatetime[0].length === 0 && this.formItem.updatetime[1].length === 0) {
+        this.formItem.updatetime = undefined
+      }
       this.$emit('advancedSearch', this.formItem)
     },
     handleVisibleChange (status) {
