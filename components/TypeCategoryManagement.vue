@@ -149,8 +149,8 @@ export default {
         id,
         name
       }
-      console.log(data)
-      await this.$axios.$post('/api/Type/getTypeList')
+      await this.$axios.$post('/api/addType', data)
+      await this.reload()
     },
     async newType () {
       await this.typeAPI(0, this.selectedType)
@@ -174,8 +174,8 @@ export default {
         name,
         type
       }
-      console.log(data)
-      await this.$axios.$post('/api/Type/getTypeList')
+      await this.$axios.$post('/api/Type/getTypeList', data)
+      await this.reload()
     },
     async newCategory () {
       await this.categoryAPI(0, this.selectedCategory, this.TypeList[this.selectedType.toLowerCase()])
@@ -189,8 +189,10 @@ export default {
     showCategoryInput () {
       this.newCategoryName = ''
       this.categoryInput = true
+    },
+    async reload () {
+      await this.loadTypes()
     }
-    // TODO 成功后局部刷新
   }
 }
 </script>
