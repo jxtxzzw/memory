@@ -149,7 +149,22 @@ export default {
         id,
         name
       }
-      await this.$axios.$post('/api/addType', data)
+      let success = true
+      try {
+        await this.$axios.$post('/api/addType', data)
+      } catch (e) {
+        success = false
+        this.$Message.error({
+          background: true,
+          content: '操作失败：' + e
+        })
+      }
+      if (success) {
+        this.$Message.success({
+          background: true,
+          content: '操作成功'
+        })
+      }
       await this.reload()
     },
     async newType () {
@@ -176,7 +191,22 @@ export default {
         name,
         type
       }
-      await this.$axios.$post('/api/Type/getTypeList', data)
+      let success = true
+      try {
+        await this.$axios.$post('/api/Type/getTypeList', data)
+      } catch (e) {
+        success = false
+        this.$Message.error({
+          background: true,
+          content: '操作失败：' + e
+        })
+      }
+      if (success) {
+        this.$Message.success({
+          background: true,
+          content: '操作成功'
+        })
+      }
       await this.reload()
     },
     async newCategory () {
