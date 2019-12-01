@@ -82,22 +82,25 @@ async function itemIsExist (id) {
 }
 
 async function advancedSearch (data, user) {
+  const condition = {
+    title: {
+      [Op.like]: '%' + data.title + '%'
+    },
+    type: {
+      [Op.or]: data.type
+    },
+    rating: {
+      [Op.between]: data.ratingRange
+    }
+  }
+  if (data.updatetime) {
+    condition.updatedAt = {
+      [Op.between]: data.updatetime.map(el => new Date(el))
+    }
+  }
   let result = await Item.findAll({
     attributes: ['id', 'title', 'cover', 'rating'],
-    where: {
-      title: {
-        [Op.like]: '%' + data.title + '%'
-      },
-      type: {
-        [Op.or]: data.type
-      },
-      rating: {
-        [Op.between]: data.ratingRange
-      },
-      updatedAt: {
-        [Op.between]: data.updatetime.map(el => new Date(el))
-      }
-    },
+    where: condition,
     include: [{
       model: Category,
       where: {
