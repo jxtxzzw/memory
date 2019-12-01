@@ -225,6 +225,8 @@ export default {
       this.categoryInput = true
     },
     async reload () {
+      this.CategoryList = {}
+      this.TypeList = {}
       await this.loadTypes()
     }
   }
