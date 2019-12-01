@@ -193,7 +193,7 @@ export default {
       }
       let success = true
       try {
-        await this.$axios.$post('/api/Type/getTypeList', data)
+        await this.$axios.$post('/api/addCategory', data)
       } catch (e) {
         success = false
         this.$Message.error({
@@ -228,6 +228,7 @@ export default {
       this.CategoryList = {}
       this.TypeList = {}
       await this.loadTypes()
+      await this.reloadCategory()
     }
   }
 }
