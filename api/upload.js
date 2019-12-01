@@ -1,5 +1,5 @@
 const fs = require('fs')
-const Sequelize = require('sequelize')
+const sequelize = require('../server/database/index')
 const typeList = require('../assets/mimetype')
 const { Item } = require('../server/database/models/Item')
 const ItemCategory = require('../server/database/models/ItemCategory')
@@ -23,7 +23,7 @@ async function CreateItem (data) {
         throw new Error('图片类型不符合')
       }
     }
-    transaction = await Sequelize.transaction()
+    transaction = await sequelize.transaction({ autocommit: false })
     const [instance, created] = await Item.findOrCreate({
       where: {
         id: data.id || 0
@@ -43,15 +43,15 @@ async function CreateItem (data) {
       if (cover) {
         instance.cover = cover
       }
-      instance.save(transaction)
+      await instance.save(transaction)
     }
-    ItemCategory.destroy({
+    await ItemCategory.destroy({
       where: {
         item: instance.id
       },
       transaction
     })
-    ItemTag.destroy({
+    await ItemTag.destroy({
       where: {
         item: instance.id
       },
@@ -70,9 +70,9 @@ async function CreateItem (data) {
         },
         transaction
       })
-      ItemTag.create({ item: instance.id, tag: tagInstance.id }, { transaction })
+      await ItemTag.create({ item: instance.id, tag: tagInstance.id }, { transaction })
     }
-    transaction.commit()
+    await transaction.commit()
     return instance
   } catch (e) {
     if (transaction) { await transaction.rollback() }
