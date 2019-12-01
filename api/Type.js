@@ -19,3 +19,8 @@ router.post('/Type/getTypeList', async (req, res, next) => {
   const typeList = await getTypeList()
   res.json(typeList)
 })
+
+router.post('/Type/add', async (req, res, next) => {
+  const typeList = await getTypeList()
+  res.json(typeList)
+})
