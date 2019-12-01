@@ -32,7 +32,7 @@ router.post('/auth/login', async (req, res, next) => {
   const valid = user != null
 
   if (!valid) {
-    res.status(401).end('用户名或密码错误')
+    res.status(401).send('用户名或密码错误')
   } else {
     user.latest = new Date(Date.now())
     user.save()
@@ -45,7 +45,7 @@ router.post('/auth/login', async (req, res, next) => {
       },
       process.env.MEMORY_JWT_SECERT || 'dummy',
       {
-        expiresIn: 10
+        expiresIn: 60000
       }
     )
 

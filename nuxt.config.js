@@ -72,12 +72,10 @@ module.exports = {
   auth: {
     cookie: {
       options: {
-        expires: 1 // TODO: change to 3 days in production mode
+        expires: 3
       }
     },
-    redirect: {
-      callback: '/callback'
-    },
+    resetOnError: true,
     strategies: {
       local: {
         endpoints: {
