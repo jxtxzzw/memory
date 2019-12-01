@@ -72,7 +72,7 @@
   </div>
 </template>
 <script>
-import AdvancedSearch from '../../components/AdvancedSearch'
+import AdvancedSearch from '../components/AdvancedSearch'
 import EditItemModal from '~/components/EditItemModal'
 import Search from '~/components/Search'
 export default {

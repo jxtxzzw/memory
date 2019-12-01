@@ -34,13 +34,13 @@
           <div align="right">
             <div>
               <MenuItem name="home" to="/">
-                <Icon type="ios-home"></Icon>
-                主页
+                <Icon type="ios-home" />
+                欢迎页
               </MenuItem>
             </div>
-            <MenuItem name="test" to="/Experiment/Test">
-              <Icon type="ios-home"></Icon>
-              测试页面
+            <MenuItem name="memory" to="/memory">
+              <Icon type="ios-albums" />
+              主页
             </MenuItem>
             <div v-if="$auth.$state.loggedIn">
               <Dropdown @on-click="handleDropdownClick">
