@@ -11,17 +11,18 @@ router.post('/User/users', async (req, res, next) => {
   // 只有超级管理员可以管理员工信息
   if (req.user.id !== 1) {
     res.sendStatus(403)
+  } else {
+    const users = await User.findAll({
+      attributes: [
+        'id',
+        'username',
+        'realname',
+        'latest',
+        'avatar'
+      ]
+    })
+    res.json(users)
   }
-  const users = await User.findAll({
-    attributes: [
-      'id',
-      'username',
-      'realname',
-      'latest',
-      'avatar'
-    ]
-  })
-  res.json(users)
 })
 
 async function getUserInfo (id) {
