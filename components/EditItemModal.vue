@@ -1,9 +1,5 @@
 <style>
-  .ant-upload.ant-upload-select-picture-card {
-    width: 208px;
-    height: 312px;
-  }
-  .ant-upload-list-picture-card .ant-upload-list-item {
+  .vertical-center-modal .ant-upload.ant-upload-select-picture-card {
     width: 208px;
     height: 312px;
   }
@@ -21,8 +17,6 @@
       @on-cancel="handleCancel"
       @on-visible-change="handleVisibleChange"
     >
-      {{ uncheckedCategory }}
-      {{ formValidate.checkedCategory }}
       <Form ref="formValidate" :model="formValidate" :rules="ruleValidate">
         <Alert v-if="formError" type="error" show-icon>
           表单验证失败

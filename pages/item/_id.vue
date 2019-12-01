@@ -1,7 +1,7 @@
 <template>
   <div>
     <Row>
-      <i-col span="11" :style="{height: itemInfoHeight + 'px', overflowY: 'auto'}">
+      <i-col span="11">
         <Divider> 基本信息 </Divider>
         <ItemInfo ref="itemInfo" :data="data" @success="handleSuccess" />
         <Divider> 讨论区 </Divider>
@@ -13,18 +13,22 @@
           :width="screenWidth / 2"
           title="讨论区"
           class-name="vertical-center-modal"
-          :closable="false"
-          :mask-closable="false"
           footer-hide
         >
           <CommentPage v-if="!reload" :item="data.id" @reloadComment="reloadComment" />
         </Modal>
       </i-col>
-      <i-col offset="2" span="11" :style="{height: itemInfoHeight + 'px', overflowY: 'auto'}">
+      <i-col offset="2" span="11">
         <Divider> 我的评价 </Divider>
         <Rating :my="myRating" @success="handleSuccess" />
         <Divider> 所有评价 </Divider>
-        <Collapse v-model="ratingName" accordion>
+        <a-empty
+          v-if="ratings.length === 0"
+          image="/empty.png"
+        >
+          <span slot="description">还没有任何人给出评价哦</span>
+        </a-empty>
+        <Collapse v-else v-model="ratingName" accordion>
           <Panel v-for="rating in ratings" :key="rating.username" :name="rating.username">
             <Avatar size="small" :src="rating.avatar" />
             {{ rating.user }}

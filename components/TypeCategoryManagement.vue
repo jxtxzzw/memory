@@ -149,17 +149,34 @@ export default {
         id,
         name
       }
-      console.log(data)
-      await this.$axios.$post('/api/Type/getTypeList')
+      let success = true
+      try {
+        await this.$axios.$post('/api/addType', data)
+      } catch (e) {
+        success = false
+        this.$Message.error({
+          background: true,
+          content: '操作失败：' + e
+        })
+      }
+      if (success) {
+        this.$Message.success({
+          background: true,
+          content: '操作成功'
+        })
+      }
+      await this.reload()
     },
     async newType () {
       await this.typeAPI(0, this.selectedType)
     },
     async renameType () {
       await this.typeAPI(this.TypeList[this.selectedType.toLowerCase()], this.newTypeName)
+      this.selectedType = this.newTypeName
     },
     async deleteType () {
       await this.typeAPI(this.TypeList[this.selectedType.toLowerCase()], undefined)
+      this.selectedType = ''
     },
     showTypeInput () {
       this.newTypeName = ''
@@ -174,23 +191,45 @@ export default {
         name,
         type
       }
-      console.log(data)
-      await this.$axios.$post('/api/Type/getTypeList')
+      let success = true
+      try {
+        await this.$axios.$post('/api/addCategory', data)
+      } catch (e) {
+        success = false
+        this.$Message.error({
+          background: true,
+          content: '操作失败：' + e
+        })
+      }
+      if (success) {
+        this.$Message.success({
+          background: true,
+          content: '操作成功'
+        })
+      }
+      await this.reload()
     },
     async newCategory () {
       await this.categoryAPI(0, this.selectedCategory, this.TypeList[this.selectedType.toLowerCase()])
     },
     async renameCategory () {
       await this.categoryAPI(this.CategoryList[this.selectedCategory.toLowerCase()], this.newCategoryName, this.TypeList[this.selectedType.toLowerCase()])
+      this.selectedCategory = this.newCategoryName
     },
     async deleteCategory () {
       await this.categoryAPI(this.CategoryList[this.selectedCategory.toLowerCase()], undefined, undefined)
+      this.selectedCategory = ''
     },
     showCategoryInput () {
       this.newCategoryName = ''
       this.categoryInput = true
+    },
+    async reload () {
+      this.CategoryList = {}
+      this.TypeList = {}
+      await this.loadTypes()
+      await this.reloadCategory()
     }
-    // TODO 成功后局部刷新
   }
 }
 </script>

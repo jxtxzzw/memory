@@ -1,7 +1,5 @@
 <template>
   <div v-if="data != null">
-    {{ TypeList }}
-    {{ CategoryList }}
     <Card style="width:350px" dis-hover>
       <div slot="title" class="item-title">
         <Tag type="border" color="success">

@@ -34,13 +34,13 @@
           <div align="right">
             <div>
               <MenuItem name="home" to="/">
-                <Icon type="ios-home"></Icon>
-                主页
+                <Icon type="ios-home" />
+                欢迎页
               </MenuItem>
             </div>
-            <MenuItem name="test" to="/Experiment/Test">
-              <Icon type="ios-home"></Icon>
-              测试页面
+            <MenuItem name="memory" to="/memory">
+              <Icon type="ios-albums" />
+              主页
             </MenuItem>
             <div v-if="$auth.$state.loggedIn">
               <Dropdown @on-click="handleDropdownClick">
@@ -62,7 +62,7 @@
         </Menu>
       </Header>
       <Content :style="{padding: '0 50px'}">
-        <Card dis-hover :style="{minHeight: '800px', height: cardHeight + 'px'}">
+        <Card dis-hover :style="{minHeight: '800px', height: cardHeight + 'px', overflowY: 'auto'}">
           <div style="min-height: 400px;">
             <nuxt v-if="compatible" />
             <div v-else>

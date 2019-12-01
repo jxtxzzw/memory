@@ -33,25 +33,25 @@ router.post('/auth/login', async (req, res, next) => {
 
   if (!valid) {
     res.status(401).end('用户名或密码错误')
+  } else {
+    user.latest = new Date(Date.now())
+    user.save()
+
+    const accessToken = jsonwebtoken.sign(
+      {
+        id: user.id,
+        username,
+        avatar: user.avatar ? uploadConfig.upload + user.avatar : uploadConfig.defaultAvatar
+      },
+      process.env.MEMORY_JWT_SECERT || 'dummy'
+    )
+
+    res.json({
+      token: {
+        accessToken
+      }
+    })
   }
-
-  user.latest = new Date(Date.now())
-  user.save()
-
-  const accessToken = jsonwebtoken.sign(
-    {
-      id: user.id,
-      username,
-      avatar: user.avatar ? uploadConfig.upload + user.avatar : uploadConfig.defaultAvatar
-    },
-    process.env.MEMORY_JWT_SECERT || 'dummy'
-  )
-
-  res.json({
-    token: {
-      accessToken
-    }
-  })
 })
 
 // [GET] /user

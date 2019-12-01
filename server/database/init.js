@@ -1,25 +1,18 @@
 const sequelize = require('./index')
 
-const MODEL_INIT_LIST = [
-  'ItemCategory',
-  'ItemTag',
-  'Comment',
-  'User',
-  'Type'
-]
-
 const MODELS = []
-MODELS.push(require('./models/Item').Item)
+MODELS.push(require('./models/User'))
+MODELS.push(require('./models/Type'))
 MODELS.push(require('./models/Item').Tag)
 MODELS.push(require('./models/Item').Category)
+MODELS.push(require('./models/Item').Item)
+MODELS.push(require('./models/ItemTag'))
+MODELS.push(require('./models/ItemCategory'))
+MODELS.push(require('./models/Comment'))
 MODELS.push(require('./models/Item').Rating)
 
-for (const x of MODEL_INIT_LIST) {
-  MODELS.push(require('./models/' + x))
-}
-
 async function forceSyncModels (MODELS) {
-  for (const model of MODELS.reverse()) {
+  for (const model of MODELS) {
     await model.sync({ force: true })
   }
 }

@@ -24,6 +24,12 @@
         </i-col>
       </Row>
     </div>
+    <a-empty
+      v-if="reload && list.length === 0"
+      image="/empty.png"
+    >
+      <span slot="description">没有找到任何内容</span>
+    </a-empty>
     <Scroll
       ref="scroll"
       :on-reach-bottom="handleReachBottom"
@@ -66,7 +72,7 @@
   </div>
 </template>
 <script>
-import AdvancedSearch from '../../components/AdvancedSearch'
+import AdvancedSearch from '../components/AdvancedSearch'
 import EditItemModal from '~/components/EditItemModal'
 import Search from '~/components/Search'
 export default {
@@ -214,9 +220,13 @@ export default {
     },
     async handleAdvancedSearch (formItem) {
       this.inAdvancedSearch = true
-      formItem.updatetime = undefined
       const result = await this.$axios.$post('/api/advancedSearch', formItem)
-      console.log(result)
+      if (result.length === 0) {
+        this.$Message.info({
+          background: true,
+          content: '已经没有更多内容啦！要不，来分享一些你喜欢的？'
+        })
+      }
       this.list = result
     },
     resetAdvancedSearch () {

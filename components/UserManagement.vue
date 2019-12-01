@@ -103,7 +103,8 @@ export default {
               return h('Button', {
                 props: {
                   type: 'success',
-                  long: true
+                  long: true,
+                  disabled: this.rawData.length === 0
                 },
                 on: {
                   click: () => {
@@ -205,7 +206,11 @@ export default {
       }
     },
     async loadData () {
-      await this.requestData()
+      try {
+        await this.requestData()
+      } catch (e) {
+        this.rawData = []
+      }
       this.generateUserData()
     },
     onSearch (search) {
