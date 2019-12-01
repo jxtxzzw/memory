@@ -21,7 +21,7 @@
         </FormItem>
         <FormItem label="类型">
           <Select
-            v-model="formItem.types"
+            v-model="formItem.type"
             multiple
             placeholder="请选择"
             not-found-text="无匹配数据"
@@ -35,7 +35,7 @@
         </FormItem>
         <FormItem label="分类">
           <Select
-            v-model="formItem.categories"
+            v-model="formItem.category"
             multiple
             placeholder="请选择"
             not-found-text="无匹配数据"
@@ -48,7 +48,7 @@
         </FormItem>
         <FormItem label="更新时间">
           <DatePicker
-            v-model="formItem.date"
+            v-model="formItem.updatetime"
             type="daterange"
             show-week-numbers
             clearable
@@ -71,7 +71,7 @@
         </FormItem>
         <FormItem label="评分范围">
           <Slider
-            v-model="formItem.rating"
+            v-model="formItem.ratingRange"
             range
             :min="0.5"
             :max="5"
@@ -128,11 +128,11 @@ export default {
       modalVisible: false,
       formItem: {
         title: '',
-        types: [],
+        type: [],
         read: 'both',
-        date: '',
-        rating: [0, 5],
-        categories: []
+        updatetime: [],
+        ratingRange: [0, 5],
+        category: []
       },
       types: [],
       categoryIds: [],
@@ -161,7 +161,7 @@ export default {
     },
     async reloadCategory () {
       // 对于每一个 type 请求它的分类
-      for (const type of this.formItem.types) {
+      for (const type of this.formItem.type) {
         // CategoryList 是 []，this.CategoryList 是 {}，类型不一样
         const CategoryList = await this.$axios.$post('api/Category/categoryList', {
           type

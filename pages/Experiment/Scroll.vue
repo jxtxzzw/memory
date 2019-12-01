@@ -2,7 +2,7 @@
   <div>
     <!-- 无限滚动，ref 是为了下面获取 Content 宽度 -->
     <!-- 使用计算属性计算出触发滚动处理的高度 -->
-    <div :style="{height: headerHeight + 'px'}">
+    <div v-if="reload" :style="{height: headerHeight + 'px'}">
       <Row>
         <i-col span="3">
           <Button type="success" @click="createItemModal = true">
@@ -10,11 +10,14 @@
           </Button>
           <EditItemModal :modal="createItemModal" @editItemVisibleChange="handleEditItemVisibleChange" />
         </i-col>
-        <i-col offset="3" span="12">
+        <i-col v-if="!inAdvancedSearch" offset="3" span="12">
           <Search @search="handleSearch" />
         </i-col>
-        <i-col offset="3" span="3">
-          <Button type="success" @click="advancedSearchModal = true">
+        <i-col :offset="inAdvancedSearch ? 18 : 3" span="3">
+          <Button v-if="inAdvancedSearch" type="warning" @click="resetAdvancedSearch">
+            退出搜索
+          </Button>
+          <Button v-else type="success" @click="advancedSearchModal = true">
             高级搜索
           </Button>
           <AdvancedSearch :modal="advancedSearchModal" @advancedSearchVisibleChange="handleAdvancedSearchVisibleChange" @advancedSearch="handleAdvancedSearch" />
@@ -71,6 +74,8 @@ export default {
   middleware: ['auth'],
   data () {
     return {
+      reload: true,
+      inAdvancedSearch: false,
       advancedSearchModal: false,
       createItemModal: false,
       // 自定义 item 样式
@@ -81,6 +86,8 @@ export default {
       itemHeight: 420, // item 的高度
       // 内容数组
       list: [],
+      searchInput: '',
+      searchType: 0,
       // 动态获取内容展示的宽度和高度
       screenHeight: 0,
       scrollContentWidth: 0 // 真正存放内容的滚动区域的宽度，动态获取
@@ -182,7 +189,14 @@ export default {
     handleReachBottom () {
       return new Promise((resolve) => {
         setTimeout(async () => {
-          await this.loadData()
+          if (!this.inAdvancedSearch) {
+            await this.loadData(this.searchInput, this.searchType)
+          } else {
+            this.$Message.warning({
+              background: true,
+              content: '请先退出高级搜索'
+            })
+          }
           resolve()
         }, 1000)
       })
@@ -194,11 +208,25 @@ export default {
       this.advancedSearchModal = status
     },
     async handleSearch (input, type) {
+      this.searchInput = input
+      this.searchType = type
       await this.loadData(input, type, 0)
     },
-    handleAdvancedSearch (formItem) {
-      console.log(formItem)
-      this.$axios.$post('/', formItem)
+    async handleAdvancedSearch (formItem) {
+      this.inAdvancedSearch = true
+      formItem.updatetime = undefined
+      const result = await this.$axios.$post('/api/advancedSearch', formItem)
+      console.log(result)
+      this.list = result
+    },
+    resetAdvancedSearch () {
+      this.inAdvancedSearch = false
+      this.list = []
+      this.loadData()
+      this.reload = false
+      this.$nextTick(() => {
+        this.reload = true
+      })
     }
   }
 }
