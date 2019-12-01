@@ -198,7 +198,7 @@ export default {
     },
     handleAdvancedSearch (formItem) {
       console.log(formItem)
-      // TODO: call API to search more
+      this.$axios.$post('/', formItem)
     }
   }
 }
