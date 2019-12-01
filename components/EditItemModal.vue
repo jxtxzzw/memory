@@ -27,8 +27,8 @@
         <Alert v-if="formError" type="error" show-icon>
           表单验证失败
           <span slot="desc">
-                {{ formError }}
-              </span>
+            {{ formError }}
+          </span>
         </Alert>
         <Row>
           <i-col span="12">
@@ -274,6 +274,7 @@ export default {
       this.$emit('editItemVisibleChange', status)
     },
     async reloadCategory () {
+      // CategoryList 是 []，this.CategoryList 是 {}，类型不一样
       const CategoryList = await this.$axios.$post('api/Category/categoryList', {
         type: this.formValidate.type
       })

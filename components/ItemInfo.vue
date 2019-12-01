@@ -75,11 +75,21 @@ export default {
       editData: null
     }
   },
+  // 需要使用 watcher 来侦听 type 的变化，并触发 loadCategoryList，否则 mounted 的时候可能 type 为 0 或者 ''
+  watch: {
+    data: {
+      deep: true,
+      async handler () {
+        await this.loadCategoryList()
+      }
+    }
+  },
   async mounted () {
     await this.loadTypeList()
     await this.loadCategoryList()
   },
   methods: {
+    // 需要使用 this.$set 以便 Vue 能知道数据更新了
     async loadCategoryList () {
       const CategoryList = await this.$axios.$post('api/Category/categoryList', {
         type: this.data.type

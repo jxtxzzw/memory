@@ -55,7 +55,7 @@ async function getUserInfo (id) {
       rating: item.rating,
       ratingCount: ratingNum,
       replyCount: commentNum,
-      itemCover: item.cover
+      itemCover: item.cover ? uploadConfig.upload + item.cover : uploadConfig.defaultCover
     })
   }
   return data

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Tag v-for="item in tags" :key="item" :name="item" closable @on-close="handleClose">
+    <Tag v-for="item in tagList" :key="item" :name="item" closable @on-close="handleClose">
       {{ item }}
     </Tag>
     <Input
@@ -33,13 +33,27 @@ export default {
   },
   data () {
     return {
+      tagList: [],
       inputVisible: false,
       inputValue: ''
     }
   },
+  watch: {
+    tags: {
+      deep: true,
+      handler () {
+        this.tagList = []
+        for (const tag of this.tags) {
+          if (tag && !this.tagList.includes(tag)) {
+            this.tagList = [...this.tagList, tag]
+          }
+        }
+      }
+    }
+  },
   methods: {
     handleClose (event, removedTag) {
-      this.tags = this.tags.filter(tag => tag !== removedTag)
+      this.tagList = this.tagList.filter(tag => tag !== removedTag)
       this.$emit('remove', removedTag)
     },
     // 点击添加标签时，出现一个相等大小的输入框覆盖在 Tag 上，以便可以输入内容
@@ -56,14 +70,14 @@ export default {
     // 按下回车，或输入框失去焦点时，确认输入内容
     handleInputConfirm () {
       const inputValue = this.inputValue
-      let tags = this.tags
-      // tags 中的内容不能重复
-      if (inputValue && !tags.includes(inputValue)) {
-        tags = [...tags, inputValue]
+      let tagList = this.tagList
+      // tagList 中的内容不能重复
+      if (inputValue && !tagList.includes(inputValue)) {
+        tagList = [...tagList, inputValue]
       }
-      // 对 Object 重新赋值，清空输入框，并根据新 tags 刷新页面
+      // 对 Object 重新赋值，清空输入框，并根据新 tagList 刷新页面
       Object.assign(this, {
-        tags,
+        tagList,
         inputVisible: false,
         inputValue: ''
       })
