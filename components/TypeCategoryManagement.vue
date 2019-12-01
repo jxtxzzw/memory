@@ -157,9 +157,11 @@ export default {
     },
     async renameType () {
       await this.typeAPI(this.TypeList[this.selectedType.toLowerCase()], this.newTypeName)
+      this.selectedType = this.newTypeName
     },
     async deleteType () {
       await this.typeAPI(this.TypeList[this.selectedType.toLowerCase()], undefined)
+      this.selectedType = ''
     },
     showTypeInput () {
       this.newTypeName = ''
@@ -182,9 +184,11 @@ export default {
     },
     async renameCategory () {
       await this.categoryAPI(this.CategoryList[this.selectedCategory.toLowerCase()], this.newCategoryName, this.TypeList[this.selectedType.toLowerCase()])
+      this.selectedCategory = this.newCategoryName
     },
     async deleteCategory () {
       await this.categoryAPI(this.CategoryList[this.selectedCategory.toLowerCase()], undefined, undefined)
+      this.selectedCategory = ''
     },
     showCategoryInput () {
       this.newCategoryName = ''
