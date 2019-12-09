@@ -160,6 +160,7 @@ export default {
       // 在 default layout 的 onResizeHook 中添加一个函数，表示窗口大小变化时，需要更新该组件的 screenHeight 为 default layout 的 screenHeight
       defaultLayoutVue.onResizeHook.push(() => {
         this.screenHeight = document.body.clientHeight
+        this.getScrollContentWidth()
       })
     },
     // 获取无限滚动的内容区域的宽度
