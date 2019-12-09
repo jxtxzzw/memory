@@ -9,8 +9,9 @@ async function getItemList (data) {
   if (!data.title) {
     data.title = ''
   }
+  let result
   if (data.type) {
-    const result = await Item.findAll({
+    result = await Item.findAll({
       where: {
         type: data.type,
         title: {
@@ -19,15 +20,10 @@ async function getItemList (data) {
       },
       limit: data.limit,
       offset: data.offset,
-      attributes: ['id', 'title', 'cover', 'rating']
+      attributes: ['id']
     })
-    for (const item of result) {
-      const itemJSON = item.toJSON()
-      itemJSON.cover = itemJSON.cover ? uploadConfig.upload + itemJSON.cover : uploadConfig.defaultCover
-      itemList.push(itemJSON)
-    }
   } else {
-    const result = await Item.findAll({
+    result = await Item.findAll({
       where: {
         title: {
           [Op.like]: '%' + data.title + '%'
@@ -35,13 +31,11 @@ async function getItemList (data) {
       },
       limit: data.limit,
       offset: data.offset,
-      attributes: ['id', 'title', 'cover', 'rating']
+      attributes: ['id']
     })
-    for (const item of result) {
-      const itemJSON = item.toJSON()
-      itemJSON.cover = itemJSON.cover ? uploadConfig.upload + itemJSON.cover : uploadConfig.defaultCover
-      itemList.push(itemJSON)
-    }
+  }
+  for (const item of result) {
+    itemList.push(await getItemInfo(item.id))
   }
   return itemList
 }

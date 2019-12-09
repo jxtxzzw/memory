@@ -43,16 +43,17 @@
         <!-- 除最后一行以外的 item 在 crowdList 中 -->
         <i-col v-for="item in crowdList" :key="item.id">
           <nuxt-link :to="{name:'item-id', params: {id:item.id}}">
-            <!--            <ItemInfo-->
-            <!--              :style="{margin: itemMargin + 'px 0', width: itemWidth + 'px', height: itemHeight + 'px'}"-->
-            <!--              :data="item"-->
-            <!--            />-->
-            <Card :style="{margin: itemMargin + 'px 0', width: itemWidth + 'px', height: itemHeight + 'px'}">
-              <div style="text-align:center">
-                <h3>{{ item.title }}</h3>
-                <img :src="item.cover" style="width: 100%" />
-              </div>
-            </Card>
+            <ItemInfo
+              :editable="false"
+              :style="{margin: itemMargin + 'px 0', width: itemWidth + 'px', height: itemHeight + 'px'}"
+              :data="item"
+            />
+            <!--            <Card :style="{margin: itemMargin + 'px 0', width: itemWidth + 'px', height: itemHeight + 'px'}">-->
+            <!--              <div style="text-align:center">-->
+            <!--                <h3>{{ item.title }}</h3>-->
+            <!--                <img :src="item.cover" style="width: 100%" />-->
+            <!--              </div>-->
+            <!--            </Card>-->
           </nuxt-link>
         </i-col>
       </Row>
@@ -63,16 +64,17 @@
           <!-- 最后一行的 span 如果应用在 gutter 上，则最左侧也会出现一段空格，所以要做成一个 div 占位 -->
           <div :style="{width: (itemWidth + itemSpanInLastLine) + 'px'}">
             <nuxt-link :to="{name:'item-id', params: {id:item.id}}">
-              <!--            <ItemInfo-->
-              <!--              :style="{margin: itemMargin + 'px 0', width: itemWidth + 'px', height: itemHeight + 'px'}"-->
-              <!--              :data="item"-->
-              <!--            />-->
-              <Card :style="{margin: itemMargin + 'px 0', width: itemWidth + 'px', height: itemHeight + 'px'}">
-                <div style="text-align:center">
-                  <h3>{{ item.title }}</h3>
-                  <img :src="item.cover" style="width: 100%" />
-                </div>
-              </Card>
+              <ItemInfo
+                :editable="false"
+                :style="{margin: itemMargin + 'px 0', width: itemWidth + 'px', height: itemHeight + 'px'}"
+                :data="item"
+              />
+              <!--              <Card :style="{margin: itemMargin + 'px 0', width: itemWidth + 'px', height: itemHeight + 'px'}">-->
+              <!--                <div style="text-align:center">-->
+              <!--                  <h3>{{ item.title }}</h3>-->
+              <!--                  <img :src="item.cover" style="width: 100%" />-->
+              <!--                </div>-->
+              <!--              </Card>-->
             </nuxt-link>
           </div>
         </i-col>
@@ -82,11 +84,11 @@
 </template>
 <script>
 import AdvancedSearch from '../components/AdvancedSearch'
-// import ItemInfo from '../components/ItemInfo'
+import ItemInfo from '~/components/ItemInfo'
 import EditItemModal from '~/components/EditItemModal'
 import Search from '~/components/Search'
 export default {
-  components: { AdvancedSearch, Search, EditItemModal },
+  components: { ItemInfo, AdvancedSearch, Search, EditItemModal },
   middleware: ['auth'],
   data () {
     return {

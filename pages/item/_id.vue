@@ -3,7 +3,13 @@
     <Row>
       <i-col span="11">
         <Divider> 基本信息 </Divider>
-        <ItemInfo ref="itemInfo" :data="data" @success="handleSuccess" />
+        <ItemInfo
+          ref="itemInfo"
+          :editable="true"
+          style="width:350px"
+          :data="data"
+          @success="handleSuccess"
+        />
         <Divider> 讨论区 </Divider>
         <Button type="info" size="large" ghost long @click="showComment = true">
           查看该内容的讨论区

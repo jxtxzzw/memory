@@ -1,13 +1,13 @@
 <template>
   <div v-if="data != null">
-    <Card style="width:350px" dis-hover>
+    <Card dis-hover>
       <div slot="title" class="item-title">
         <Tag type="border" color="success">
           {{ TypeList[data.type] }}
         </Tag>
         {{ data.title }}
       </div>
-      <a slot="extra" href="#" @click.prevent="editItem">
+      <a v-if="editable" slot="extra" href="#" @click.prevent="editItem">
         修改
       </a>
       <div style="text-align:center">
@@ -49,6 +49,10 @@ export default {
   components: { EditItemModal },
   middleware: ['auth'],
   props: {
+    editable: {
+      type: Boolean,
+      default: true
+    },
     data: {
       type: Object,
       default () {
