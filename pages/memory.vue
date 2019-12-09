@@ -39,10 +39,14 @@
       <!-- 对 Row 使用 flex 布局，固定每个 item 的宽度和 item 之间的间距，使用 center 对齐，左右两边留白可变化 -->
       <!-- 增加 margin 为 0 的样式，避免因为 gutter 导致 flex 宽度大于 Content 宽度而出现水平滚动条 -->
       <!-- 另可选样式为使用 flex space-between 样式，为左右留白固定，item 宽度固定，item 间距动态变化 -->
-      <Row type="flex" justify="center" :gutter="itemSpan" style="margin-left: 0; margin-right: 0;">
+      <Row type="flex" justify="space-between" :gutter="itemSpan" style="margin-left: 0; margin-right: 0;">
         <!-- 除最后一行以外的 item 在 crowdList 中 -->
         <i-col v-for="item in crowdList" :key="item.id">
           <nuxt-link :to="{name:'item-id', params: {id:item.id}}">
+            <!--            <ItemInfo-->
+            <!--              :style="{margin: itemMargin + 'px 0', width: itemWidth + 'px', height: itemHeight + 'px'}"-->
+            <!--              :data="item"-->
+            <!--            />-->
             <Card :style="{margin: itemMargin + 'px 0', width: itemWidth + 'px', height: itemHeight + 'px'}">
               <div style="text-align:center">
                 <h3>{{ item.title }}</h3>
@@ -54,18 +58,23 @@
       </Row>
       <!-- 处理最后一行 item，使用样式 flex start，从左往右排布 -->
       <!-- gutter 与 style 的处理同上，依然固定 item 之间的间距 -->
-      <Row type="flex" justify="start" :gutter="itemSpan" style="margin-left: 0; margin-right: 0;">
-        <!-- 最后一行左边留出与上面相等的留白，是一个 div 占位 -->
-        <div :style="{width: itemSpanInLastLine + 'px'}"></div>
+      <Row type="flex" :gutter="itemSpan" style="margin-left: 0; margin-right: 0;">
         <i-col v-for="item in lastLineList" :key="item.id">
-          <nuxt-link :to="{name:'item-id', params: {id:item.id}}">
-            <Card :style="{margin: itemMargin + 'px 0', width: itemWidth + 'px', height: itemHeight + 'px'}">
-              <div style="text-align:center">
-                <h3>{{ item.title }}</h3>
-                <img :src="item.cover" style="width: 100%" />
-              </div>
-            </Card>
-          </nuxt-link>
+          <!-- 最后一行的 span 如果应用在 gutter 上，则最左侧也会出现一段空格，所以要做成一个 div 占位 -->
+          <div :style="{width: (itemWidth + itemSpanInLastLine) + 'px'}">
+            <nuxt-link :to="{name:'item-id', params: {id:item.id}}">
+              <!--            <ItemInfo-->
+              <!--              :style="{margin: itemMargin + 'px 0', width: itemWidth + 'px', height: itemHeight + 'px'}"-->
+              <!--              :data="item"-->
+              <!--            />-->
+              <Card :style="{margin: itemMargin + 'px 0', width: itemWidth + 'px', height: itemHeight + 'px'}">
+                <div style="text-align:center">
+                  <h3>{{ item.title }}</h3>
+                  <img :src="item.cover" style="width: 100%" />
+                </div>
+              </Card>
+            </nuxt-link>
+          </div>
         </i-col>
       </Row>
     </Scroll>
@@ -73,6 +82,7 @@
 </template>
 <script>
 import AdvancedSearch from '../components/AdvancedSearch'
+// import ItemInfo from '../components/ItemInfo'
 import EditItemModal from '~/components/EditItemModal'
 import Search from '~/components/Search'
 export default {
@@ -115,9 +125,9 @@ export default {
       // 如果 item 所占高度不足以撑满整个滚动区域，则触发滚动高度应为 item 所占高度，否则，触发滚动的高度应为整个滚动区域的高度
       return itemHeight < maxScrollHeight ? itemHeight : maxScrollHeight
     },
-    // 计算每一行能够放多少个 item，由于 item 宽度和间距固定，可使用下面公式，向下取整
+    // 计算每一行能够放多少个 item，就是窗口宽度除以每一个 item 的宽度（item 的宽度应加上 itemSpan），向下取整，就是最多挤下多少个
     itemNumberPerLine () {
-      return Math.floor((this.scrollContentWidth + this.itemSpan) / (this.itemWidth + this.itemSpan))
+      return Math.floor(this.scrollContentWidth / (this.itemWidth + this.itemSpan))
     },
     // 计算最后一行的 item 从哪一个 index 开始
     itemIndexInLastLine () {
@@ -131,9 +141,9 @@ export default {
     lastLineList () {
       return this.list.slice(this.itemIndexInLastLine)
     },
-    // 计算左右留白的大小，为内容区域大小，先减去各 item 的宽度和，再减去 (item - 1) 个间距的宽度和，得到结果的二分之一
+    // 计算最后一行 item 之间的间隔，为内容区域大小，先减去各 item 的宽度和，再平均分配到减去 (item - 1) 个间距的宽度和
     itemSpanInLastLine () {
-      return (this.scrollContentWidth - this.itemNumberPerLine * this.itemWidth - (this.itemNumberPerLine - 1) * this.itemSpan) / 2
+      return ((this.scrollContentWidth - this.itemNumberPerLine * (this.itemWidth + this.itemSpan)) / (this.itemNumberPerLine - 1))
     }
   },
   mounted () {
@@ -173,6 +183,7 @@ export default {
         // $el 获取这个组件，通过 div class 的名字 ivu-scroll-content 来获取它内部的一个 div 的元素
         // 是一个数组，由于只有 1 个 div，取出数组[0]元素，获取 clientWidth
         this.scrollContentWidth = me.$refs.scroll.$el.getElementsByClassName('ivu-scroll-content')[0].clientWidth
+        console.log(':' + this.scrollContentWidth)
       })
     },
     // 处理无限滚动区域到达底部的动作
