@@ -47,7 +47,10 @@
                 <ProfileCard />
                 <DropdownMenu slot="list">
                   <DropdownItem name="my" align="center">
-                    个人主页
+                    我的动态
+                  </DropdownItem>
+                  <DropdownItem name="manage" align="center">
+                    信息管理
                   </DropdownItem>
                   <DropdownItem name="logout" align="center">
                     登出
@@ -62,7 +65,7 @@
         </Menu>
       </Header>
       <Content :style="{padding: '0 50px'}">
-        <Card dis-hover :style="{minHeight: '800px', height: cardHeight + 'px', overflowY: 'auto'}">
+        <Card dis-hover :style="{height: cardHeight + 'px'}">
           <div style="min-height: 400px;">
             <nuxt v-if="compatible" />
             <div v-else>
@@ -150,7 +153,9 @@ export default {
       if (name === 'logout') {
         this.$auth.logout()
       } else if (name === 'my') {
-        this.$router.push('/my')
+        this.$router.push('/user/' + this.$auth.$state.user.id)
+      } else if (name === 'manage') {
+        // TODO
       }
     },
     showBrowserWarning () {

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Row>
+  <Row>
       <i-col span="11">
         <Divider> 基本信息 </Divider>
         <ItemInfo

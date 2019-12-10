@@ -1,7 +1,7 @@
 <template>
   <div>
-    <Row>
-      <i-col span="6">
+  <Row>
+      <i-col span="11">
         <Divider>修改头像</Divider>
         <Alert show-icon>
           修改您的头像
@@ -19,15 +19,15 @@
         </Alert>
         <ChangePassword />
       </i-col>
-      <i-col offset="1" span="6">
+      <i-col offset="2" span="11">
         <Divider>用户管理</Divider>
-        <Alert type="error" show-icon v-if="$auth.state.user.id !== 1">
+        <Alert v-if="$auth.state.user.id !== 1" type="error" show-icon>
           您没有权限进行用户管理
           <span slot="desc">
             只有超级管理员可以进行用户管理。如果有任何问题，请联系超级管理员。
           </span>
         </Alert>
-        <Alert type="info" show-icon v-if="$auth.state.user.id === 1">
+        <Alert v-if="$auth.state.user.id === 1" type="info" show-icon>
           进行用户管理
           <span slot="desc">
             增加新的用户，或者重置他们的密码为初始密码。
@@ -43,16 +43,11 @@
         </Alert>
         <TypeCategoryManagement />
       </i-col>
-      <i-col offset="1" span="10">
-        <Divider>我的动态</Divider>
-        <MyActivity />
-      </i-col>
     </Row>
   </div>
 </template>
 
 <script>
-import MyActivity from '../components/MyActivity'
 import ChangeAvatar from '../components/ChangeAvatar'
 import ChangePassword from '../components/ChangePassword'
 import UserManagement from '../components/UserManagement'
@@ -60,7 +55,7 @@ import TypeCategoryManagement from '../components/TypeCategoryManagement'
 export default {
   middleware: ['auth'],
   name: 'My',
-  components: { TypeCategoryManagement, UserManagement, ChangePassword, ChangeAvatar, MyActivity }
+  components: { TypeCategoryManagement, UserManagement, ChangePassword, ChangeAvatar }
 }
 </script>
 

@@ -25,7 +25,7 @@ router.post('/User/users', async (req, res, next) => {
   }
 })
 
-async function getUserInfo (id) {
+async function getUserActivities (id) {
   const ratings = await Rating.findAll({
     where: {
       user: id
@@ -48,6 +48,7 @@ async function getUserInfo (id) {
         item: rating.item
       }
     })
+    const user = await getUserInfo(id)
     data.push({
       id: item.id,
       title: item.title,
@@ -56,18 +57,48 @@ async function getUserInfo (id) {
       rating: item.rating,
       ratingCount: ratingNum,
       replyCount: commentNum,
-      itemCover: item.cover ? uploadConfig.upload + item.cover : uploadConfig.defaultCover
+      itemCover: item.cover ? uploadConfig.upload + item.cover : uploadConfig.defaultCover,
+      avatar: user.avatar,
+      username: user.username,
+      user: user.id
     })
   }
   return data
 }
 
-router.post('/User/userinfo', async (req, res, next) => {
+async function getUserInfo (id) {
+  const user = await User.findOne({
+    where: {
+      id
+    },
+    attributes: [
+      'id',
+      'username',
+      'avatar'
+    ]
+  })
+  return {
+    id: user.id,
+    username: user.username,
+    avatar: user.avatar ? uploadConfig.upload + user.avatar : uploadConfig.defaultAvatar
+  }
+}
+
+router.post('/User/useractivities', async (req, res, next) => {
   try {
-    const result = await getUserInfo(req.user.id)
+    const result = await getUserActivities(req.body.user)
     res.status(200).json(result)
   } catch (e) {
     res.status(400).json(e)
+  }
+})
+
+router.post('/User/userinfo', async (req, res, next) => {
+  try {
+    const result = await getUserInfo(req.body.user)
+    res.status(200).json(result)
+  } catch (e) {
+    res.status(404).json(e)
   }
 })
 
