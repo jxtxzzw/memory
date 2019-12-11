@@ -60,7 +60,8 @@ async function getUserActivities (id) {
       itemCover: item.cover ? uploadConfig.upload + item.cover : uploadConfig.defaultCover,
       avatar: user.avatar,
       username: user.username,
-      user: user.id
+      user: user.id,
+      updatedAt: rating.updatedAt
     })
   }
   return data
@@ -85,8 +86,27 @@ async function getUserInfo (id) {
 }
 
 router.post('/User/useractivities', async (req, res, next) => {
+  const userId = req.body.user
+  let result = []
   try {
-    const result = await getUserActivities(req.body.user)
+    if (userId) {
+      result = await getUserActivities(req.body.user)
+    } else {
+      const users = await User.findAll({
+        attributes: ['id']
+      })
+      // 取出每一个 user 的 activity
+      for (const user of users) {
+        const activities = await getUserActivities(user.id)
+        for (const x of activities) {
+          result.push(x)
+        }
+      }
+      // 按照从最新到最旧的顺序排序，不按照 user ID
+      result.sort(function (a, b) {
+        return b.updatedAt - a.updatedAt
+      })
+    }
     res.status(200).json(result)
   } catch (e) {
     res.status(400).json(e)

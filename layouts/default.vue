@@ -42,6 +42,10 @@
               <Icon type="ios-albums" />
               主页
             </MenuItem>
+            <MenuItem name="activity" to="/activity">
+              <Icon type="ios-album" />
+              动态
+            </MenuItem>
             <div v-if="$auth.$state.loggedIn">
               <Dropdown @on-click="handleDropdownClick">
                 <ProfileCard />
