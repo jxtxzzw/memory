@@ -219,3 +219,5 @@ router.post('/User/avatar', async (req, res, next) => {
     res.status(500).end('' + e)
   }
 })
+
+module.exports = { getUserInfo }

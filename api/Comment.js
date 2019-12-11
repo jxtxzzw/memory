@@ -1,4 +1,5 @@
 const Comment = require('../server/database/models/Comment')
+const { getUserInfo } = require('./User')
 const router = require('./router')
 
 async function getNestedComments (itemId, replyid) {
@@ -10,14 +11,16 @@ async function getNestedComments (itemId, replyid) {
     }
   })
   for (const comment of result) {
+    const user = await getUserInfo(comment.user)
     comments.push({
       id: comment.id,
-      user: comment.user,
       content: comment.content,
       reply: comment.reply == null ? 0 : comment.reply,
       date: comment.updatedAt,
       children: await getNestedComments(itemId, comment.id),
-      updatedAt: comment.updatedAt
+      updatedAt: comment.updatedAt,
+      avatar: user.avatar,
+      username: user.username
     })
   }
   comments.sort(function (a, b) {
