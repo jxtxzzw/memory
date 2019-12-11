@@ -29,7 +29,7 @@ async function getItemRating (id) {
     where: {
       item: id
     },
-    attributes: ['user', 'rating', 'review', 'recursion']
+    attributes: ['user', 'rating', 'review', 'recursion', 'updatedAt']
   })
   const data = []
   for (const rating of result) {
@@ -43,6 +43,9 @@ async function getItemRating (id) {
     singleRating.avatar = user.avatar
     data.push(singleRating)
   }
+  data.sort(function (a, b) {
+    return b.updatedAt - a.updatedAt
+  })
   return data
 }
 

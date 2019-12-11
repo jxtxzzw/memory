@@ -16,9 +16,13 @@ async function getNestedComments (itemId, replyid) {
       content: comment.content,
       reply: comment.reply == null ? 0 : comment.reply,
       date: comment.updatedAt,
-      children: await getNestedComments(itemId, comment.id)
+      children: await getNestedComments(itemId, comment.id),
+      updatedAt: comment.updatedAt
     })
   }
+  comments.sort(function (a, b) {
+    return b.updatedAt - a.updatedAt
+  })
   return comments
 }
 
