@@ -2,8 +2,8 @@
   <a-comment>
     <a-avatar
       slot="avatar"
-      :src="$auth.$state.user.avatar"
-      :alt="$auth.$state.user.username"
+      :src="avatar"
+      :alt="username"
     />
     <div slot="content">
       <a-form-item>
@@ -44,13 +44,18 @@ export default {
     return {
       moment,
       submitting: false,
-      value: ''
+      value: '',
+      avatar: '',
+      username: ''
     }
   },
   computed: {
     state () {
       return JSON.stringify(this.$auth.$state, undefined, 2)
     }
+  },
+  async mounted () {
+    await this.getUserInfo()
   },
   methods: {
     cancelReply () {
@@ -78,6 +83,13 @@ export default {
     },
     handleChange (e) {
       this.value = e.target.value
+    },
+    async getUserInfo () {
+      const user = await this.$axios.$post('/api/User/userinfo', {
+        user: this.$auth.$state.user.id
+      })
+      this.avatar = user.avatar
+      this.username = user.username
     }
   }
 }
