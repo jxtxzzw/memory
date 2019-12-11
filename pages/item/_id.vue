@@ -35,9 +35,11 @@
           <span slot="description">还没有任何人给出评价哦</span>
         </a-empty>
         <Collapse v-else v-model="ratingName" accordion>
-          <Panel v-for="rating in ratings" :key="rating.username" :name="rating.username">
-            <Avatar size="small" :src="rating.avatar" />
-            {{ rating.user }}
+          <Panel v-for="rating in ratings" :key="rating.id" :name="rating.id">
+            <nuxt-link :to="'/user/' + rating.user">
+              <Avatar size="small" :src="rating.avatar" />
+              {{ rating.username }}
+            </nuxt-link>
             <Rate allow-half :value="rating.rating" disabled style="float: right; margin-right: 10px" />
             <p slot="content">
               {{ rating.review }}

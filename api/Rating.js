@@ -1,5 +1,5 @@
 const Rating = require('../server/database/models/Item').Rating
-const User = require('../server/database/models/User')
+const { getUserInfo } = require('./User')
 const router = require('./router')
 
 async function addOrChangeRating (data, user) {
@@ -33,14 +33,11 @@ async function getItemRating (id) {
   })
   const data = []
   for (const rating of result) {
-    const user = await User.findOne({
-      where: {
-        id: rating.user
-      }
-    })
+    const user = await getUserInfo(rating.user)
     const singleRating = rating.toJSON()
-    singleRating.user = user.username
+    singleRating.username = user.username
     singleRating.avatar = user.avatar
+    singleRating.user = user.id
     data.push(singleRating)
   }
   data.sort(function (a, b) {
