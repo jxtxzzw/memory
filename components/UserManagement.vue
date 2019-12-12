@@ -146,7 +146,7 @@ export default {
         let satisfied = true
         if (search != null) {
           if (search.id != null) {
-            satisfied = satisfied && user.id.toLowerCase().includes(search.id.toLowerCase())
+            satisfied = satisfied && parseInt(user.id) === parseInt(search.id)
           }
           if (search.username != null) {
             satisfied = satisfied && user.username.toLowerCase().includes(search.username.toLowerCase())
