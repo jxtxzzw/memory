@@ -159,7 +159,7 @@ export default {
       } else if (name === 'my') {
         this.$router.push('/user/' + this.$auth.$state.user.id)
       } else if (name === 'manage') {
-        // TODO
+        this.$router.push('/manage')
       }
     },
     showBrowserWarning () {

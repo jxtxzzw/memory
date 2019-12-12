@@ -33,7 +33,7 @@
         </Tag>
       </Row>
       <Row>
-        <span>
+        <span style="word-wrap: break-word; word-break: break-all; overflow: hidden;">
           {{ data.note }}
         </span>
       </Row>

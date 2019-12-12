@@ -1,7 +1,7 @@
 <template>
   <div>
   <Row>
-      <i-col span="11">
+      <i-col span="9">
         <Divider>修改头像</Divider>
         <Alert show-icon>
           修改您的头像
@@ -19,7 +19,7 @@
         </Alert>
         <ChangePassword />
       </i-col>
-      <i-col offset="2" span="11">
+      <i-col offset="1" span="14">
         <Divider>用户管理</Divider>
         <Alert v-if="$auth.state.user.id !== 1" type="error" show-icon>
           您没有权限进行用户管理
@@ -54,7 +54,7 @@ import UserManagement from '../components/UserManagement'
 import TypeCategoryManagement from '../components/TypeCategoryManagement'
 export default {
   middleware: ['auth'],
-  name: 'My',
+  name: 'Manage',
   components: { TypeCategoryManagement, UserManagement, ChangePassword, ChangeAvatar }
 }
 </script>
