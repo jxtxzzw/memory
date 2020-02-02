@@ -27,6 +27,7 @@
     "jsonwebtoken": "^8.5.1",
     "mariadb": "^2.1.2",
     "nuxt": "^2.0.0",
+    "nuxt-matomo": "^1.2.3",
     "sequelize": "^5.21.2",
     "sqlite3": "^4.1.0",
     "view-design": "^4.0.2"
