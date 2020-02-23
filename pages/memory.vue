@@ -185,7 +185,6 @@ export default {
         // $el 获取这个组件，通过 div class 的名字 ivu-scroll-content 来获取它内部的一个 div 的元素
         // 是一个数组，由于只有 1 个 div，取出数组[0]元素，获取 clientWidth
         this.scrollContentWidth = me.$refs.scroll.$el.getElementsByClassName('ivu-scroll-content')[0].clientWidth
-        console.log(':' + this.scrollContentWidth)
       })
     },
     // 处理无限滚动区域到达底部的动作

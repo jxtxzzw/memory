@@ -1,7 +1,7 @@
-const Sequelize = require('sequelize')
 const { Item, Category, Tag, Rating } = require('../server/database/models/Item')
 const uploadConfig = require('../assets/uploadConfig')
 const router = require('./router')
+const Sequelize = require('sequelize')
 const Op = Sequelize.Op
 
 async function getItemList (data) {

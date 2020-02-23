@@ -1,10 +1,8 @@
-const Sequelize = require('sequelize')
-const Model = Sequelize.Model
-
 const sequelize = require('../index')
-
 const { Item, Rating } = require('./Item')
 const Comment = require('./Comment')
+const Sequelize = require('sequelize')
+const Model = Sequelize.Model
 
 class User extends Model {}
 User.init({

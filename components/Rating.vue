@@ -22,7 +22,9 @@
         image="/empty.png"
       >
         <span slot="description">我没有评价过该内容</span>
-        <Button @click="modalVisible = true">添加评价</Button>
+        <Button @click="modalVisible = true">
+          添加评价
+        </Button>
       </a-empty>
     </List>
     <Modal

@@ -1,9 +1,9 @@
-const cookieParser = require('cookie-parser')
-const jwt = require('express-jwt')
-const jsonwebtoken = require('jsonwebtoken')
 const uploadConfig = require('../assets/uploadConfig')
 const User = require('../server/database/models/User')
 const router = require('./router')
+const cookieParser = require('cookie-parser')
+const jwt = require('express-jwt')
+const jsonwebtoken = require('jsonwebtoken')
 
 // Install middleware
 router.use(cookieParser())

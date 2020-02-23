@@ -1,7 +1,6 @@
+const sequelize = require('../index')
 const Sequelize = require('sequelize')
 const Model = Sequelize.Model
-
-const sequelize = require('../index')
 
 class Comment extends Model {}
 Comment.init({

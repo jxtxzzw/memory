@@ -1,6 +1,6 @@
 <template>
   <div>
-  <Row>
+    <Row>
       <i-col span="9">
         <Divider>修改头像</Divider>
         <Alert show-icon>

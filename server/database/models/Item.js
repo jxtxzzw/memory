@@ -1,9 +1,9 @@
-const Sequelize = require('sequelize')
-const Model = Sequelize.Model
 const sequelize = require('../index')
 const ItemTag = require('./ItemTag')
 const ItemCategory = require('./ItemCategory')
 const Comment = require('./Comment')
+const Sequelize = require('sequelize')
+const Model = Sequelize.Model
 const Op = Sequelize.Op
 
 class Item extends Model {}

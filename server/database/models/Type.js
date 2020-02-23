@@ -1,9 +1,7 @@
+const sequelize = require('../index')
+const { Item, Category } = require('./Item')
 const Sequelize = require('sequelize')
 const Model = Sequelize.Model
-
-const sequelize = require('../index')
-
-const { Item, Category } = require('./Item')
 
 class Type extends Model {}
 Type.init({

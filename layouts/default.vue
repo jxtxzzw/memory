@@ -95,13 +95,12 @@
   </div>
 </template>
 <script>
-import moment from 'moment'
 import ProfileCard from '../components/ProfileCard'
 import SupportBrowserList from '../components/SupportBrowserList'
+import moment from 'moment'
 import * as BrowserCompatibility from '~/assets/BrowserCompatibility/BrowserCompatibility'
 import config from '~/assets/BrowserCompatibility/config'
 export default {
-  middleware: 'onLoadHook',
   components: { SupportBrowserList, ProfileCard },
   data () {
     return {
