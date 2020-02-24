@@ -1,10 +1,12 @@
 const bodyParser = require('body-parser')
 const session = require('express-session')
 
+require('dotenv').config()
+
 module.exports = {
   server: {
     host: 'localhost',
-    port: process.env.MEMORY_SERVER_PORT || 3000
+    port: process.env.MEMORY_SERVER_PORT
   },
   mode: 'universal',
   /*
@@ -13,18 +15,18 @@ module.exports = {
   head: {
     title: process.env.npm_package_name || '',
     meta: [
-      { charset: 'utf-8' },
-      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: process.env.npm_package_description || '' }
+      {charset: 'utf-8'},
+      {name: 'viewport', content: 'width=device-width, initial-scale=1'},
+      {hid: 'description', name: 'description', content: process.env.npm_package_description || ''}
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+      {rel: 'icon', type: 'image/x-icon', href: '/favicon.ico'}
     ]
   },
   /*
   ** Customize the progress-bar color
   */
-  loading: { color: '#fff' },
+  loading: {color: '#fff'},
   /*
   ** Global CSS
   */
@@ -45,7 +47,8 @@ module.exports = {
   */
   buildModules: [
     // Doc: https://github.com/nuxt-community/eslint-module
-    '@nuxtjs/eslint-module'
+    '@nuxtjs/eslint-module',
+    '@nuxtjs/dotenv'
   ],
   /*
   ** Nuxt.js modules
@@ -54,15 +57,21 @@ module.exports = {
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
     // Doc: https://auth.nuxtjs.org/
-    '@nuxtjs/auth'
+    '@nuxtjs/auth',
+    ['nuxt-matomo', {
+      matomoUrl: process.env.MEMORY_MATOMO_URL,
+      siteId: process.env.MEMORY_MATOMO_SITEID,
+      trackerUrl: process.env.MEMORY_MATOMO_TRACKER,
+      scriptUrl: process.env.MEMORY_MATOMO_SCRIPT
+    }]
   ],
   /*
   ** Axios module configuration
   ** See https://axios.nuxtjs.org/options
   */
   axios: {
-    host: process.env.MEMORY_AXIOS_HOST || 'localhost',
-    port: process.env.MEMORY_AXIOS_PORT || 3000,
+    host: process.env.MEMORY_AXIOS_HOST,
+    port: process.env.MEMORY_AXIOS_PORT,
     https: process.env.MEMORY_AXIOS_PORT === '443'
   },
   /*
@@ -79,14 +88,9 @@ module.exports = {
     strategies: {
       local: {
         endpoints: {
-          login: { propertyName: 'token.accessToken' }
+          login: {propertyName: 'token.accessToken'}
         }
       }
-      // TODO 增加 GitHub 登录
-      // github: {
-      //   client_id: process.env.GITHUB_CLIENT_ID,
-      //   client_secret: process.env.GITHUB_CLIENT_SECRET
-      // }
     }
   },
   /*
@@ -96,7 +100,7 @@ module.exports = {
     /*
     ** You can extend webpack config here
     */
-    extend (config, ctx) {
+    extend(config, ctx) {
       // Run ESLint on save
       if (ctx.isDev && ctx.isClient) {
         config.module.rules.push({
@@ -126,10 +130,10 @@ module.exports = {
 
     // session middleware
     session({
-      secret: process.env.MEMORY_COOKIE_SECERT || 'super-secret-key',
+      secret: process.env.MEMORY_COOKIE_SECERT,
       resave: false,
       saveUninitialized: false,
-      cookie: { maxAge: 60000 }
+      cookie: {maxAge: 60000}
     }),
 
     // Api middleware

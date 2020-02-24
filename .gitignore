@@ -89,6 +89,7 @@ sw.*
 # Vim swap files
 *.swp
 
-# memory 图片上传目录、memory 开发数据库
+# memory 图片上传目录、memory 开发数据库、.env 环境变量
 static/upload/
 dev_db.sqlite
+.env

@@ -2,20 +2,20 @@ const Sequelize = require('sequelize')
 
 let sequelize
 
-if (process.env.MEMORY_PROD === 'true') {
+if (process.env.MEMORY_DB_DIALECT === 'sqlite') {
+  sequelize = new Sequelize(
+    {
+      dialect: process.env.MEMORY_DB_DIALECT,
+      storage: process.env.MEMORY_DB
+    }
+  )
+} else {
   sequelize = new Sequelize(
     process.env.MEMORY_DB,
     process.env.MEMORY_USERNAME,
     process.env.MEMORY_PASSWORD,
     {
-      dialect: 'mariadb'
-    }
-  )
-} else {
-  sequelize = new Sequelize(
-    {
-      dialect: 'sqlite',
-      storage: 'dev_db.sqlite'
+      dialect: process.env.MEMORY_DB_DIALECT
     }
   )
 }
