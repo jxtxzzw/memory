@@ -133,7 +133,7 @@ function changePassword (user, password, res) {
 }
 
 function resetPassword (user, res) {
-  const defaultPassword = passwordEncrypt.password(process.env.MEMORY_DEFAULT_PASSWORD || '123456')
+  const defaultPassword = passwordEncrypt.password(process.env.MEMORY_DEFAULT_PASSWORD)
   changePassword(user, defaultPassword, res)
 }
 
