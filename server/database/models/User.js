@@ -11,6 +11,10 @@ User.init({
     primaryKey: true,
     autoIncrement: true
   },
+  uuid: {
+    type: Sequelize.UUID,
+    unique: true
+  },
   username: {
     type: Sequelize.STRING,
     allowNull: false,
@@ -19,6 +23,11 @@ User.init({
   realname: {
     type: Sequelize.STRING,
     allowNull: true
+  },
+  email: {
+    type: Sequelize.STRING,
+    allowNull: false,
+    unique: true
   },
   password: {
     type: Sequelize.STRING,
