@@ -28,6 +28,12 @@ Item.init({
   rating: {
     type: Sequelize.INTEGER,
     defaultValue: 0
+  },
+  external: {
+    type: Sequelize.STRING,
+    validate: {
+      isUrl: true
+    }
   }
 }, {
   sequelize
