@@ -9,6 +9,7 @@ require('./Category')
 require('./upload')
 require('./Item')
 require('./Rating')
+require('./test')
 
 // Export the server middleware
 export default {
