@@ -15,18 +15,18 @@ module.exports = {
   head: {
     title: process.env.npm_package_name || '',
     meta: [
-      {charset: 'utf-8'},
-      {name: 'viewport', content: 'width=device-width, initial-scale=1'},
-      {hid: 'description', name: 'description', content: process.env.npm_package_description || ''}
+      { charset: 'utf-8' },
+      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+      { hid: 'description', name: 'description', content: process.env.npm_package_description || '' }
     ],
     link: [
-      {rel: 'icon', type: 'image/x-icon', href: '/favicon.ico'}
+      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
     ]
   },
   /*
   ** Customize the progress-bar color
   */
-  loading: {color: '#fff'},
+  loading: { color: '#fff' },
   /*
   ** Global CSS
   */
@@ -88,7 +88,7 @@ module.exports = {
     strategies: {
       local: {
         endpoints: {
-          login: {propertyName: 'token.accessToken'}
+          login: { propertyName: 'token.accessToken' }
         }
       }
     }
@@ -100,7 +100,7 @@ module.exports = {
     /*
     ** You can extend webpack config here
     */
-    extend(config, ctx) {
+    extend (config, ctx) {
       // Run ESLint on save
       if (ctx.isDev && ctx.isClient) {
         config.module.rules.push({
@@ -133,7 +133,7 @@ module.exports = {
       secret: process.env.MEMORY_COOKIE_SECERT,
       resave: false,
       saveUninitialized: false,
-      cookie: {maxAge: 60000}
+      cookie: { maxAge: 60000 }
     }),
 
     // Api middleware

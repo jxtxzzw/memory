@@ -6,7 +6,7 @@ const Model = Sequelize.Model
 
 class Subscript extends Model {}
 Subscript.init({
-  identifier: {
+  subscription: {
     type: Sequelize.STRING,
     primaryKey: true
   },
@@ -51,7 +51,8 @@ User.init({
   },
   uuid: {
     type: Sequelize.UUID,
-    unique: true
+    unique: true,
+    defaultValue: Sequelize.UUIDV4
   },
   username: {
     type: Sequelize.STRING,
@@ -91,7 +92,7 @@ User.init({
       })
       for (const subscription of subscriptions) {
         await Subscript.create({
-          subscript: subscription.identifier,
+          subscription: subscription.identifier,
           user: instance.id
         }, {
           transaction: options.transaction

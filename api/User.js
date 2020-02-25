@@ -133,6 +133,7 @@ function changePassword (user, password, res) {
 }
 
 function resetPassword (user, res) {
+  // TODO 改用随机密码
   const defaultPassword = passwordEncrypt.password(process.env.MEMORY_DEFAULT_PASSWORD)
   changePassword(user, defaultPassword, res)
 }
@@ -179,6 +180,7 @@ router.post('/User/add', async (req, res, next) => {
   try {
     // 需要是一个不持久化的 instance，之后通过修改密码处的 save() 来持久化
     // 如果直接用 .create() 就会因为密码 not null 而错误
+    // TODO：传入 email
     const user = await User.build({
       username: req.body.username,
       realname: req.body.realname
@@ -242,8 +244,6 @@ async function getUserEmail (id) {
   for (const user of users) {
     emails.push(user.email)
   }
-  console.log(users)
-  console.log(emails)
   return emails
 }
 
