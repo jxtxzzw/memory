@@ -2,7 +2,6 @@ const { getUserEmail } = require('../api/User')
 const nodemailer = require('nodemailer')
 
 function generateHTML (bodyHTML) {
-  console.log('generateHTML:')
   const current = new Date()
   return `<html>
 <head>
@@ -124,7 +123,7 @@ function generateHTML (bodyHTML) {
                         line-height:125%;
                         text-align:center;
                         ">
-                          ${current.toLocaleString('zh-cn')} ${current.toLocaleTimeString('zh-cn', { hour12: false })}
+                          ${current.toLocaleString('zh-cn', { hour12: false })}
                          <a href="https://memory.jxtxzzw.com" title="Memory | 我们可以共享所有记忆的最佳存储空间">
                           Memory | 我们可以共享所有记忆的最佳存储空间
                          </a>
@@ -147,10 +146,9 @@ function generateHTML (bodyHTML) {
 }
 
 function generateContent (identifier, parameter) {
-  console.log('generateContent:')
   let content = {
-    subject: '',
-    html: ''
+    subject: '来自 Memory 的邮件',
+    html: '<p> 似乎哪里出了什么错，邮件内容找不到了…… </p>'
   }
   switch (identifier) {
     case 'announcement':
@@ -200,12 +198,10 @@ function generateContent (identifier, parameter) {
 }
 
 async function getReceivers (identifer, userId = 0) {
-  console.log('getReceivers:')
   return subscriptionFilter(identifer, await getUserEmail(userId))
 }
 
 async function subscriptionFilter (identifer, emails) {
-  console.log('subscriptionFilter:')
   // TODO: 遍历 subscription 数据库，只保留开启了订阅的
   await setTimeout(() => {}, 1000)
   return emails
@@ -249,6 +245,5 @@ export async function dispatch (identifier, parameter) {
   const receivers = await getReceivers(identifier, receiverId)
   const content = generateContent(identifier, parameter)
   console.log(receivers)
-  console.log(content)
   await send(receivers, content)
 }
