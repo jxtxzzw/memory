@@ -1,5 +1,5 @@
 const uploadConfig = require('../assets/uploadConfig')
-const User = require('../server/database/models/User')
+const { User } = require('../server/database/models/User')
 const router = require('./router')
 const cookieParser = require('cookie-parser')
 const jwt = require('express-jwt')

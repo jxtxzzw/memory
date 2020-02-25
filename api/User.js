@@ -1,5 +1,5 @@
 const fs = require('fs')
-const User = require('../server/database/models/User')
+const { User } = require('../server/database/models/User')
 const { Item, Rating } = require('../server/database/models/Item')
 const Comment = require('../server/database/models/Comment')
 const passwordEncrypt = require('../assets/passwordEncrypt')
