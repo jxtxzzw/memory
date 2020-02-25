@@ -79,6 +79,20 @@ export default {
       }
       await this.$axios.$post('/api/Comment/Add', data)
       this.submitting = false
+      if (this.target !== 0) {
+        // 新建评论不会触发邮件，回复评论才触发
+        const oldReply = await this.$axios.$post('/api/Comment/Get', { id: this.target })
+        // 邮件发送发出请求后直接返回，不做 await，否则会等很久
+        this.$axios.$post('/api/mailtest', {
+          identifier: 'reply',
+          parameter: {
+            who: this.$auth.$state.user.username,
+            oldReply,
+            newReply: this.value,
+            href: 'https://memory.jxtxzzw.com/item/' + this.item
+          }
+        })
+      }
       this.$emit('reloadComment')
     },
     handleChange (e) {

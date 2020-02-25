@@ -240,7 +240,6 @@ export default {
             this.formError = '表单提交出现错误：' + e
           }
           if (success) {
-            this.resetForm()
             this.modalVisible = false
             this.$Message.success({
               background: true,
@@ -249,6 +248,18 @@ export default {
             if (this.original.id === res.id) {
               this.$emit('success')
             } else {
+              // 邮件发送发出请求后直接返回，不做 await，否则会等很久
+              // TODO: 获取用户名、获取图片
+              this.$axios.$post('/api/mailtest', {
+                identifier: 'share',
+                parameter: {
+                  who: this.$auth.$state.user.username,
+                  title: this.formValidate.title,
+                  image: this.formValidate.fileList[0].url,
+                  href: 'https://memory.jxtxzzw.com/item/' + res.id
+                }
+              })
+              this.resetForm()
               this.$router.push('/item/' + res.id)
             }
           }

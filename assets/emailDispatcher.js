@@ -185,7 +185,7 @@ function generateContent (identifier, parameter) {
         <p>
         ${parameter.who} 分享了新的内容：<br/>
         ${parameter.title} </br>
-        <img src="${parameter.image}"> <br/>
+        <img style="width: 200px; height: 300px" src="${parameter.image}"> <br/>
         </p>
         <p>
           您可以点击链接查看详细：<a href="${parameter.href}"> ${parameter.href} </a>

@@ -29,6 +29,19 @@ async function getNestedComments (itemId, replyid) {
   return comments
 }
 
+router.post('/Comment/Get', async (req, res, next) => {
+  const comment = await Comment.findOne({
+    where: {
+      id: req.body.id
+    }
+  })
+  if (comment != null) {
+    res.send(comment.content)
+  } else {
+    res.sendStatus(404)
+  }
+})
+
 router.post('/Comment/Query', async (req, res, next) => {
   const data = req.body
   const itemId = data.itemId
@@ -58,3 +71,5 @@ router.post('/Comment/Add', async (req, res, next) => {
     res.sendStatus(200)
   }
 })
+
+// module.exports = { getSingleComment }
