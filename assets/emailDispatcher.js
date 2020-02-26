@@ -1,4 +1,4 @@
-const { getUserEmail } = require('../api/User')
+const { getUserEmail } = require('../api/UserInfo')
 const nodemailer = require('nodemailer')
 
 function generateHTML (bodyHTML) {
