@@ -1,6 +1,7 @@
 const fs = require('fs')
 const { User } = require('../server/database/models/User')
 const { Item, Rating } = require('../server/database/models/Item')
+const { dispatch } = require('../assets/emailDispatcher')
 const Comment = require('../server/database/models/Comment')
 const passwordEncrypt = require('../assets/passwordEncrypt')
 const typeList = require('../assets/mimetype')
@@ -133,9 +134,13 @@ function changePassword (user, password, res) {
 }
 
 function resetPassword (user, res) {
-  // TODO 改用随机密码
-  const defaultPassword = passwordEncrypt.password(process.env.MEMORY_DEFAULT_PASSWORD)
-  changePassword(user, defaultPassword, res)
+  const DEFAULT_PASSWORD_LENGTH = 10
+  const password = passwordEncrypt.randomPassword(DEFAULT_PASSWORD_LENGTH)
+  dispatch('password', {
+    username: user.username,
+    password
+  })
+  changePassword(user, passwordEncrypt.clientEncrypt(password), res)
 }
 
 router.post('/User/change', async (req, res, next) => {
@@ -180,10 +185,10 @@ router.post('/User/add', async (req, res, next) => {
   try {
     // 需要是一个不持久化的 instance，之后通过修改密码处的 save() 来持久化
     // 如果直接用 .create() 就会因为密码 not null 而错误
-    // TODO：传入 email
     const user = await User.build({
       username: req.body.username,
-      realname: req.body.realname
+      realname: req.body.realname,
+      email: req.body.email
     })
     resetPassword(user, res)
   } catch (e) {

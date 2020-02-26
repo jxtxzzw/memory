@@ -33,6 +33,7 @@ async function generateDefaultValues () {
   await Subscription.create({ identifier: 'announcement' })
   await Subscription.create({ identifier: 'reply' })
   await Subscription.create({ identifier: 'share' })
+  await Subscription.create({ identifier: 'password' })
 
   // TODO 改用随机密码
   await User.create({

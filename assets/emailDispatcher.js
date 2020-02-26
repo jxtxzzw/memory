@@ -193,6 +193,18 @@ function generateContent (identifier, parameter) {
         `)
       }
       break
+    case 'password':
+      content = {
+        subject: 'Memory：密码已被重置',
+        html: generateHTML(`
+          <>
+           ${parameter.username}，您的密码已被重置为 ${parameter.password}，请及时登录并修改。
+          </p>
+        `)
+      }
+      break
+    default:
+      break
   }
   return content
 }
@@ -244,6 +256,5 @@ export async function dispatch (identifier, parameter) {
   }
   const receivers = await getReceivers(identifier, receiverId)
   const content = generateContent(identifier, parameter)
-  console.log(receivers)
   await send(receivers, content)
 }
