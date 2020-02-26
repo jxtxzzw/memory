@@ -134,8 +134,7 @@ function changePassword (user, password, res) {
 }
 
 function resetPassword (user, res) {
-  const DEFAULT_PASSWORD_LENGTH = 10
-  const password = passwordEncrypt.randomPassword(DEFAULT_PASSWORD_LENGTH)
+  const password = passwordEncrypt.randomPassword()
   dispatch('password', {
     username: user.username,
     password

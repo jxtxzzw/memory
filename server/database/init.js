@@ -1,3 +1,4 @@
+const passwordEncrypt = require('../../assets/passwordEncrypt')
 const { User, Subscription } = require('./models/User')
 const Type = require('./models/Type')
 const sequelize = require('./index')
@@ -35,13 +36,13 @@ async function generateDefaultValues () {
   await Subscription.create({ identifier: 'share' })
   await Subscription.create({ identifier: 'password' })
 
-  // TODO 改用随机密码
+  const password = passwordEncrypt.randomPassword()
   await User.create({
     username: 'admin',
-    password: 'e10adc3949ba59abbe56e057f20f883e',
+    password: passwordEncrypt.serverEncrypt(passwordEncrypt.clientEncrypt(password)),
     email: 'admin@example.com'
   })
-  console.log('admin (admin@example.com) 的密码是 123456。该密码仅会出现一次，请及时登录并修改。')
+  console.log(`admin (admin@example.com) 的密码是 ${password}。该密码仅会出现一次，请及时登录并修改。`)
 }
 
 sequelize

@@ -8,7 +8,7 @@ export function serverEncrypt (password) {
   return md5(process.env.MEMORY_MD5_SALT + password.split('').reverse().join(''))
 }
 
-export function randomPassword (length) {
+export function randomPassword (length = 10) {
   const $chars = 'ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678'
   /** 默认去掉了容易混淆的字符 o O L l, 9 g q, V v, U u, I 1 **/
   const maxPos = $chars.length
