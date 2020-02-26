@@ -146,15 +146,18 @@ function generateHTML (bodyHTML) {
 }
 
 function generateContent (identifier, parameter) {
+  let subject = '来自 Memory 的邮件'
   let content = {
-    subject: '来自 Memory 的邮件',
+    subject,
     html: '<p> 似乎哪里出了什么错，邮件内容找不到了…… </p>'
   }
   switch (identifier) {
     case 'announcement':
+      subject = 'Memory：有一条新的公告'
       content = {
-        subject: 'Memory：有一条新的公告',
+        subject,
         html: generateHTML(`
+        <h1> ${subject} </h1>
         <p>
         有一条新的公告： <br/>
         ${parameter.content} <br/>
@@ -163,9 +166,11 @@ function generateContent (identifier, parameter) {
       }
       break
     case 'reply':
+      subject = 'Memory：有人回复了您的评论'
       content = {
-        subject: 'Memory：有人回复了您的评论',
+        subject,
         html: generateHTML(`
+        <h1> ${subject} </h1>
         <p>
         您的评论：<br/>
         ${parameter.oldReply} </br>
@@ -179,9 +184,11 @@ function generateContent (identifier, parameter) {
       }
       break
     case 'share':
+      subject = 'Memory：有人分享了新的内容'
       content = {
-        subject: 'Memory：有人分享了新的内容',
+        subject,
         html: generateHTML(`
+        <h1> ${subject} </h1>
         <p>
         ${parameter.who} 分享了新的内容：<br/>
         ${parameter.title} </br>
@@ -194,10 +201,12 @@ function generateContent (identifier, parameter) {
       }
       break
     case 'password':
+      subject = 'Memory：密码已被重置'
       content = {
-        subject: 'Memory：密码已被重置',
+        subject,
         html: generateHTML(`
-          <>
+          <h1> ${subject} </h1>
+          <p>
            ${parameter.username}，您的密码已被重置为 ${parameter.password}，请及时登录并修改。
           </p>
         `)
