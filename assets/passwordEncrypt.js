@@ -10,7 +10,7 @@ export function serverEncrypt (password) {
 
 export function randomPassword (length = 10) {
   const $chars = 'ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678'
-  /** 默认去掉了容易混淆的字符 o O L l, 9 g q, V v, U u, I 1 **/
+  /** 默认去掉了容易混淆的字符 o O 0, L l I 1, 9 g q, V v U u **/
   const maxPos = $chars.length
   let pwd = ''
   for (let i = 0; i < length; i++) {

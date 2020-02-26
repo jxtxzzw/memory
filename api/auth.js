@@ -1,4 +1,5 @@
 const uploadConfig = require('../assets/uploadConfig')
+const passwordEncrypt = require('../assets/passwordEncrypt')
 const { User } = require('../server/database/models/User')
 const router = require('./router')
 const cookieParser = require('cookie-parser')
@@ -26,7 +27,7 @@ router.post('/auth/login', async (req, res, next) => {
   const user = await User.findOne({
     where: {
       username,
-      password
+      password: passwordEncrypt.serverEncrypt(password)
     }
   })
   const valid = user != null
