@@ -251,8 +251,15 @@ async function send (receivers, content) {
 
 export async function dispatch (identifier, parameter) {
   let receiverId = 0 // 默认针对全体用户
-  if (identifier === 'reply') {
-    receiverId = parameter.replyTo
+  switch (identifier) {
+    case 'reply':
+      receiverId = parameter.replyTo
+      break
+    case 'password':
+      receiverId = parameter.id
+      break
+    default:
+      break
   }
   const receivers = await getReceivers(identifier, receiverId)
   const content = generateContent(identifier, parameter)

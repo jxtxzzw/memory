@@ -136,6 +136,7 @@ function changePassword (user, password, res) {
 function resetPassword (user, res) {
   const password = passwordEncrypt.randomPassword()
   dispatch('password', {
+    id: user.id,
     username: user.username,
     password
   })
