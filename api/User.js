@@ -124,7 +124,7 @@ router.post('/User/userinfo', async (req, res, next) => {
 
 function changePassword (user, password, res) {
   try {
-    user.password = password
+    user.password = passwordEncrypt.serverEncrypt(password)
     user.save()
     res.sendStatus(200)
   } catch (e) {
@@ -143,13 +143,13 @@ router.post('/User/change', async (req, res, next) => {
     const user = await User.findOne({
       where: {
         id: req.user.id,
-        password: req.body.oldPassword
+        password: passwordEncrypt.serverEncrypt(req.body.oldPassword)
       }
     })
     if (user == null) {
       res.status(403).end('原密码错误')
     }
-    changePassword(user, req.body.newPassword, res)
+    changePassword(user, passwordEncrypt.serverEncrypt(req.body.newPassword), res)
   } catch (e) {
     res.status(500).end('' + e)
   }

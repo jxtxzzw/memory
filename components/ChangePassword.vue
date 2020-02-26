@@ -74,8 +74,8 @@ export default {
         })
         if (valid) {
           const passwords = {
-            oldPassword: passwordEncrypt.password(this.formValidate.oldPassword),
-            newPassword: passwordEncrypt.password(this.formValidate.newPassword)
+            oldPassword: passwordEncrypt.clientEncrypt(this.formValidate.oldPassword),
+            newPassword: passwordEncrypt.clientEncrypt(this.formValidate.newPassword)
           }
           const res = await this.$axios.$post('/api/User/change', passwords)
           if (res === 'OK') {

@@ -83,7 +83,7 @@ export default {
         .loginWith('local', {
           data: {
             username: this.username,
-            password: passwordEncrypt.password(this.password)
+            password: passwordEncrypt.clientEncrypt(this.password)
           }
         })
         .catch((e) => {
