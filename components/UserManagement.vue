@@ -27,6 +27,9 @@
         <FormItem label="真实姓名" prop="realname">
           <Input v-model="formValidate.realname" type="text" />
         </FormItem>
+        <FormItem label="邮箱" prop="email">
+          <Input v-model="formValidate.email" type="text" />
+        </FormItem>
       </Form>
     </Modal>
   </div>
@@ -50,14 +53,15 @@ export default {
       loading: false,
       formValidate: {
         username: '',
-        realname: ''
+        realname: '',
+        email: ''
       },
       ruleValidate: {
         username: [
           { required: true, message: '用户名不得为空', trigger: 'blur' }
         ],
-        realname: [
-          { required: true, message: '真实姓名不得为空', trigger: 'blur' }
+        email: [
+          { required: true, message: '邮箱不得为空', trigger: 'blur' }
         ]
       },
       formError: null,
@@ -84,13 +88,20 @@ export default {
           }
         },
         {
+          title: '邮箱',
+          key: 'email',
+          filter: {
+            type: 'Input'
+          }
+        },
+        {
           title: '最后一次登录',
           key: 'latest',
           filter: {
             type: 'Input'
           },
           render: (h, params) => {
-            const date = new Date(params.row.latest).toLocaleString()
+            const date = new Date(params.row.latest).toLocaleString('zh-cn', { hour12: false })
             return h('span', date)
           }
         },
@@ -154,6 +165,9 @@ export default {
           if (search.realname != null) {
             satisfied = satisfied && user.realname.toLowerCase().includes(search.realname.toLowerCase())
           }
+          if (search.email != null) {
+            satisfied = satisfied && user.email.toLowerCase().includes(search.email.toLowerCase())
+          }
           if (search.latest != null) {
             satisfied = satisfied && user.latest.toLowerCase().includes(search.latest.toLowerCase())
           }
@@ -202,7 +216,8 @@ export default {
     resetForm () {
       this.formValidate = {
         username: '',
-        realname: ''
+        realname: '',
+        email: ''
       }
     },
     async loadData () {
