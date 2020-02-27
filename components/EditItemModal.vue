@@ -96,7 +96,7 @@
           <Input v-model="formValidate.note" type="textarea" maxlength="50" show-word-limit />
         </FormItem>
         <FormItem label="链接">
-          <Links :tags="formValidate.links" @add="addLink" @remove="removeLink"></Links>
+          <Links :links="formValidate.links" @change="changeLink"></Links>
         </FormItem>
       </Form>
     </Modal>
@@ -130,7 +130,8 @@ export default {
           checkedCategory: [],
           tags: [],
           fileList: [],
-          note: ''
+          note: '',
+          links: []
         }
       }
     }
@@ -213,11 +214,8 @@ export default {
     removeTag (tagName) {
       this.formValidate.tags = this.formValidate.tags.filter(tag => tag !== tagName)
     },
-    addLink (linkURL) {
-      this.formValidate.links.push(linkURL)
-    },
-    removeLink (linkURL) {
-      this.formValidate.links = this.formValidate.links.filter(link => link !== linkURL)
+    changeLink (links) {
+      this.formValidate.links = links
     },
     handleBeforeUpload (file) {
       this.formValidate.fileList = [...this.formValidate.fileList, file]

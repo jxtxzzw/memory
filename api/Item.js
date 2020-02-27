@@ -1,4 +1,4 @@
-const { Item, Category, Tag, Rating } = require('../server/database/models/Item')
+const { Item, Category, Tag, Rating, Link } = require('../server/database/models/Item')
 const uploadConfig = require('../assets/uploadConfig')
 const router = require('./router')
 const Sequelize = require('sequelize')
@@ -52,14 +52,24 @@ async function getItemInfo (id) {
       }, {
         model: Tag,
         attributes: ['name']
+      }, {
+        model: Link,
+        attributes: ['discription', 'link']
       }]
     })
     const data = result.toJSON()
     data.cover = data.cover ? uploadConfig.upload + data.cover : uploadConfig.defaultCover
     data.category = data.Categories.map(el => el.id)
     data.tag = data.Tags.map(el => el.name)
+    data.link = data.Links.map((el) => {
+      return {
+        discription: el.discription,
+        link: el.link
+      }
+    })
     data.Categories = undefined
     data.Tags = undefined
+    data.Links = undefined
     return data
   } catch (e) {
     return null

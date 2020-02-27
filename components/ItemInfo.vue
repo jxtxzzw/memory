@@ -37,6 +37,10 @@
           {{ data.note }}
         </span>
       </Row>
+      <Row>
+        <!-- TODO on click 跳转， emit-->
+        <Table :columns="columns" :data="data.link"></Table>
+      </Row>
     </Card>
     <EditItemModal :modal="showEdit" :original="editData" @success="handleSuccess" @editItemVisibleChange="handleVisibleChange" />
   </div>
@@ -64,7 +68,8 @@ export default {
           cover: '',
           rating: 0,
           category: [],
-          tag: []
+          tag: [],
+          link: []
         }
       }
     }
@@ -74,7 +79,17 @@ export default {
       CategoryList: {},
       TypeList: {},
       showEdit: false,
-      editData: null
+      editData: null,
+      columns: [
+        {
+          title: '描述',
+          key: 'discription'
+        },
+        {
+          title: '链接',
+          key: 'link'
+        }
+      ]
     }
   },
   // 需要使用 watcher 来侦听 type 的变化，并触发 loadCategoryList，否则 mounted 的时候可能 type 为 0 或者 ''
@@ -114,7 +129,8 @@ export default {
         checkedCategory: [],
         tags: [],
         fileList: [],
-        note: this.data.note
+        note: this.data.note,
+        links: this.data.link
       }
       for (const x of this.data.category) {
         this.editData.checkedCategory.push(x)

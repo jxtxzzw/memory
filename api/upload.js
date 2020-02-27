@@ -4,7 +4,9 @@ const typeList = require('../assets/mimetype')
 const { Item } = require('../server/database/models/Item')
 const ItemCategory = require('../server/database/models/ItemCategory')
 const Tag = require('../server/database/models/Item').Tag
+const Link = require('../server/database/models/Item').Link
 const ItemTag = require('../server/database/models/ItemTag')
+const ItemLink = require('../server/database/models/ItemLink')
 const uploadConfig = require('../assets/uploadConfig')
 const router = require('./router')
 
@@ -57,6 +59,12 @@ async function CreateItem (data) {
       },
       transaction
     })
+    await ItemLink.destroy({
+      where: {
+        item: instance.id
+      },
+      transaction
+    })
     for (const category of data.checkedCategory) {
       await ItemCategory.create({ item: instance.id, category }, { transaction })
     }
@@ -71,6 +79,20 @@ async function CreateItem (data) {
         transaction
       })
       await ItemTag.create({ item: instance.id, tag: tagInstance.id }, { transaction })
+    }
+    for (const link of data.links) {
+      const [linkInstance] = await Link.findOrCreate({
+        where: {
+          discription: link.discription,
+          link: link.link
+        },
+        defaults: {
+          discription: link.discription,
+          link: link.link
+        },
+        transaction
+      })
+      await ItemLink.create({ item: instance.id, link: linkInstance.id }, { transaction })
     }
     await transaction.commit()
     return instance

@@ -171,9 +171,7 @@ export default {
       handler () {
         this.linkList = []
         for (const link of this.links) {
-          if (link && !this.linkList.includes(link)) {
-            this.linkList = [...this.linkList, link]
-          }
+          this.linkList = [...this.linkList, link]
         }
       }
     }
@@ -204,6 +202,7 @@ export default {
       this.editingDiscription = ''
       // 过滤掉没有信息的行
       this.linkList = this.linkList.filter(e => e.discription !== '' && e.link !== '')
+      this.emitChange()
     },
     // 保存编辑时，需要将 editing 的数据保存到 linkList 的对应下标处
     saveEdit () {
@@ -219,6 +218,10 @@ export default {
       this.linkList.splice(index, 1)
       // 删除一定是在非编辑状态下进行的，这里调用 exitEdit 是为了清空 editing 的数据（如果有）
       this.exitEdit()
+    },
+    // 向父组件通知修改，增删改操作都要触发该动作
+    emitChange () {
+      this.$emit('change', this.linkList)
     }
   }
 }

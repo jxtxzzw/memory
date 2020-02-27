@@ -60,7 +60,7 @@ Link.init({
     type: Sequelize.STRING,
     allowNull: false
   },
-  url: {
+  link: {
     type: Sequelize.STRING,
     allowNull: false,
     validate: {
