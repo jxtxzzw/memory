@@ -37,7 +37,7 @@
           {{ data.note }}
         </span>
       </Row>
-      <Row>
+      <Row v-if="editable">
         <Table :columns="columns" :data="data.link" @on-row-click="openLink"></Table>
       </Row>
     </Card>
