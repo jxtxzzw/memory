@@ -3,6 +3,9 @@ const { User, Subscription } = require('./models/User')
 const Type = require('./models/Type')
 const sequelize = require('./index')
 
+const dotenv = require('dotenv')
+dotenv.config()
+
 const MODELS = []
 MODELS.push(User)
 MODELS.push(Type)
