@@ -80,8 +80,7 @@ Category.init({
   },
   name: {
     type: Sequelize.STRING,
-    allowNull: false,
-    unique: true
+    allowNull: false
   }
 }, {
   sequelize
@@ -161,5 +160,5 @@ Item.belongsToMany(Link, { through: ItemLink, foreignKey: 'item' })
 Link.belongsToMany(Item, { through: ItemLink, foreignKey: 'link' })
 
 module.exports = {
-  Item, Category, Tag, Rating
+  Item, Category, Tag, Rating, Link
 }
