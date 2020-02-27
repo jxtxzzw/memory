@@ -38,8 +38,7 @@
         </span>
       </Row>
       <Row>
-        <!-- TODO on click 跳转， emit-->
-        <Table :columns="columns" :data="data.link"></Table>
+        <Table :columns="columns" :data="data.link" @on-row-click="openLink"></Table>
       </Row>
     </Card>
     <EditItemModal :modal="showEdit" :original="editData" @success="handleSuccess" @editItemVisibleChange="handleVisibleChange" />
@@ -154,6 +153,9 @@ export default {
     },
     handleVisibleChange (status) {
       this.showEdit = status
+    },
+    openLink (data) {
+      window.open(data.link, '_blank')
     }
   }
 }
