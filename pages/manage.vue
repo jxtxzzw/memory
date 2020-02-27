@@ -2,22 +2,16 @@
   <div>
     <Row>
       <i-col span="9">
-        <Divider>修改头像</Divider>
-        <Alert show-icon>
-          修改您的头像
+        <Divider>类型与分类管理</Divider>
+        <Alert type="info" show-icon>
+          进行类型与分类管理
           <span slot="desc">
-            上传一张图片来修改您的头像。留空并直接点击“上传”表示使用默认头像。您可能需要刷新页面才能看到新的头像。
+            增加新的类型或者分类，或者重命名它们。<br />
+            直接输入文本可筛选已存在内容，若无已存在内容，可直接添加。<br />
+            如果删除的项目还有别的使用依赖，则无法被删除。<br />
           </span>
         </Alert>
-        <ChangeAvatar />
-        <Divider>修改密码</Divider>
-        <Alert show-icon>
-          修改您的密码
-          <span slot="desc">
-            在这里修改您的密码
-          </span>
-        </Alert>
-        <ChangePassword />
+        <TypeCategoryManagement />
       </i-col>
       <i-col offset="1" span="14">
         <Divider>用户管理</Divider>
@@ -34,28 +28,19 @@
           </span>
         </Alert>
         <UserManagement v-if="$auth.state.user.id === 1" />
-        <Divider>类型与分类管理</Divider>
-        <Alert type="info" show-icon>
-          进行类型与分类管理
-          <span slot="desc">
-            增加新的类型或者分类，或者重命名他们。如果删除的项目还有别的使用依赖，则无法被删除。
-          </span>
-        </Alert>
-        <TypeCategoryManagement />
+        <Divider>发送全体公告</Divider>
       </i-col>
     </Row>
   </div>
 </template>
 
 <script>
-import ChangeAvatar from '../components/ChangeAvatar'
-import ChangePassword from '../components/ChangePassword'
 import UserManagement from '../components/UserManagement'
 import TypeCategoryManagement from '../components/TypeCategoryManagement'
 export default {
   middleware: ['auth'],
   name: 'Manage',
-  components: { TypeCategoryManagement, UserManagement, ChangePassword, ChangeAvatar }
+  components: { TypeCategoryManagement, UserManagement }
 }
 </script>
 

@@ -53,8 +53,11 @@
                   <DropdownItem name="my" align="center">
                     我的动态
                   </DropdownItem>
+                  <DropdownItem name="profile" align="center">
+                    个人设置
+                  </DropdownItem>
                   <DropdownItem name="manage" align="center">
-                    信息管理
+                    系统管理
                   </DropdownItem>
                   <DropdownItem name="logout" align="center">
                     登出
@@ -156,12 +159,21 @@ export default {
   },
   methods: {
     handleDropdownClick (name) {
-      if (name === 'logout') {
-        this.$auth.logout()
-      } else if (name === 'my') {
-        this.$router.push('/user/' + this.$auth.$state.user.id)
-      } else if (name === 'manage') {
-        this.$router.push('/manage')
+      switch (name) {
+        case 'logout':
+          this.$auth.logout()
+          break
+        case 'my':
+          this.$router.push('/user/' + this.$auth.$state.user.id)
+          break
+        case 'manage':
+          this.$router.push('/manage')
+          break
+        case 'profile':
+          this.$router.push('/profile')
+          break
+        default:
+          break
       }
     },
     showBrowserWarning () {
