@@ -57,11 +57,11 @@ Link.init({
     autoIncrement: true
   },
   discription: {
-    type: Sequelize.STRING,
+    type: Sequelize.TEXT('long'),
     allowNull: false
   },
   link: {
-    type: Sequelize.STRING,
+    type: Sequelize.TEXT('long'),
     allowNull: false,
     validate: {
       isUrl: true
@@ -101,7 +101,7 @@ Rating.init({
     defaultValue: 0
   },
   review: {
-    type: Sequelize.STRING,
+    type: Sequelize.TEXT('long'),
     allowNull: true
   }
 }, {

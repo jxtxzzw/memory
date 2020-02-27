@@ -10,7 +10,7 @@ Comment.init({
     autoIncrement: true
   },
   content: {
-    type: Sequelize.STRING,
+    type: Sequelize.TEXT('long'),
     allowNull: false
   },
   reply: {
