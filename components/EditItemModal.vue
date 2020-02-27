@@ -95,6 +95,9 @@
         <FormItem label="备注">
           <Input v-model="formValidate.note" type="textarea" maxlength="50" show-word-limit />
         </FormItem>
+        <FormItem label="链接">
+          <Links :tags="formValidate.links" @add="addLink" @remove="removeLink"></Links>
+        </FormItem>
       </Form>
     </Modal>
     <Modal v-model="previewVisible" footer-hide @cancel="handleCancel">
@@ -105,10 +108,12 @@
 
 <script>
 import Tags from '~/components/Tags'
+import Links from '~/components/Links'
 
 export default {
   middleware: ['auth'],
   components: {
+    Links,
     Tags
   },
   props: {
@@ -138,7 +143,8 @@ export default {
         checkedCategory: [],
         tags: [],
         fileList: [],
-        note: ''
+        note: '',
+        links: []
       },
       ruleValidate: {
         title: [
@@ -206,6 +212,12 @@ export default {
     },
     removeTag (tagName) {
       this.formValidate.tags = this.formValidate.tags.filter(tag => tag !== tagName)
+    },
+    addLink (linkURL) {
+      this.formValidate.links.push(linkURL)
+    },
+    removeLink (linkURL) {
+      this.formValidate.links = this.formValidate.links.filter(link => link !== linkURL)
     },
     handleBeforeUpload (file) {
       this.formValidate.fileList = [...this.formValidate.fileList, file]
