@@ -29,6 +29,7 @@
         </Alert>
         <UserManagement v-if="$auth.state.user.id === 1" />
         <Divider>发送全体公告</Divider>
+        <Announcement />
       </i-col>
     </Row>
   </div>
@@ -37,10 +38,11 @@
 <script>
 import UserManagement from '../components/UserManagement'
 import TypeCategoryManagement from '../components/TypeCategoryManagement'
+import Announcement from '../components/Announcement'
 export default {
   middleware: ['auth'],
   name: 'Manage',
-  components: { TypeCategoryManagement, UserManagement }
+  components: { Announcement, TypeCategoryManagement, UserManagement }
 }
 </script>
 
