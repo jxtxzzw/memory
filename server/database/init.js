@@ -36,13 +36,18 @@ async function generateDefaultValues () {
   await Subscription.create({ identifier: 'share' })
   await Subscription.create({ identifier: 'password' })
 
-  const password = passwordEncrypt.randomPassword()
+  let password = process.env.MEMORY_ADMIN_PASSWORD
+  // 如果没有定义 MEMORY_ADMIN_PASSWORD 环境变量，或者该字符串长度为 0，则随机生成一个初始密码
+  if (!password || password.length === 0) {
+    password = passwordEncrypt.randomPassword()
+  }
   await User.create({
-    username: 'admin',
+    username: process.env.MEMORY_ADMIN_USERNAME,
+    realname: process.env.MEMORY_ADMIN_REALNAME,
     password: passwordEncrypt.serverEncrypt(passwordEncrypt.clientEncrypt(password)),
-    email: 'admin@example.com'
+    email: process.env.MEMORY_ADMIN_EMAIL
   })
-  console.log(`admin (admin@example.com) 的密码是 ${password}。该密码仅会出现一次，请及时登录并修改。`)
+  console.log(`${process.env.MEMORY_ADMIN_USERNAME} 的密码是 ${password}。该密码仅会出现一次，请及时登录并修改。`)
 }
 
 sequelize
