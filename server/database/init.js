@@ -6,6 +6,7 @@ const passwordEncrypt = require('../../assets/passwordEncrypt')
 const { User, Subscription } = require('./models/User')
 const { Category } = require('./models/Item')
 const Type = require('./models/Type')
+const { defaultValues } = require('./defaultValues')
 const sequelize = require('./index')
 
 const MODELS = []
@@ -31,88 +32,19 @@ async function forceSyncModels (MODELS) {
 }
 
 async function generateDefaultValues () {
-  const organize = [
-    {
-      type: '小说',
-      categories: [
-        '言情',
-        '推理',
-        '军事',
-        '历史',
-        '科幻'
-      ]
-    },
-    {
-      type: '电影',
-      categories: [
-        '科幻'
-      ]
-    },
-    {
-      type: '音乐',
-      categories: []
-    },
-    {
-      type: '动漫',
-      categories: [
-        '战斗',
-        '校园',
-        '美食',
-        '恋爱'
-      ]
-    },
-    {
-      type: '电视',
-      categories: [
-        '科幻',
-        '高效',
-        '纪实',
-        '动作'
-      ]
-    },
-    {
-      type: '课程',
-      categories: [
-        '人工智能',
-        '编程语言',
-        '前后端开发',
-        '计算机基础'
-      ]
-    },
-    {
-      type: '软件',
-      categories: [
-        '优化软件',
-        '办公软件',
-        '加密分区',
-        '图形图像',
-        '备份还原',
-        '建站运维',
-        '截屏录制',
-        '手机刷机',
-        '报刊书籍',
-        '操作系统',
-        '效率辅助',
-        '数学统计',
-        '文字语音',
-        '杀毒软件'
-      ]
-    }
-  ]
-
   let typeCount = 0
   let categoryCount = 0
-  for (let i = 0; i < organize.length; i++) {
+  for (let i = 0; i < defaultValues.length; i++) {
     typeCount++
     await Type.create({
       id: typeCount,
-      name: organize[i].type
+      name: defaultValues[i].type
     })
-    for (let j = 0; j < organize[i].categories.length; j++) {
+    for (let j = 0; j < defaultValues[i].categories.length; j++) {
       categoryCount++
       await Category.create({
         id: categoryCount,
-        name: organize[i].categories[j],
+        name: defaultValues[i].categories[j],
         type: typeCount
       })
     }
