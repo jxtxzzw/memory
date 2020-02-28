@@ -147,10 +147,12 @@ function generateHTML (bodyHTML) {
 
 function generateContent (identifier, parameter) {
   let subject = '来自 Memory 的邮件'
+  let attachments
   let content = {
     subject,
-    html: '<p> 似乎哪里出了什么错，邮件内容找不到了…… </p>'
+    html: '<p> 似乎哪里出了什么错，邮件内容找不到了…… </p>',
   }
+  let embedImage = ''
   switch (identifier) {
     case 'announcement':
       subject = 'Memory：有一条新的公告'
@@ -185,6 +187,18 @@ function generateContent (identifier, parameter) {
       break
     case 'share':
       subject = 'Memory：有人分享了新的内容'
+      if (parameter.image.length > 0) {
+        // 说明上传了封面
+        attachments = [
+          {
+            path: parameter.image,
+            cid: 'cover'
+          }
+        ]
+        embedImage = `<img src="cid:${attachments[0].cid}" />`
+      } else {
+        embedImage = '<p> 该用户没有上传封面图片 </p>'
+      }
       content = {
         subject,
         html: generateHTML(`
@@ -192,12 +206,14 @@ function generateContent (identifier, parameter) {
         <p>
         ${parameter.who} 分享了新的内容：<br/>
         ${parameter.title} </br>
-        <img style="width: 200px; height: 300px" src="${parameter.image}"> <br/>
         </p>
         <p>
           您可以点击链接查看详细：<a href="${parameter.href}"> ${parameter.href} </a>
         </p>
-        `)
+        封面预览：<br />
+        ${embedImage} <br />
+        `),
+        attachments
       }
       break
     case 'password':
@@ -246,7 +262,8 @@ async function send (receivers, content) {
       from: process.env.MEMORY_SMTP_SENDER, // sender address
       to: address, // list of receivers
       subject: content.subject, // Subject line
-      html: content.html // html body
+      html: content.html, // html body
+      attachments: content.attachments
     })
 
     console.log('Message sent: %s', info.messageId)

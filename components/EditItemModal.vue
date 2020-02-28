@@ -259,13 +259,21 @@ export default {
               this.$emit('success')
             } else {
               // 邮件发送发出请求后直接返回，不做 await，否则会等很久
-              // TODO: 获取用户名、获取图片
+              let image
+              if (this.formValidate.fileList.length === 0) {
+                // 说明没有传图片
+                image = ''
+              } else {
+                // original.id !== res.id 说明是新建，新建只可能是 thumbUrl
+                // 只有修改时没有上传新图才是 url，修改时上传了新图也是 thumbUrl
+                image = this.formValidate.fileList[0].thumbUrl
+              }
               this.$axios.$post('/api/mailtest', {
                 identifier: 'share',
                 parameter: {
                   who: this.$auth.$state.user.username,
                   title: this.formValidate.title,
-                  image: this.formValidate.fileList[0].url,
+                  image,
                   href: 'https://memory.jxtxzzw.com/item/' + res.id
                 }
               })
