@@ -106,11 +106,11 @@ router.post('/User/useractivities', async (req, res, next) => {
           result.push(x)
         }
       }
-      // 按照从最新到最旧的顺序排序，不按照 user ID
-      result.sort(function (a, b) {
-        return b.updatedAt - a.updatedAt
-      })
     }
+    // 按照从最新到最旧的顺序排序，不按照 user ID
+    result.sort(function (a, b) {
+      return b.updatedAt - a.updatedAt
+    })
     res.status(200).json(result)
   } catch (e) {
     res.status(400).json(e)
