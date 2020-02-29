@@ -43,7 +43,7 @@
               主页
             </MenuItem>
             <MenuItem name="activity" to="/activity">
-              <Icon type="ios-album" />
+              <Icon type="md-search" />
               动态
             </MenuItem>
             <div v-if="$auth.$state.loggedIn">
