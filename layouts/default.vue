@@ -138,8 +138,6 @@ export default {
     }
   },
   mounted () {
-    // eslint-disable-next-line no-console
-    console.log(process.env.MEMORY_SMTP_SENDER)
     this.checkBrowser()
     this.screenHeight = document.body.clientHeight
     const that = this

@@ -56,11 +56,9 @@ export default {
     }
   },
   async mounted () {
-    const info = await this.$axios.$post('/api/User/userinfocard', {
+    this.info = await this.$axios.$post('/api/User/userinfocard', {
       user: this.user
     })
-    console.log(info)
-    this.info = info
   }
 }
 </script>
