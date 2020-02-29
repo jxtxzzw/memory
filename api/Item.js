@@ -122,7 +122,7 @@ async function advancedSearch (data, user) {
     }
   }
   let result = await Item.findAll({
-    attributes: ['id', 'title', 'cover', 'rating'],
+    attributes: ['id'],
     where: condition,
     include
   })
@@ -141,13 +141,11 @@ async function advancedSearch (data, user) {
       return false
     })
   }
-  return result.map((el) => {
-    el = el.toJSON()
-    el.Ratings = undefined
-    el.Categories = undefined
-    el.cover = el.cover ? uploadConfig.upload + el.cover : uploadConfig.defaultCover
-    return el
-  })
+  const results = []
+  for (const el of result) {
+    results.push(await getItemInfo(el.id))
+  }
+  return results
 }
 
 router.post('/Item/itemList', async (req, res, next) => {
