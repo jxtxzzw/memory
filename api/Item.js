@@ -37,6 +37,9 @@ async function getItemList (data) {
   for (const item of result) {
     itemList.push(await getItemInfo(item.id))
   }
+  itemList.sort(function (a, b) {
+    return b.updatedAt - a.updatedAt
+  })
   return itemList
 }
 
@@ -145,6 +148,9 @@ async function advancedSearch (data, user) {
   for (const el of result) {
     results.push(await getItemInfo(el.id))
   }
+  results.sort(function (a, b) {
+    return b.updatedAt - a.updatedAt
+  })
   return results
 }
 
