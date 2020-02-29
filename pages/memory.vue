@@ -35,6 +35,7 @@
       :on-reach-bottom="handleReachBottom"
       loading-text="加载中……"
       :height="scrollHeight"
+      :style="{marginTop: scrollMargin + 'px'}"
     >
       <!-- 对 Row 使用 flex 布局，固定每个 item 的宽度和 item 之间的间距，使用 center 对齐，左右两边留白可变化 -->
       <!-- 增加 margin 为 0 的样式，避免因为 gutter 导致 flex 宽度大于 Content 宽度而出现水平滚动条 -->
@@ -92,13 +93,14 @@ export default {
   middleware: ['auth'],
   data () {
     return {
+      scrollMargin: 16,
       reload: true,
       inAdvancedSearch: false,
       advancedSearchModal: false,
       createItemModal: false,
       // 自定义 item 样式
       headerHeight: 32, // 头部搜索和添加按钮的高度
-      itemMargin: 32, // 每一层之间的间距，应用在 Card 组件的 margin
+      itemMargin: 10, // 每一层之间的间距，应用在 Card 组件的 margin
       itemSpan: 20, // item 之间的间距，应用在 Row 组件的 gutter
       itemWidth: 220, // item 的宽度
       itemHeight: 420, // item 的高度
@@ -118,7 +120,8 @@ export default {
       // 再减去 64 的 layout header 和 69 的 layout footer 高度，得到 layout content 高度
       // 再减去高度 2 个高度为 1 的 bordered card，和 2 个高为 16 的 card body padding
       // 总计 169，魔术数
-      const aroundArea = 169 + this.headerHeight
+      // 如果必要，还应减去 滚动区域距离上面操作按钮区域的 MARIGIN_TOP 的高度
+      const aroundArea = 169 + this.headerHeight + this.scrollMargin
       // 计算最大滚动区域大小，确保整个滚动区域在浏览器窗口高度内，即不会出现垂直滚动条
       const maxScrollHeight = this.screenHeight - aroundArea
       // item 个数除以每一行的 item 个数，向上取整，得到总行数
@@ -188,7 +191,7 @@ export default {
       })
     },
     // 处理无限滚动区域到达底部的动作
-    async loadData (title = undefined, type = undefined, offset = this.list.length, limit = 10) {
+    async loadData (title = undefined, type = undefined, offset = this.list.length, limit = 15) {
       const items = await this.$axios.$post('/api/Item/itemList', { title, type, offset, limit })
       if (items.length === 0) {
         this.$Message.info({
