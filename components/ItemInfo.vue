@@ -82,7 +82,7 @@ export default {
       columns: [
         {
           title: '描述',
-          key: 'discription'
+          key: 'description'
         },
         {
           title: '链接',

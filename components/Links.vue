@@ -30,18 +30,18 @@ export default {
   data () {
     return {
       editingIndex: -1, // -1 表示不在编辑状态
-      editingDiscription: '',
+      editingDescription: '',
       editingLink: '',
       columns: [
         {
           title: '描述',
-          key: 'discription',
+          key: 'description',
           render: (h, params) => {
             if (this.editingIndex !== params.index) {
-              return h('span', params.row.discription)
+              return h('span', params.row.description)
             } else {
               // 这里需要先把 params 的值赋给 data，否则输入框会显示 value 但其实 editing 还是空，如果此时直接点击保存就会丢失数据
-              this.editingDiscription = params.row.discription
+              this.editingDescription = params.row.description
               // render 函数中没有与 v-model 的直接对应，如果要在 render 函数中使用 v-model 的话，要自己绑定 input 的事件来实现
               return h('Input', {
                 // 如果是 HTML 原生 <input>，这里就是 domProps
@@ -50,13 +50,13 @@ export default {
                   // 这里直接给 data 的 this.XXX 会出现问题，所以给 params.row.XXX 的值
                   // 当 domProps 时，导致无法输入的问题
                   // 当 props 时，可以输入，但是不会触发 on-input，即输入的数据没有被双向绑定
-                  value: params.row.discription
+                  value: params.row.description
                 },
                 on: {
                   input: (event) => {
                     // v-model="someProperty" 其实是 :value="someProperty" @input="someProperty = $event" 的简写
                     // 在组件自定义事件上，$event 即为事件传出的值，这里既非原生 <input> 元素，也没有使用 .native 事件修饰符，所以不需要 $event.target.value 的
-                    this.editingDiscription = event
+                    this.editingDescription = event
                     // 如果是 HTML 原生 <input> 而不是 iView 的 <Input>，那么这里就是 XXX = event.target.value
                   }
                 }
@@ -184,7 +184,7 @@ export default {
     // 点击添加链接时，push 一个空的对象到 linkList，并设置 editingIndex 为 linkList.length - 1
     addLink () {
       this.linkList.push({
-        discription: '',
+        description: '',
         link: ''
       })
       // 先 push 后改 index 避免任何可能存在的数组下标越界
@@ -199,14 +199,14 @@ export default {
       // 重置信息
       this.editingIndex = -1
       this.editingLink = ''
-      this.editingDiscription = ''
+      this.editingDescription = ''
       // 过滤掉没有信息的行
-      this.linkList = this.linkList.filter(e => e.discription !== '' && e.link !== '')
+      this.linkList = this.linkList.filter(e => e.description !== '' && e.link !== '')
       this.emitChange()
     },
     // 保存编辑时，需要将 editing 的数据保存到 linkList 的对应下标处
     saveEdit () {
-      this.linkList[this.editingIndex].discription = this.editingDiscription
+      this.linkList[this.editingIndex].description = this.editingDescription
       this.linkList[this.editingIndex].link = this.editingLink
       // 保存后退出编辑模式
       this.exitEdit()

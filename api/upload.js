@@ -89,11 +89,11 @@ async function CreateItem (data) {
     for (const link of data.links) {
       const [linkInstance] = await Link.findOrCreate({
         where: {
-          discription: link.discription,
+          description: link.description,
           link: link.link
         },
         defaults: {
-          discription: link.discription,
+          description: link.description,
           link: link.link
         },
         transaction

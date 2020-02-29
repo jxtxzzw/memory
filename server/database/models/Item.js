@@ -56,7 +56,7 @@ Link.init({
     primaryKey: true,
     autoIncrement: true
   },
-  discription: {
+  description: {
     type: Sequelize.TEXT('long'),
     allowNull: false
   },

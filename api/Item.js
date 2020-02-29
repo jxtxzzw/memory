@@ -54,7 +54,7 @@ async function getItemInfo (id) {
         attributes: ['name']
       }, {
         model: Link,
-        attributes: ['discription', 'link']
+        attributes: ['description', 'link']
       }]
     })
     const data = result.toJSON()
@@ -63,7 +63,7 @@ async function getItemInfo (id) {
     data.tag = data.Tags.map(el => el.name)
     data.link = data.Links.map((el) => {
       return {
-        discription: el.discription,
+        description: el.description,
         link: el.link
       }
     })
