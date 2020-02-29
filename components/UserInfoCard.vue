@@ -3,24 +3,29 @@
     <a-card style="width: 300px">
       <img
         alt="example"
-        src="http://localhost:3000/default_profile.jpg"
+        src="/default_profile.jpg"
         slot="cover"
       />
       <template slot="actions" class="ant-card-actions">
-        <Tooltip :content="'分享过 ' + share + ' 个内容'">
+        <Tooltip :content="'分享过 ' + info.share + ' 个内容'">
           <a-icon type="edit" />
         </Tooltip>
-        <Tooltip :content="'记录过 ' + read + ' 个内容'">
+        <Tooltip :content="'记录过 ' + info.read + ' 个内容'">
           <a-icon type="eye" />
         </Tooltip>
-        <Tooltip :content="'发表了 ' + comment + ' 条评论'">
+        <Tooltip :content="'发表了 ' + info.comment + ' 条评论'">
           <a-icon type="message" />
         </Tooltip>
       </template>
-      <a-card-meta :title="username" :description="username + '的个人主页'">
+      <a-card-meta :title="info.username" >
+        <span slot="description">
+          {{ info.username }}
+          最后一次现身是
+          <Time :time="info.latest" />
+        </span>
         <a-avatar
           slot="avatar"
-          :src="avatar"
+          :src="info.avatar"
         />
       </a-card-meta>
     </a-card>
@@ -40,22 +45,22 @@ export default {
   },
   data () {
     return {
-      avatar: '',
-      username: '',
-      share: '',
-      read: '',
-      comment: ''
+      info: {
+        avatar: '',
+        username: '',
+        share: '',
+        read: '',
+        comment: '',
+        latest: ''
+      }
     }
   },
   async mounted () {
     const info = await this.$axios.$post('/api/User/userinfocard', {
       user: this.user
     })
-    this.share = info.share
-    this.username = info.username
-    this.avatar = info.avatar
-    this.read = info.read
-    this.comment = info.comment
+    console.log(info)
+    this.info = info
   }
 }
 </script>

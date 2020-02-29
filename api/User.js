@@ -77,13 +77,15 @@ async function getUserInfo (id) {
     attributes: [
       'id',
       'username',
-      'avatar'
+      'avatar',
+      'latest'
     ]
   })
   return {
     id: user.id,
     username: user.username,
-    avatar: user.avatar ? uploadConfig.upload + user.avatar : uploadConfig.defaultAvatar
+    avatar: user.avatar ? uploadConfig.upload + user.avatar : uploadConfig.defaultAvatar,
+    latest: user.latest
   }
 }
 
