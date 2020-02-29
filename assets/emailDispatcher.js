@@ -249,7 +249,7 @@ async function send (receivers, content) {
   const transporter = nodemailer.createTransport({
     host: process.env.MEMORY_SMTP_HOST,
     port: process.env.MEMORY_SMTP_PORT,
-    secure: false, // true for 465, false for other ports
+    secure: true, // true for 465, false for other ports
     auth: {
       user: process.env.MEMORY_SMTP_USER, // generated ethereal user
       pass: process.env.MEMORY_SMTP_PASS // generated ethereal password
@@ -263,7 +263,7 @@ async function send (receivers, content) {
       to: address, // list of receivers
       subject: content.subject, // Subject line
       html: content.html, // html body
-      attachments: content.attachments
+      attachments: content.attachments,
     })
 
     console.log('Message sent: %s', info.messageId)
