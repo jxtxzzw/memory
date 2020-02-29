@@ -92,7 +92,7 @@
         </Card>
       </Content>
       <Footer class="layout-footer-center">
-        2019/MM/DD - {{ moment().format('YYYY/MM/DD') }} &copy; jxtxzzw
+        2020/03/01 - {{ moment().format('YYYY/MM/DD') }} &copy; 凝神长老
       </Footer>
     </Layout>
   </div>
