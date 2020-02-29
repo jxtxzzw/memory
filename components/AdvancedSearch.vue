@@ -80,24 +80,13 @@
             show-tip="always"
             style="width: 400px"
             :marks="{
-              0.5: '垃圾',
-              1: '不推荐',
-              2: '一般',
-              3: {
+              0.5: {
                 style: {
-                  color: '#57A3F3',
+                  color: '#8F5A52',
                   width: '28px',
                   height: '19px'
                 },
-                label: this.$createElement('p', '推荐')
-              },
-              4: {
-                style: {
-                  color: '#19be6b',
-                  width: '28px',
-                  height: '19px'
-                },
-                label: this.$createElement('strong', '力荐')
+                label: this.$createElement('strong', '反对')
               },
               5: {
                 style: {
@@ -105,7 +94,7 @@
                   width: '28px',
                   height: '19px'
                 },
-                label: this.$createElement('strong', '神作')
+                label: this.$createElement('strong', '推荐')
               }
             }"
           />

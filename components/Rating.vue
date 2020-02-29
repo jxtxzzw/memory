@@ -43,11 +43,18 @@
             {{ formError }}
           </span>
         </Alert>
+        <Alert type="info" show-icon>
+          参考评分说明
+          <span slot="desc">
+            分数范围为 0 ~ 5 分，以 0.5 分为单位 <br />
+            一般以 2.5 分为默认基准，分数越高表示推荐程度越高，分数越低表示推荐程度越低 <br />
+          </span>
+        </Alert>
         <FormItem label="评分" prop="rating">
           <Rate v-model="formValidate.rating" allow-half show-text />
         </FormItem>
         <FormItem label="周目" prop="recursion">
-          <InputNumber v-model="formValidate.recursion" :editable="false" :min="0" />
+          <InputNumber v-model="formValidate.recursion" :min="0" />
         </FormItem>
         <FormItem label="评价">
           <Input v-model="formValidate.review" type="textarea" maxlength="2048" show-word-limit :rows="6" />
