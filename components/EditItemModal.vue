@@ -21,8 +21,10 @@
       :loading="loading"
       @on-ok="handleUpload('formValidate')"
       @on-cancel="handleCancel"
+      width="50"
       @on-visible-change="handleVisibleChange"
     >
+      <!-- 宽度是响应式的，当屏幕尺寸小于 768px 时，宽度会变为自动auto。当其值不大于 100 时以百分比显示，大于 100 时为像素 -->
       <Form ref="formValidate" :model="formValidate" :rules="ruleValidate">
         <Alert v-if="formError" type="error" show-icon>
           表单验证失败
@@ -31,7 +33,7 @@
           </span>
         </Alert>
         <Row>
-          <i-col span="12">
+          <i-col span="8">
             <a-upload
               list-type="picture-card"
               :file-list="formValidate.fileList"
@@ -47,7 +49,7 @@
               </div>
             </a-upload>
           </i-col>
-          <i-col span="12">
+          <i-col span="16">
             <FormItem label="标题" prop="title">
               <Input v-model="formValidate.title" type="text" />
             </FormItem>
