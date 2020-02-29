@@ -72,8 +72,8 @@
         </Menu>
       </Header>
       <Content :style="{padding: '0 50px'}">
-        <Card dis-hover :style="{height: cardHeight + 'px'}">
-          <div style="min-height: 400px;">
+        <Card dis-hover :style="{height: cardHeight + 'px', minWidth: '1200px'}">
+          <div>
             <nuxt v-if="compatible" />
             <div v-else>
               <Alert type="error" show-icon>
