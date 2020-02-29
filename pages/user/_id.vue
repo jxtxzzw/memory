@@ -1,21 +1,31 @@
 <template>
   <div>
-    <Divider> {{ username }} 的动态 </Divider>
-    <MyActivity :user="parseInt($route.params.id)" />
+    <Row>
+      <Col span="8">
+      <UserInfoCard v-if="parseInt(id) > 0" :user="parseInt(id)" />
+      </Col>
+      <Col span="16">
+      <Divider> {{ username }} 的动态 </Divider>
+      <MyActivity :user="parseInt($route.params.id)" />
+      </Col>
+    </Row>
   </div>
 </template>
 
 <script>
 import MyActivity from '../../components/MyActivity'
+import UserInfoCard from '../../components/UserInfoCard'
 export default {
-  components: { MyActivity },
+  components: { UserInfoCard, MyActivity },
   middleware: ['auth'],
   validate ({ params }) {
     return /^\d+$/.test(params.id)
   },
   data () {
     return {
-      username: ''
+      username: '',
+      avatar: '',
+      id: ''
     }
   },
   async mounted () {
@@ -27,6 +37,8 @@ export default {
         user: this.$route.params.id
       })
       this.username = user.username
+      this.avatar = user.avatar
+      this.id = user.id
     }
   }
 }
