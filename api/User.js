@@ -228,4 +228,28 @@ router.post('/User/avatar', async (req, res, next) => {
   }
 })
 
+router.post('/User/userinfocard', async (req, res, next) => {
+  const userId = req.body.user
+  const user = await getUserInfo(userId)
+  const comments = await Comment.findAll({
+    where: {
+      user: userId
+    }
+  })
+  user.comment = comments.length
+  const shares = await Item.findAll({
+    where: {
+      creator: userId
+    }
+  })
+  user.share = shares.length
+  const reads = await Rating.findAll({
+    where: {
+      user: userId
+    }
+  })
+  user.read = reads.length
+  res.status(200).json(user)
+})
+
 module.exports = { getUserInfo }
