@@ -1,15 +1,17 @@
 <template>
-  <div>
+  <div :style="{height: cardInnerHeight + 'px', overflowY: 'auto'}">
     <Row>
       <i-col span="11">
         <Divider> 基本信息 </Divider>
         <ItemInfo
           ref="itemInfo"
           :editable="true"
-          style="width:350px"
+          style="width:450px"
           :data="data"
           @success="handleSuccess"
         />
+      </i-col>
+      <i-col offset="2" span="11">
         <Divider> 讨论区 </Divider>
         <Button type="info" size="large" ghost long @click="showComment = true">
           查看该内容的讨论区
@@ -23,8 +25,6 @@
         >
           <CommentPage v-if="!reload" :item="data.id" @reloadComment="reloadComment" />
         </Modal>
-      </i-col>
-      <i-col offset="2" span="11">
         <Divider> 我的评价 </Divider>
         <Rating :my="myRating" @success="handleSuccess" />
         <Divider> 所有评价 </Divider>
