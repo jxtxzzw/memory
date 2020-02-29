@@ -127,7 +127,7 @@ export default {
         id: this.$route.params.id
       })
       for (const rating of this.ratings) {
-        if (rating.user === this.$auth.$state.user.username) {
+        if (rating.user === this.$auth.$state.user.id) {
           this.myRating = rating
         }
       }
