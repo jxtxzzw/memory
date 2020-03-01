@@ -73,7 +73,7 @@ export default {
         itemId: this.item
       }
       this.replies = await this.$axios.$post('/api/Comment/Query', data)
-      this.$emit('commentCount', this.replies.length)
+      this.$emit('countComments', this.replies)
       setTimeout(() => {
         this.loading = false
       }, 1000)
