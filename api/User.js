@@ -159,7 +159,7 @@ router.post('/User/change', async (req, res, next) => {
     if (user == null) {
       res.status(403).end('原密码错误')
     }
-    changePassword(user, passwordEncrypt.serverEncrypt(req.body.newPassword), res)
+    changePassword(user, req.body.newPassword, res)
   } catch (e) {
     res.status(500).end('' + e)
   }
