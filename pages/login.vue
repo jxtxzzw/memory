@@ -32,7 +32,7 @@
               </Input>
             </FormItem>
             <FormItem prop="password" label="密码">
-              <Input v-model="password" type="password" password placeholder="请输入密码">
+              <Input v-model="password" type="password" password placeholder="请输入密码" @on-enter="login">
               <Icon slot="prefix" type="ios-lock-outline" />
               </Input>
             </FormItem>
