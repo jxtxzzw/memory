@@ -14,7 +14,7 @@
       <i-col offset="2" span="11">
         <Divider> 讨论区 </Divider>
         <Button type="info" size="large" ghost long @click="showComment = true">
-          查看该内容的讨论区
+          快来参与该内容的 {{ comments }} 条讨论吧
         </Button>
         <Modal
           v-model="showComment"
@@ -23,7 +23,7 @@
           class-name="vertical-center-modal"
           footer-hide
         >
-          <CommentPage v-if="!reload" :item="data.id" @reloadComment="reloadComment" />
+          <CommentPage v-if="!reload" :item="data.id" @reloadComment="reloadComment" @commentCount="commentCount" />
         </Modal>
         <Divider> 我的评价 </Divider>
         <Rating :my="myRating" @success="handleSuccess" />
@@ -63,6 +63,7 @@ export default {
   },
   data () {
     return {
+      comments: 0,
       showComment: false,
       screenHeight: 0,
       screenWidth: 0,
@@ -143,6 +144,9 @@ export default {
       this.$nextTick(() => {
         this.reload = false
       })
+    },
+    commentCount (count) {
+      this.comments = count
     }
   }
 }
