@@ -62,7 +62,7 @@
             </FormItem>
             <FormItem label="分类" prop="category">
               <br>
-              <Card>
+              <Card dis-hover>
                 <Tag
                   v-for="tag in formValidate.checkedCategory"
                   :key="tag"
@@ -75,7 +75,7 @@
                   {{ CategoryList[tag] }}
                 </Tag>
               </Card>
-              <Card>
+              <Card dis-hover>
                 <Tag
                   v-for="tag in uncheckedCategory"
                   :key="tag"
