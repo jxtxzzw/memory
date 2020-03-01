@@ -12,7 +12,7 @@ router.use(cookieParser())
 // JWT middleware
 router.use(
   jwt({
-    secret: process.env.MEMORY_JWT_SECERT || 'dummy'
+    secret: process.env.MEMORY_JWT_SECERT
   }).unless({
     path: '/api/auth/login'
   })
@@ -44,7 +44,7 @@ router.post('/auth/login', async (req, res, next) => {
         username,
         avatar: user.avatar ? uploadConfig.upload + user.avatar : uploadConfig.defaultAvatar
       },
-      process.env.MEMORY_JWT_SECERT || 'dummy',
+      process.env.MEMORY_JWT_SECERT,
       {
         expiresIn: 60000
       }

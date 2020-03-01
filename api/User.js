@@ -130,11 +130,13 @@ async function changePassword (user, password, res, rawPassword = undefined) {
   try {
     user.password = passwordEncrypt.serverEncrypt(password)
     await user.save()
-    dispatch('password', {
-      id: user.id,
-      username: user.username,
-      password: rawPassword
-    })
+    if (rawPassword) {
+      dispatch('password', {
+        id: user.id,
+        username: user.username,
+        password: rawPassword
+      })
+    }
     res.sendStatus(200)
   } catch (e) {
     res.sendStatus(500)
