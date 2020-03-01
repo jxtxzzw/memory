@@ -1,24 +1,31 @@
 <template>
-  <a-comment>
-    <a-avatar
-      slot="avatar"
-      :src="avatar"
-      :alt="username"
-    />
-    <div slot="content">
-      <a-form-item>
-        <a-textarea :rows="4" :value="value" @change="handleChange" />
-      </a-form-item>
-      <a-form-item>
-        <a-button html-type="submit" :loading="submitting" type="primary" @click="handleSubmit">
-          发表评论
-        </a-button>
-        <a-button v-if="target !== 0" @click="cancelReply">
-          取消回复指定评论
-        </a-button>
-      </a-form-item>
-    </div>
-  </a-comment>
+  <div>
+    <Alert type="info" show-icon>
+      <span slot="desc">
+        可以使用 [spoiler] 这里是剧透内容 [/spoiler] 标签来防止剧透
+      </span>
+    </Alert>
+    <a-comment>
+      <a-avatar
+        slot="avatar"
+        :src="avatar"
+        :alt="username"
+      />
+      <div slot="content">
+        <a-form-item>
+          <a-textarea :rows="4" :value="value" @change="handleChange" />
+        </a-form-item>
+        <a-form-item>
+          <a-button html-type="submit" :loading="submitting" type="primary" @click="handleSubmit">
+            发表评论
+          </a-button>
+          <a-button v-if="target !== 0" @click="cancelReply">
+            取消回复指定评论
+          </a-button>
+        </a-form-item>
+      </div>
+    </a-comment>
+  </div>
 </template>
 
 <script>

@@ -9,7 +9,7 @@
         :alt="reply.username"
       />
       <p slot="content">
-        {{ reply.content }}
+        <TextParser :value="reply.content" />
       </p>
       <a-tooltip slot="datetime" :title="moment(reply.date).format('YYYY-MM-DD HH:mm:ss')">
         <span>{{ moment(reply.date).fromNow() }}</span>
@@ -32,11 +32,13 @@
 </template>
 
 <script>
+import TextParser from './TextParser'
 import moment from 'moment'
 import ReplyEditor from '~/components/ReplyEditor'
 export default {
   name: 'Comment',
   components: {
+    TextParser,
     ReplyEditor
   },
   props: {

@@ -26,7 +26,7 @@
                 <Rate allow-half disabled :value="activity.description" show-text />
               </template>
             </ListItemMeta>
-            {{ activity.content }}
+            <TextParser :value="activity.content" />
             <template slot="action">
               <li>
                 <!-- transfer: 是否将弹层放置于 body 内，在 Tabs、带有 fixed 的 Table 列内使用时，建议添加此属性，它将不受父级样式影响，从而达到更好的效果 -->
@@ -63,8 +63,10 @@
 </template>
 
 <script>
+import TextParser from './TextParser'
 export default {
   name: 'MyActivity',
+  components: { TextParser },
   props: {
     user: {
       type: Number,

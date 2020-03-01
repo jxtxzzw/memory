@@ -42,7 +42,7 @@
             </nuxt-link>
             <Rate allow-half :value="rating.rating" disabled style="float: right; margin-right: 10px" />
             <p slot="content">
-              {{ rating.review }}
+              <TextParser :value="rating.review" />
             </p>
           </Panel>
         </Collapse>
@@ -52,11 +52,12 @@
 </template>
 
 <script>
+import TextParser from '../../components/TextParser'
 import ItemInfo from '~/components/ItemInfo'
 import CommentPage from '~/components/CommentPage'
 import Rating from '~/components/Rating'
 export default {
-  components: { Rating, CommentPage, ItemInfo },
+  components: { TextParser, Rating, CommentPage, ItemInfo },
   middleware: ['auth'],
   validate ({ params }) {
     return /^\d+$/.test(params.id)

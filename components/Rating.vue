@@ -8,7 +8,7 @@
             <Tag type="border" color="success"> {{ my.recursion }} 周目</Tag>
           </span>
           <span slot="description">
-            {{ my.review }}
+            <TextParser :value="my.review" />
           </span>
         </ListItemMeta>
         <template slot="action">
@@ -34,6 +34,7 @@
       :closable="false"
       :mask-closable="false"
       :loading="loading"
+      width="60"
       @on-ok="handleEdit('formValidate')"
     >
       <Form ref="formValidate" :model="formValidate" :rules="ruleValidate">
@@ -48,6 +49,11 @@
           <span slot="desc">
             分数范围为 0 ~ 5 分，以 0.5 分为单位 <br />
             一般以 2.5 分为默认基准，分数越高表示推荐程度越高，分数越低表示推荐程度越低 <br />
+          </span>
+        </Alert>
+        <Alert type="info" show-icon>
+          <span slot="desc">
+            可以使用 [spoiler] 这里是剧透内容 [/spoiler] 标签来防止剧透
           </span>
         </Alert>
         <FormItem label="评分" prop="rating">
@@ -65,8 +71,10 @@
 </template>
 
 <script>
+import TextParser from './TextParser'
 export default {
   name: 'Rating',
+  components: { TextParser },
   props: {
     my: {
       type: Object,
