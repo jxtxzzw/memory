@@ -36,7 +36,7 @@ router.post('/auth/login', async (req, res, next) => {
     res.status(401).send('用户名或密码错误')
   } else {
     user.latest = new Date(Date.now())
-    user.save()
+    await user.save()
 
     const accessToken = jsonwebtoken.sign(
       {

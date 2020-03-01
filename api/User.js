@@ -126,10 +126,10 @@ router.post('/User/userinfo', async (req, res, next) => {
   }
 })
 
-function changePassword (user, password, res, rawPassword = undefined) {
+async function changePassword (user, password, res, rawPassword = undefined) {
   try {
     user.password = passwordEncrypt.serverEncrypt(password)
-    user.save()
+    await user.save()
     dispatch('password', {
       id: user.id,
       username: user.username,
@@ -223,7 +223,7 @@ router.post('/User/avatar', async (req, res, next) => {
     } else {
       user.avatar = null
     }
-    user.save()
+    await user.save()
     res.sendStatus(200)
   } catch (e) {
     res.status(500).end('' + e)
