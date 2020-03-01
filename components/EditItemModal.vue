@@ -279,7 +279,6 @@ export default {
                   href: 'https://memory.jxtxzzw.com/item/' + res.id
                 }
               })
-              this.resetForm()
               this.$router.push('/item/' + res.id)
             }
           }
@@ -291,15 +290,6 @@ export default {
           this.formError = '表单验证失败，请检查您输入的内容'
         }
       })
-    },
-    resetForm () {
-      this.formValidate = {
-        title: '',
-        type: 0,
-        checkedCategory: [],
-        tags: [],
-        fileList: []
-      }
     },
     handleVisibleChange (status) {
       this.$emit('editItemVisibleChange', status)

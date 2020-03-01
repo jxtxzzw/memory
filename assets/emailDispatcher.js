@@ -293,6 +293,5 @@ export async function dispatch (identifier, parameter) {
   }
   const receivers = await getReceivers(identifier, receiverId)
   const content = generateContent(identifier, parameter)
-  console.log(`Sending: ${identifier} to ${receivers}`)
   await send(receivers, content)
 }
