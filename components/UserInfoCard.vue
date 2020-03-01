@@ -2,9 +2,9 @@
   <div>
     <a-card style="width: 300px">
       <img
+        slot="cover"
         alt="example"
         src="/default_profile.jpg"
-        slot="cover"
       />
       <template slot="actions" class="ant-card-actions">
         <Tooltip :content="'分享过 ' + info.share + ' 个内容'">
@@ -17,7 +17,7 @@
           <a-icon type="message" />
         </Tooltip>
       </template>
-      <a-card-meta :title="info.username" >
+      <a-card-meta :title="info.username">
         <span slot="description">
           {{ info.username }}
           最后一次现身是

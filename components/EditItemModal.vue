@@ -19,9 +19,9 @@
       :closable="false"
       :mask-closable="false"
       :loading="loading"
+      width="50"
       @on-ok="handleUpload('formValidate')"
       @on-cancel="handleCancel"
-      width="50"
       @on-visible-change="handleVisibleChange"
     >
       <!-- 宽度是响应式的，当屏幕尺寸小于 768px 时，宽度会变为自动auto。当其值不大于 100 时以百分比显示，大于 100 时为像素 -->

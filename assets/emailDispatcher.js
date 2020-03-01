@@ -267,6 +267,7 @@ async function send (receivers, content) {
     }
     try {
       const info = await transporter.sendMail(data)
+      // eslint-disable-next-line no-console
       console.log('Message sent: %s', info.messageId)
       // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
 
@@ -274,6 +275,7 @@ async function send (receivers, content) {
       // console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info))
       // // Preview URL: https://ethereal.email/message/WaQKMgKddxQDoou...
     } catch (e) {
+      // eslint-disable-next-line no-console
       console.log(e)
     }
   }

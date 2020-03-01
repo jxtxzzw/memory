@@ -28,6 +28,7 @@ async function forceSyncModels (MODELS) {
   for (const model of MODELS) {
     await model.sync({ force: true })
   }
+  // eslint-disable-next-line no-console
   console.log('Force Sync Done!')
 }
 
@@ -66,6 +67,7 @@ async function generateDefaultValues () {
     password: passwordEncrypt.serverEncrypt(passwordEncrypt.clientEncrypt(password)),
     email: process.env.MEMORY_ADMIN_EMAIL
   })
+  // eslint-disable-next-line no-console
   console.log(`${process.env.MEMORY_ADMIN_USERNAME} 的密码是 ${password}。该密码仅会出现一次，请及时登录并修改。`)
 }
 
