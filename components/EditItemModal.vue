@@ -211,7 +211,11 @@ export default {
       this.uncheckedCategory.push(name)
     },
     addTag (tagName) {
+      // 先移除重复项，再添加，确保不存在重复标签
+      this.removeTag(tagName)
       this.formValidate.tags.push(tagName)
+      // 过滤空标签
+      this.formValidate.tags = this.formValidate.tags.filter(tag => tag.length > 0)
     },
     removeTag (tagName) {
       this.formValidate.tags = this.formValidate.tags.filter(tag => tag !== tagName)
@@ -241,6 +245,7 @@ export default {
         if (valid) {
           let success = true
           let res
+          // 过滤掉空标签
           try {
             res = await this.$axios.$post('/api/upload', this.formValidate)
           } catch (e) {
