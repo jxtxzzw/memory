@@ -6,3 +6,23 @@
 .page-enter, .page-leave-active {
   opacity: 0;
 }
+
+/* 防剧透效果 */
+
+span.spoiler {
+  color: #000000;
+  background-color: #000000;
+  padding: 0px 8px;
+}
+
+span.spoiler:hover {
+  color: #ffffff;
+}
+
+span.spoiler > span {
+  visibility: hidden;
+}
+
+span.spoiler:hover > span {
+  visibility: visible;
+}
