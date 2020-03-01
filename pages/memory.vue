@@ -100,7 +100,7 @@ export default {
       createItemModal: false,
       // 自定义 item 样式
       headerHeight: 32, // 头部搜索和添加按钮的高度
-      itemMargin: 10, // 每一层之间的间距，应用在 Card 组件的 margin
+      itemMargin: 32, // 每一层之间的间距，应用在 Card 组件的 margin
       itemSpan: 20, // item 之间的间距，应用在 Row 组件的 gutter
       itemWidth: 220, // item 的宽度
       itemHeight: 420, // item 的高度
