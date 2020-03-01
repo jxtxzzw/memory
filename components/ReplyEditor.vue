@@ -3,6 +3,7 @@
     <Alert type="info" show-icon>
       <span slot="desc">
         可以使用 [spoiler] 这里是剧透内容 [/spoiler] 标签来防止剧透
+        <Button ghost type="primary" @click="insertSpoiler">插入剧透标签</Button>
       </span>
     </Alert>
     <a-comment>
@@ -65,6 +66,9 @@ export default {
     await this.getUserInfo()
   },
   methods: {
+    insertSpoiler () {
+      this.value += '[spoiler]  [/spoiler]'
+    },
     cancelReply () {
       this.$emit('cancelReply')
     },

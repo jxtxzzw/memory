@@ -54,6 +54,7 @@
         <Alert type="info" show-icon>
           <span slot="desc">
             可以使用 [spoiler] 这里是剧透内容 [/spoiler] 标签来防止剧透
+            <Button ghost type="primary" @click="insertSpoiler">插入剧透标签</Button>
           </span>
         </Alert>
         <FormItem label="评分" prop="rating">
@@ -138,6 +139,9 @@ export default {
     }
   },
   methods: {
+    insertSpoiler () {
+      this.formValidate.review += '[spoiler]  [/spoiler]'
+    },
     async handleEdit (name) {
       await this.$refs[name].validate(async (valid) => {
         this.loading = false
