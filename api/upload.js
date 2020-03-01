@@ -115,7 +115,7 @@ router.post('/upload', async (req, res, next) => {
       item.creator = req.user.id
     }
     item.updater = req.user.id
-    item.save()
+    await item.save()
     res.status(200).json({
       id: item.id
     })
