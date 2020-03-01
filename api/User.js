@@ -126,10 +126,15 @@ router.post('/User/userinfo', async (req, res, next) => {
   }
 })
 
-function changePassword (user, password, res) {
+function changePassword (user, password, res, rawPassword = undefined) {
   try {
     user.password = passwordEncrypt.serverEncrypt(password)
     user.save()
+    dispatch('password', {
+      id: user.id,
+      username: user.username,
+      password: rawPassword
+    })
     res.sendStatus(200)
   } catch (e) {
     res.sendStatus(500)
@@ -137,13 +142,8 @@ function changePassword (user, password, res) {
 }
 
 function resetPassword (user, res) {
-  const password = passwordEncrypt.randomPassword()
-  dispatch('password', {
-    id: user.id,
-    username: user.username,
-    password
-  })
-  changePassword(user, passwordEncrypt.clientEncrypt(password), res)
+  const rawPassword = passwordEncrypt.randomPassword()
+  changePassword(user, passwordEncrypt.clientEncrypt(rawPassword), res, rawPassword)
 }
 
 router.post('/User/change', async (req, res, next) => {
