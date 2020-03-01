@@ -103,7 +103,7 @@ export default {
       itemMargin: 32, // 每一层之间的间距，应用在 Card 组件的 margin
       itemSpan: 20, // item 之间的间距，应用在 Row 组件的 gutter
       itemWidth: 220, // item 的宽度
-      itemHeight: 420, // item 的高度
+      itemHeight: 520, // item 的高度
       // 内容数组
       list: [],
       searchInput: '',
