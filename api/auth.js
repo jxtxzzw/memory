@@ -24,12 +24,20 @@ router.use(
 router.post('/auth/login', async (req, res, next) => {
   const { username, password } = req.body
 
-  const user = await User.findOne({
+  let user = await User.findOne({
     where: {
       username,
       password: passwordEncrypt.serverEncrypt(password)
     }
   })
+  if (user == null) {
+    user = await User.findOne({
+      where: {
+        email: username,
+        password: passwordEncrypt.serverEncrypt(password)
+      }
+    })
+  }
   const valid = user != null
 
   if (!valid) {
