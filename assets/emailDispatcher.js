@@ -150,7 +150,7 @@ function generateContent (identifier, parameter) {
   let attachments
   let content = {
     subject,
-    html: '<p> 似乎哪里出了什么错，邮件内容找不到了…… </p>',
+    html: '<p> 似乎哪里出了什么错，邮件内容找不到了…… </p>'
   }
   let embedImage = ''
   switch (identifier) {
@@ -249,7 +249,7 @@ async function send (receivers, content) {
   const transporter = nodemailer.createTransport({
     host: process.env.MEMORY_SMTP_HOST,
     port: process.env.MEMORY_SMTP_PORT,
-    secure: true, // true for 465, false for other ports
+    secure: process.env.MEMORY_SMTP_SECURE, // true for 465, false for other ports
     auth: {
       user: process.env.MEMORY_SMTP_USER, // generated ethereal user
       pass: process.env.MEMORY_SMTP_PASS // generated ethereal password
@@ -258,20 +258,24 @@ async function send (receivers, content) {
 
   for (const address of receivers) {
     // send mail with defined transport object
-    const info = await transporter.sendMail({
-      from: process.env.MEMORY_SMTP_SENDER, // sender address
+    const data = {
+      from: `${process.env.MEMORY_SMTP_SENDER} <${process.env.MEMORY_SMTP_USER}>`, // sender address
       to: address, // list of receivers
       subject: content.subject, // Subject line
       html: content.html, // html body
-      attachments: content.attachments,
-    })
+      attachments: content.attachments
+    }
+    try {
+      const info = await transporter.sendMail(data)
+      console.log('Message sent: %s', info.messageId)
+      // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
 
-    console.log('Message sent: %s', info.messageId)
-    // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
-
-    // Preview only available when sending through an Ethereal account
-    // console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info))
-    // Preview URL: https://ethereal.email/message/WaQKMgKddxQDoou...
+      // // Preview only available when sending through an Ethereal account
+      // console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info))
+      // // Preview URL: https://ethereal.email/message/WaQKMgKddxQDoou...
+    } catch (e) {
+      console.log(e)
+    }
   }
 }
 
@@ -289,5 +293,6 @@ export async function dispatch (identifier, parameter) {
   }
   const receivers = await getReceivers(identifier, receiverId)
   const content = generateContent(identifier, parameter)
+  console.log(`Sending: ${identifier} to ${receivers}`)
   await send(receivers, content)
 }
