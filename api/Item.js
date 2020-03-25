@@ -20,7 +20,10 @@ async function getItemList (data) {
       },
       limit: data.limit,
       offset: data.offset,
-      attributes: ['id']
+      attributes: ['id'],
+      order: [
+        ['updatedAt', 'DESC']
+      ]
     })
   } else {
     result = await Item.findAll({
@@ -31,7 +34,10 @@ async function getItemList (data) {
       },
       limit: data.limit,
       offset: data.offset,
-      attributes: ['id']
+      attributes: ['id'],
+      order: [
+        ['updatedAt', 'DESC']
+      ]
     })
   }
   for (const item of result) {
@@ -127,7 +133,10 @@ async function advancedSearch (data, user) {
   let result = await Item.findAll({
     attributes: ['id'],
     where: condition,
-    include
+    include,
+    order: [
+      ['updatedAt', 'DESC']
+    ]
   })
   if (data.read === 'read') {
     result = result.filter((el) => {
