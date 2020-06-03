@@ -1,9 +1,12 @@
 image: node:latest
 
+include:
+  - template: Code-Quality.gitlab-ci.yml
+
 stages:
   - dependencies
   - build
-  - test
+  # - test
   - quality
 
 cache:
@@ -24,9 +27,9 @@ build:
   script:
     - npm run build
   
-test:
-  stage: test
-  script:
+# test:
+  # stage: test
+  # script:
     # - npm test
 
 quality:
