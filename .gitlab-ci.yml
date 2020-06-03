@@ -1,10 +1,35 @@
 image: node:latest
 
+stages:
+  - dependencies
+  - build
+  - test
+  - quality
+
 cache:
   paths:
     - node_modules/
 
-build:
+dependencies:
+  stage: dependencies
   script:
     - npm install
+    - npm install standard mocha istanbul
+  artifacts:
+    paths:
+      - node_modules/
+
+build:
+  stage: build
+  script:
     - npm run build
+  
+test:
+  stage: test
+  script:
+    # - npm test
+
+quality:
+  stage: quality
+  script:
+    - ./node_modules/.bin/istanbul cover _mocha
