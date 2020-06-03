@@ -16,21 +16,25 @@ install_dependencies:
   script:
     - npm install
     - npm install standard mocha istanbul
-  artifacts:
-    paths:
-      - node_modules/
 
 build:
   stage: build
   script:
     - npm run build
+#   artifacts:
+#     paths:
+#       - dist/
   
-# test:
-#   stage: test
-#   script:
-#     - npm test
-
-coverage:
+test:
   stage: test
   script:
-    - ./node_modules/.bin/istanbul cover _mocha
+    - npm test
+
+code_quality:
+  variables:
+    CODE_QUALITY_IMAGE: "registry.gitlab.com/gitlab-org/ci-cd/codequality:latest"
+    
+# coverage:
+#   stage: test
+#   script:
+#     - ./node_modules/.bin/istanbul cover _mocha
