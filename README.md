@@ -2,6 +2,8 @@
 
 > 我们可以共享所有记忆的最佳存储空间
 
+[![pipeline status](https://gitlab.jxtxzzw.com/jxtxzzw/memory/badges/master/pipeline.svg)](https://gitlab.jxtxzzw.com/jxtxzzw/memory/-/commits/master) [![coverage report](https://gitlab.jxtxzzw.com/jxtxzzw/memory/badges/master/coverage.svg)](https://gitlab.jxtxzzw.com/jxtxzzw/memory/-/commits/master)
+
 ## Build Setup
 
 ``` bash
